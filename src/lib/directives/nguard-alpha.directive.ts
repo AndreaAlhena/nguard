@@ -1,15 +1,19 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+
+// Interfaces
 import { IAlphaDirectiveConfig } from '../interfaces/alpha-directive-config.interface';
+
+// Validators
 import { StringValidators } from '../validators/string.validators';
 
 @Directive({
   providers: [{
+    multi: true,
     provide: NG_VALIDATORS,
-    useExisting: NguardAlphaDirective,
-    multi: true
+    useExisting: NguardAlphaDirective
   }],
-  selector: '[libNguardAlpha]',
+  selector: '[nguardAlpha]',
   standalone: true
 })
 export class NguardAlphaDirective implements Validator {
