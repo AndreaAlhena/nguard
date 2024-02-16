@@ -54,11 +54,11 @@ export namespace StringValidators {
     /**
      * Validate that an attribute contains only Unicode alphanumeric characters (matched by \p{L} and \p{M})
      * If the hasAsciiOnly flag is set to true, the validation is restricted by characters in the ASCII range
-     * (a-z, A-Z and 0-9), dashes and underscores
+     * (a-z, A-Z and 0-9)
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.alphaDash() // or StringValidators.alphaDash(true)
+     *   StringValidators.alphaNum() // or StringValidators.alphaNum(true)
      * ])
      * ```
      * @param {boolean} hasAsciiOnly If true, limits characters to ASCII chars (a-z and A-Z)
