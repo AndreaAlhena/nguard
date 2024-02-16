@@ -17,7 +17,7 @@ import { StringValidators } from '../validators/string.validators';
   standalone: true
 })
 export class NguardAlphaDirective implements Validator {
-  @Input('libNguardAlpha') public config!: IAlphaDirectiveConfig;
+  @Input('nguardAlpha') public config!: IAlphaDirectiveConfig;
 
   constructor() { }
   
