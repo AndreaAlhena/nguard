@@ -1,4 +1,4 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 export namespace StringValidators {
     /**
@@ -98,4 +98,18 @@ export namespace StringValidators {
             : { ascii: true };
         };
     ;
+
+    export const doesntStartWith = (...values: string[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            for (const value of values) {
+                if (control.value.toLowerCase().startsWith(value.toLowerCase())) {
+                    return {
+                        doesntStartWith: true
+                    };
+                }
+            }
+
+            return null
+        }
+    };
 }
