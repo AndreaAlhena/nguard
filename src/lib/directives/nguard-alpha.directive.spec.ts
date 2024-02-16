@@ -11,7 +11,6 @@ describe('NguardAlphaDirective', () => {
   });
 
   it('should create an instance', () => {
-    const directive = new NguardAlphaDirective();
     expect(directive).toBeTruthy();
   });
 
