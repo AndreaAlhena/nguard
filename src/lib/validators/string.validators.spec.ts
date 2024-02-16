@@ -199,3 +199,31 @@ describe('String Validators - AlphaNum', () => {
         expect(StringValidators.alphaNum()(control)).toEqual({alphaNum: true});
     });
 });
+
+describe('String Validators - ASCII', () => {
+    it('ASCII - Valid string (from char 32 to 126)', () => {
+        let str = '';
+
+        for (let i = 32; i <= 126; i++) {
+            str += String.fromCharCode(i);
+        }
+
+        control = createAbstractControlSpy(str);
+        expect(StringValidators.ascii()(control)).toBeNull();
+    });
+
+    it('ASCII - Invalid string should fail (japanese character)', () => {
+        control = createAbstractControlSpy('字');
+        expect(StringValidators.ascii()(control)).toEqual({ascii: true});
+    });
+
+    it('ASCII - Invalid string should fail (cyrillic character)', () => {
+        control = createAbstractControlSpy('Б');
+        expect(StringValidators.ascii()(control)).toEqual({ascii: true});
+    });
+
+    it('ASCII - Invalid string should fail (mixed valid and invalid)', () => {
+        control = createAbstractControlSpy('123БABC');
+        expect(StringValidators.ascii()(control)).toEqual({ascii: true});
+    });
+});

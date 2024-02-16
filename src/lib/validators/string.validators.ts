@@ -75,4 +75,27 @@ export namespace StringValidators {
                 : { alphaNum: true };
         };
     };
+
+    /**
+     * Validate that an attribute contains only ASCII characters from the standard table:
+     *   - Horizontal tab
+     *   - Line Feed
+     *   - Carriage Return
+     *   - Chars included from space to ~
+     * 
+     * Characters from the extended ASCII table are NOT valid
+     * 
+     * ```
+     * new FormControl('', [
+     *   StringValidators.ascii()
+     * ])
+     * ```
+     * @return {ValidationFn}
+     */
+    export const ascii = () => {
+        return (c: AbstractControl) => /^[\x09\x0A\x0D\x20-\x7E]+$/.test(c.value)
+            ? null
+            : { ascii: true };
+        };
+    ;
 }
