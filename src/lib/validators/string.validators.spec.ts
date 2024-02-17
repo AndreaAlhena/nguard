@@ -251,3 +251,15 @@ describe('String Validators - Doesnt End With', () => {
         expect(StringValidators.doesntEndWith('Library')(control)).toEqual({doesntEndWith: true});
     });
 });
+
+describe('String Validators - Starts With', () => {
+    it('Starts With - Valid', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+        expect(StringValidators.startsWith('angular', 'nguard')(control)).toBeNull();
+    });
+
+    it('Starts With - Invalid (check case insensitive)', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+        expect(StringValidators.startsWith('is', 'an')(control)).toEqual({startsWith: true});
+    });
+});
