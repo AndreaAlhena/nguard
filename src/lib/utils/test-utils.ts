@@ -9,8 +9,3 @@ export const createAbstractControlSpyWithSibling = (field1Value: string, field2V
 
   return control1;
 }
-// export const createGroupWithControls = (...controls: {[key: string]: any}[]) => jasmine.createSpyObj(
-//   'AbstractControl',
-//   {}, {
-//   controls: controls.map(c => ({[c.key]: c.value}))
-// }); 
