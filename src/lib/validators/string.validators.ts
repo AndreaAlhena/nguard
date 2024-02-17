@@ -174,6 +174,14 @@ export namespace StringValidators {
         }
     };
 
+    /**
+     * The field under validation must be lowercase
+     * 
+     * ```
+     * new FormControl('', [StringValidators.lowercase()]),
+     * ```
+     * @return {ValidationFn}
+     */
     export const lowercase = (): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => c.value.toLowerCase() === c.value
             ? null
