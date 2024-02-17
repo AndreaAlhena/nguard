@@ -150,6 +150,31 @@ export namespace StringValidators {
     };
 
     /**
+     * Validate that an attribute ends with one of the given values.
+     * The performed check is case insensitive
+     * 
+     * ```
+     * new FormControl('', [
+     *   StringValidators.endsWith('first', 'second', 'third')
+     * ])
+     * ```
+     * @return {ValidationFn}
+     */
+    export const endsWith = (...values: string[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            for (const value of values) {
+                if (control.value.toLowerCase().endsWith(value.toLowerCase())) {
+                    return null;
+                }
+            }
+
+            return {
+                endsWith: true
+            };
+        }
+    };
+
+    /**
      * Validate that an attribute starts with one of the given values.
      * The performed check is case insensitive
      * 
