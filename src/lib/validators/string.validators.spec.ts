@@ -1,6 +1,6 @@
 import { AbstractControl } from "@angular/forms";
 import { StringValidators } from "./string.validators";
-import { createAbstractControlSpy } from "../utils/test-utils";
+import { createAbstractControlSpy, createAbstractControlSpyWithSibling } from "../utils/test-utils";
 
 let control: jasmine.SpyObj<AbstractControl>;
 
@@ -225,6 +225,18 @@ describe('String Validators - ASCII', () => {
     it('ASCII - Invalid string should fail (mixed valid and invalid)', () => {
         control = createAbstractControlSpy('123БABC');
         expect(StringValidators.ascii()(control)).toEqual({ascii: true});
+    });
+});
+
+describe('String Validators - Same', () => {
+    it('Same - Valid if both fields have the same value', () => {
+        control = createAbstractControlSpyWithSibling('abc', 'abc');
+        expect(StringValidators.same('')(control)).toBeNull();
+    });
+
+    it('Confirmed - Invalid if fields have different values', () => {
+        control = createAbstractControlSpyWithSibling('abc', 'def');
+        expect(StringValidators.same('')(control)).toEqual({same: true});
     });
 });
 

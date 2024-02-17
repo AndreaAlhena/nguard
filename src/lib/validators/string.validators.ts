@@ -175,6 +175,28 @@ export namespace StringValidators {
     };
 
     /**
+     * Validate that an attribute is equal to another one with the specified compareFieldKey
+     * The performed check is case sensitive
+     * 
+     * ```
+     * password: new FormControl(''),
+     * passwordConfirm: new FormControl('', [StringValidators.same('password')])
+     * ```
+     * @return {ValidationFn}
+     */
+    export const same = (compareFieldKey: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (c.value !== c.parent?.get(compareFieldKey)?.value) {
+                return {
+                    same: true
+                };
+            }
+
+            return null;
+        }
+    }
+    
+    /**
      * Validate that an attribute starts with one of the given values.
      * The performed check is case insensitive
      * 
