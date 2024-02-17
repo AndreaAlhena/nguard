@@ -276,6 +276,23 @@ describe('String Validators - Ends With', () => {
     });
 });
 
+describe('String Validators - Lowercase', () => {
+    it('Lowercase - Validate a lowercase string', () => {
+        control = createAbstractControlSpy('a lowercase string');
+        expect(StringValidators.lowercase()(control)).toBeNull();
+    });
+
+    it('Lowercase - Validate a lowercase string with symbols and numbers', () => {
+        control = createAbstractControlSpy('4_l0w3rc4s3-str1ng');
+        expect(StringValidators.lowercase()(control)).toBeNull();
+    });
+
+    it('Lowercase - A non lowercase string is not valid', () => {
+        control = createAbstractControlSpy('A nOn LoWeRcAsE sTrInG');
+        expect(StringValidators.lowercase()(control)).toEqual({lowercase: true});
+    });
+});
+
 describe('String Validators - Starts With', () => {
     it('Starts With - Valid', () => {
         control = createAbstractControlSpy('nGuard is an Angular library');

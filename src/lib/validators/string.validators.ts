@@ -174,6 +174,12 @@ export namespace StringValidators {
         }
     };
 
+    export const lowercase = (): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => c.value.toLowerCase() === c.value
+            ? null
+            : {lowercase: true};
+    };
+
     /**
      * Validate that an attribute is equal to another one with the specified compareFieldKey
      * The performed check is case sensitive
