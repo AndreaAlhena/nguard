@@ -1,4 +1,4 @@
-export const createAbstractControlSpy = (value: string) => jasmine.createSpyObj('AbstractControl', {}, { value });
+export const createAbstractControlSpy = <T>(value: T) => jasmine.createSpyObj('AbstractControl', {}, { value });
 
 export const createAbstractControlSpyWithSibling = (field1Value: string, field2Value: string) => {
   const parent = jasmine.createSpyObj('FormGroup', ['get']);

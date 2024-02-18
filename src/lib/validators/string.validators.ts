@@ -1,5 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
+const isString = (value: any) => typeof value === 'string';
+
 export namespace StringValidators {
     /**
      * Validate that an attribute contains only Unicode alphabetic characters (matched by \p{L} and \p{M})
@@ -233,5 +235,19 @@ export namespace StringValidators {
                 startsWith: true
             };
         }
+    };
+
+    /**
+     * The field under validation must be uppercase
+     * 
+     * ```
+     * new FormControl('', [StringValidators.uppercase()]),
+     * ```
+     * @return {ValidationFn}
+     */
+    export const uppercase = (): ValidatorFn => {
+        return (c: AbstractControl<string>): ValidationErrors | null => isString(c.value) && c.value.toUpperCase() === c.value
+            ? null
+            : {uppercase: true};
     };
 }

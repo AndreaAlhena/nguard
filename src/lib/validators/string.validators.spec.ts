@@ -304,3 +304,25 @@ describe('String Validators - Starts With', () => {
         expect(StringValidators.startsWith('is', 'an')(control)).toEqual({startsWith: true});
     });
 });
+
+describe('String Validators - Uppercase', () => {
+    it('Uppercase - Validate an uppercase string', () => {
+        control = createAbstractControlSpy('AN UPPERCASE STRING');
+        expect(StringValidators.uppercase()(control)).toBeNull();
+    });
+
+    it('Uppercase - Validate an uppercase string with symbols and numbers', () => {
+        control = createAbstractControlSpy('4_L0W3RC4S3-STR1NG');
+        expect(StringValidators.uppercase()(control)).toBeNull();
+    });
+
+    it('Uppercase - A non uppercase string is not valid', () => {
+        control = createAbstractControlSpy('A nOn LoWeRcAsE sTrInG');
+        expect(StringValidators.uppercase()(control)).toEqual({uppercase: true});
+    });
+
+    it('Uppercase - A non string data type is not valid', () => {
+        control = createAbstractControlSpy(1);
+        expect(StringValidators.uppercase()(control)).toEqual({uppercase: true});
+    });
+});
