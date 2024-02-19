@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 import { NguardStartsWithDirective } from './nguard-starts-with.directive';
-import { createAbstractControlSpy } from '../utils/test-utils';
+import { createAbstractControlSpy } from '../utils/test.utils';
 
 describe('NguardStartsWithDirective', () => {
   let control: AbstractControl;

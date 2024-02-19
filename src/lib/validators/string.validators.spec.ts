@@ -1,6 +1,6 @@
 import { AbstractControl } from "@angular/forms";
 import { StringValidators } from "./string.validators";
-import { createAbstractControlSpy, createAbstractControlSpyWithSibling } from "../utils/test-utils";
+import { createAbstractControlSpy, createAbstractControlSpyWithSibling } from "../utils/test.utils";
 
 let control: jasmine.SpyObj<AbstractControl>;
 

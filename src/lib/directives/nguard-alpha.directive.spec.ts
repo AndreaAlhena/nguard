@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 import { NguardAlphaDirective } from './nguard-alpha.directive';
-import { createAbstractControlSpy } from '../utils/test-utils';
+import { createAbstractControlSpy } from '../utils/test.utils';
 
 describe('NguardAlphaDirective', () => {
   let control: AbstractControl;

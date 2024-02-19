@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 import { NguardSameDirective } from './nguard-same.directive';
-import { createAbstractControlSpyWithSibling } from '../utils/test-utils';
+import { createAbstractControlSpyWithSibling } from '../utils/test.utils';
 
 describe('NguardSameDirective', () => {
   let control: AbstractControl;
