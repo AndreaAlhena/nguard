@@ -228,18 +228,6 @@ describe('String Validators - ASCII', () => {
     });
 });
 
-describe('String Validators - Same', () => {
-    it('Same - Valid if both fields have the same value', () => {
-        control = createAbstractControlSpyWithSibling('abc', 'abc');
-        expect(StringValidators.same('')(control)).toBeNull();
-    });
-
-    it('Confirmed - Invalid if fields have different values', () => {
-        control = createAbstractControlSpyWithSibling('abc', 'def');
-        expect(StringValidators.same('')(control)).toEqual({same: true});
-    });
-});
-
 describe('String Validators - Doesnt Start With', () => {
     it('Doesnt Start With - Valid', () => {
         control = createAbstractControlSpy('nGuard is an Angular library');

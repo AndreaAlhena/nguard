@@ -4,7 +4,7 @@ import { MultiValidators } from "./multi.validators";
 
 let control: jasmine.SpyObj<AbstractControl>;
 
-describe('MultiValidators - Different', () => {
+describe('Multi Validators - Different', () => {
     it('Different Validator - Valid if values are different with same type (strict enabled)', () => {
         control = createAbstractControlSpyWithSibling('abc', 'def');
         expect(MultiValidators.different('', true)(control)).toBeNull();
@@ -23,5 +23,17 @@ describe('MultiValidators - Different', () => {
     it('Different Validator - Invalid if values are equal with different type (strict disabled)', () => {
         control = createAbstractControlSpyWithSibling('1', 1);
         expect(MultiValidators.different('')(control)).toEqual({different: true});
+    });
+});
+
+describe('Multi Validators - Same', () => {
+    it('Same - Valid if both fields have the same value', () => {
+        control = createAbstractControlSpyWithSibling('abc', 'abc');
+        expect(MultiValidators.same('')(control)).toBeNull();
+    });
+
+    it('Confirmed - Invalid if fields have different values', () => {
+        control = createAbstractControlSpyWithSibling('abc', 'def');
+        expect(MultiValidators.same('')(control)).toEqual({same: true});
     });
 });
