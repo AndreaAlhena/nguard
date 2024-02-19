@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { AbstractControl, ValidationErrors, Validator } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 // Validators
 import { StringValidators } from '../validators/string.validators';
@@ -7,7 +7,7 @@ import { StringValidators } from '../validators/string.validators';
 @Directive({
   providers: [{
     multi: true,
-    provide: NguardStartsWithDirective,
+    provide: NG_VALIDATORS,
     useExisting: NguardStartsWithDirective
   }],
   selector: '[nguardStartsWith]',
