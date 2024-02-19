@@ -10,5 +10,13 @@
     "tslib": "^2.3.0",
     "xregexp": "^5.1.1"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "devDependencies": {
+    "husky": "^9.0.11",
+    "puppeteer": "^22.1.0"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "test": "ng test nguard --karma-config ./projects/nguard/karma.conf.js --progress --no-watch"
+  }
 }
