@@ -33,6 +33,8 @@ export namespace MultiValidators {
      *   StringValidators.endsWith('first', 'second', 'third')
      * ])
      * ```
+     * 
+     * @param {primitive[]} values A mixed array of primitive values (strings, numbers and boolean)
      * @return {ValidationFn}
      */
      export const endsWith = (...values: primitive[]): ValidatorFn => {
@@ -80,6 +82,8 @@ export namespace MultiValidators {
      *   StringValidators.startsWith('first', 'second', 'third')
      * ])
      * ```
+     * 
+     * @param {primitive[]} values A mixed array of primitive values (strings, numbers and boolean)
      * @return {ValidationFn}
      */
     export const startsWith = (...values: primitive[]): ValidatorFn => {
