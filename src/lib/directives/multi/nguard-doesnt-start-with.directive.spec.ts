@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 import { NguardDoesntStartWithDirective } from './nguard-doesnt-start-with.directive';
-import { createAbstractControlSpy } from '../utils/test.utils';
+import { createAbstractControlSpy } from '../../utils/test.utils';
 
 describe('NguardDoesntStartWithDirective', () => {
   let control: AbstractControl;
@@ -24,6 +24,13 @@ describe('NguardDoesntStartWithDirective', () => {
   it('should fail if the field starts with', () => {
     control = createAbstractControlSpy('abcABC123');
     directive.values = ['abc'];
+
+    expect(directive.validate(control)).toEqual({doesntStartWith: true});
+  });
+
+  it('should fail if the field starts with (mixed types)', () => {
+    control = createAbstractControlSpy('123abc');
+    directive.values = [123];
 
     expect(directive.validate(control)).toEqual({doesntStartWith: true});
   });
