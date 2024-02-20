@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 // Validators
-import { StringValidators } from '../validators/string.validators';
+import { MultiValidators } from '../../validators/multi.validators';
 
 @Directive({
   providers: [{
@@ -19,6 +19,6 @@ export class NguardStartsWithDirective implements Validator {
   constructor() { }
 
   public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return StringValidators.startsWith(...this.values)(control);
+    return MultiValidators.startsWith(...this.values)(control);
   }
 }
