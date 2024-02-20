@@ -2,10 +2,10 @@ import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 // Interfaces
-import { IAlphaDashDirectiveConfig } from '../interfaces/alpha-dash-directive-config.interface';
+import { IAlphaDashDirectiveConfig } from '../../interfaces/alpha-dash-directive-config.interface';
 
 // Validators
-import { StringValidators } from '../validators/string.validators';
+import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
   providers: [{

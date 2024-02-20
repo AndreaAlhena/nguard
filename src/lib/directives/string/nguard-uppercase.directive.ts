@@ -2,21 +2,21 @@ import { Directive } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 // Validators
-import { StringValidators } from '../validators/string.validators';
+import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
   providers: [{
     multi: true,
     provide: NG_VALIDATORS,
-    useExisting: NguardLowercaseDirective
+    useExisting: NguardUppercaseDirective
   }],
-  selector: '[nguardLowercase]',
+  selector: '[nguardUppercase]',
   standalone: true
 })
-export class NguardLowercaseDirective implements Validator {
+export class NguardUppercaseDirective implements Validator {
   constructor() { }
 
   public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return StringValidators.lowercase()(control);
+    return StringValidators.uppercase()(control);
   }
 }

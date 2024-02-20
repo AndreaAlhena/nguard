@@ -1,13 +1,14 @@
-import { AbstractControl } from '@angular/forms';
-import { NguardAlphaDirective } from './nguard-alpha.directive';
-import { createAbstractControlSpy } from '../utils/test.utils';
 
-describe('NguardAlphaDirective', () => {
+import { AbstractControl } from '@angular/forms';
+import { NguardAlphaNumDirective } from './nguard-alpha-num.directive';
+import { createAbstractControlSpy } from '../../utils/test.utils';
+
+describe('NguardAlphaNumDirective', () => {
   let control: AbstractControl;
-  let directive: NguardAlphaDirective;
+  let directive: NguardAlphaNumDirective;
 
   beforeEach(() => {
-    directive = new NguardAlphaDirective()
+    directive = new NguardAlphaNumDirective();
   });
 
   it('should create an instance', () => {
@@ -15,28 +16,28 @@ describe('NguardAlphaDirective', () => {
   });
 
   it('should validate a properly formatted value (ASCII true)', () => {
-    control = createAbstractControlSpy('abc');
+    control = createAbstractControlSpy('abcABC123');
     directive.config = {hasAsciiOnly: true};
 
     expect(directive.validate(control)).toBeNull();
   });
 
   it('should validate a non properly formatted value (ASCII true)', () => {
-    control = createAbstractControlSpy('a2c');
+    control = createAbstractControlSpy('a 2-c');
     directive.config = {hasAsciiOnly: true};
 
-    expect(directive.validate(control)).toEqual({alpha: true});
+    expect(directive.validate(control)).toEqual({alphaNum: true});
   });
 
   it('should validate a properly formatted value (ASCII false)', () => {
-    control = createAbstractControlSpy('abc字Б');
+    control = createAbstractControlSpy('abc字Б123');
 
     expect(directive.validate(control)).toBeNull();
   });
 
   it('should validate a non properly formatted value (ASCII false)', () => {
-    control = createAbstractControlSpy('a 2 c');
+    control = createAbstractControlSpy('abc字Б 123 -');
 
-    expect(directive.validate(control)).toEqual({alpha: true});
+    expect(directive.validate(control)).toEqual({alphaNum: true});
   });
 });

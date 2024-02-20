@@ -1,14 +1,13 @@
-
 import { AbstractControl } from '@angular/forms';
-import { NguardAlphaNumDirective } from './nguard-alpha-num.directive';
-import { createAbstractControlSpy } from '../utils/test.utils';
+import { NguardAlphaDirective } from './nguard-alpha.directive';
+import { createAbstractControlSpy } from '../../utils/test.utils';
 
-describe('NguardAlphaNumDirective', () => {
+describe('NguardAlphaDirective', () => {
   let control: AbstractControl;
-  let directive: NguardAlphaNumDirective;
+  let directive: NguardAlphaDirective;
 
   beforeEach(() => {
-    directive = new NguardAlphaNumDirective();
+    directive = new NguardAlphaDirective()
   });
 
   it('should create an instance', () => {
@@ -16,28 +15,28 @@ describe('NguardAlphaNumDirective', () => {
   });
 
   it('should validate a properly formatted value (ASCII true)', () => {
-    control = createAbstractControlSpy('abcABC123');
+    control = createAbstractControlSpy('abc');
     directive.config = {hasAsciiOnly: true};
 
     expect(directive.validate(control)).toBeNull();
   });
 
   it('should validate a non properly formatted value (ASCII true)', () => {
-    control = createAbstractControlSpy('a 2-c');
+    control = createAbstractControlSpy('a2c');
     directive.config = {hasAsciiOnly: true};
 
-    expect(directive.validate(control)).toEqual({alphaNum: true});
+    expect(directive.validate(control)).toEqual({alpha: true});
   });
 
   it('should validate a properly formatted value (ASCII false)', () => {
-    control = createAbstractControlSpy('abc字Б123');
+    control = createAbstractControlSpy('abc字Б');
 
     expect(directive.validate(control)).toBeNull();
   });
 
   it('should validate a non properly formatted value (ASCII false)', () => {
-    control = createAbstractControlSpy('abc字Б 123 -');
+    control = createAbstractControlSpy('a 2 c');
 
-    expect(directive.validate(control)).toEqual({alphaNum: true});
+    expect(directive.validate(control)).toEqual({alpha: true});
   });
 });

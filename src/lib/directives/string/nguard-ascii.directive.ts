@@ -2,7 +2,7 @@ import { Directive } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 // Validators
-import { StringValidators } from '../validators/string.validators';
+import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
   providers: [{
