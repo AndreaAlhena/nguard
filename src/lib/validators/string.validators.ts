@@ -128,4 +128,12 @@ export namespace StringValidators {
             ? null
             : {uppercase: true};
     };
+
+    export const url = (): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            return /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(c.value)
+                ? null
+                : {url: true};
+        }
+    };
 }

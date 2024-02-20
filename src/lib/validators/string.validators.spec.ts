@@ -266,3 +266,45 @@ describe('String Validators - Uppercase', () => {
         expect(StringValidators.uppercase()(control)).toEqual({uppercase: true});
     });
 });
+
+describe('String Validators - URL', () => {
+    it('URL - Valid with HTTP', () => {
+        control = createAbstractControlSpy('http://www.google.com');
+        expect(StringValidators.url()(control)).toBeNull();
+    });
+
+    it('URL - Valid with HTTPS', () => {
+        control = createAbstractControlSpy('https://www.google.com');
+        expect(StringValidators.url()(control)).toBeNull();
+    });
+
+    it('URL - Valid without protocol', () => {
+        control = createAbstractControlSpy('www.google.com');
+        expect(StringValidators.url()(control)).toBeNull();
+    });
+
+    it('URL - Valid with protocol and no www', () => {
+        control = createAbstractControlSpy('https://google.com');
+        expect(StringValidators.url()(control)).toBeNull();
+    });
+
+    it('URL - Valid without protocol and www', () => {
+        control = createAbstractControlSpy('google.com');
+        expect(StringValidators.url()(control)).toBeNull();
+    });
+
+    it('URL - Invalid with common text', () => {
+        control = createAbstractControlSpy('google');
+        expect(StringValidators.url()(control)).toEqual({url: true});
+    });
+
+    it('URL - Invalid with empty string', () => {
+        control = createAbstractControlSpy('');
+        expect(StringValidators.url()(control)).toEqual({url: true});
+    });
+
+    it('URL - Invalid with number', () => {
+        control = createAbstractControlSpy(1);
+        expect(StringValidators.url()(control)).toEqual({url: true});
+    });
+});
