@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
-import { equalityCheck } from "../utils/validators.utils";
+import { equalityCheck, primitive } from "../utils/validators.utils";
 
 export namespace MultiValidators {
     /**
@@ -23,6 +23,31 @@ export namespace MultiValidators {
             return null;
         }
     }
+
+     /**
+     * Validate that an attribute ends with one of the given values.
+     * The performed check is case insensitive
+     * 
+     * ```
+     * new FormControl('', [
+     *   StringValidators.endsWith('first', 'second', 'third')
+     * ])
+     * ```
+     * @return {ValidationFn}
+     */
+     export const endsWith = (...values: primitive[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            for (const value of values) {
+                if (`${control.value}`.toLowerCase().endsWith(`${value}`.toLowerCase())) {
+                    return null;
+                }
+            }
+
+            return {
+                endsWith: true
+            };
+        }
+    };
 
     /**
      * Validate that an attribute is equal to another one with the specified compareFieldKey
