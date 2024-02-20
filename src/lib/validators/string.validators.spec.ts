@@ -228,20 +228,6 @@ describe('String Validators - ASCII', () => {
     });
 });
 
-describe('String Validators - Doesnt Start With', () => {
-    it('Doesnt Start With - Valid', () => {
-        control = createAbstractControlSpy('nGuard is an Angular library');
-        expect(StringValidators.doesntStartWith('Angular')(control)).toBeNull();
-    });
-
-    it('Doesnt Start With - Invalid (check case insensitive)', () => {
-        control = createAbstractControlSpy('nGuard is an Angular library');
-        expect(StringValidators.doesntStartWith('nguard')(control)).toEqual({doesntStartWith: true});
-    });
-});
-
-
-
 describe('String Validators - Lowercase', () => {
     it('Lowercase - Validate a lowercase string', () => {
         control = createAbstractControlSpy('a lowercase string');

@@ -48,6 +48,28 @@ describe('Multi Validators - Doesnt End With', () => {
     });
 });
 
+describe('Multi Validators - Doesnt Start With', () => {
+    it('Doesnt Start With - Valid', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+        expect(MultiValidators.doesntStartWith('Angular')(control)).toBeNull();
+    });
+
+    it('Doesnt Start With - Invalid (check case insensitive)', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+        expect(MultiValidators.doesntStartWith('nguard')(control)).toEqual({doesntStartWith: true});
+    });
+
+    it('Doesnt Start With - Valid with mixed types', () => {
+        control = createAbstractControlSpy('2024');
+        expect(MultiValidators.doesntStartWith(24)(control)).toBeNull();
+    });
+
+    it('Doesnt Start With - Invalid with mixed types', () => {
+        control = createAbstractControlSpy('2024');
+        expect(MultiValidators.doesntStartWith(20)(control)).toEqual({doesntStartWith: true});
+    });
+});
+
 describe('Multi Validators - Ends With', () => {
     it('Ends With - Valid', () => {
         control = createAbstractControlSpy('nGuard is an Angular library');

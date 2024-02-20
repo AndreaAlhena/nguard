@@ -49,6 +49,31 @@ export namespace MultiValidators {
         }
     };
 
+    /**
+     * Validate that an attribute doesn't start with one of the given values.
+     * The performed check is case insensitive
+     * 
+     * ```
+     * new FormControl('', [
+     *   StringValidators.doesntStartWith('first', 'second', 'third')
+     * ])
+     * ```
+     * @return {ValidationFn}
+     */
+    export const doesntStartWith = (...values: primitive[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            for (const value of values) {
+                if (`${control.value}`.toLowerCase().startsWith(`${value}`.toLowerCase())) {
+                    return {
+                        doesntStartWith: true
+                    };
+                }
+            }
+
+            return null
+        }
+    };
+
      /**
      * Validate that an attribute ends with one of the given values.
      * The performed check is case insensitive
