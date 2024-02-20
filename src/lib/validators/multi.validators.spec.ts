@@ -32,8 +32,23 @@ describe('Multi Validators - Same', () => {
         expect(MultiValidators.same('')(control)).toBeNull();
     });
 
-    it('Confirmed - Invalid if fields have different values', () => {
+    it('Same - Invalid if fields have different values', () => {
         control = createAbstractControlSpyWithSibling('abc', 'def');
         expect(MultiValidators.same('')(control)).toEqual({same: true});
+    });
+
+    it('Same Validator - Invalid if values are equal with different type (strict enabled)', () => {
+        control = createAbstractControlSpyWithSibling('1', 1);
+        expect(MultiValidators.same('', true)(control)).toEqual({same: true});
+    });
+
+    it('Same Validator - Valid if values are equal with different type (strict disabled / implicit)', () => {
+        control = createAbstractControlSpyWithSibling('1', 1);
+        expect(MultiValidators.same('')(control)).toBeNull();
+    });
+
+    it('Same Validator - Valid if values are equal with different type (strict disabled)', () => {
+        control = createAbstractControlSpyWithSibling('1', 1);
+        expect(MultiValidators.same('', false)(control)).toBeNull();
     });
 });
