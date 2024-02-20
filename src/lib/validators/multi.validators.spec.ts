@@ -36,9 +36,19 @@ describe('Multi Validators - Doesnt End With', () => {
         control = createAbstractControlSpy('nGuard is an Angular library');
         expect(MultiValidators.doesntEndWith('Library')(control)).toEqual({doesntEndWith: true});
     });
+
+    it('Doesnt End With - Valid with mixed types', () => {
+        control = createAbstractControlSpy('2024');
+        expect(MultiValidators.doesntEndWith(20)(control)).toBeNull();
+    });
+
+    it('Doesnt End With - Invalid with mixed types', () => {
+        control = createAbstractControlSpy('2024');
+        expect(MultiValidators.doesntEndWith(24)(control)).toEqual({doesntEndWith: true});
+    });
 });
 
-describe('String Validators - Ends With', () => {
+describe('Multi Validators - Ends With', () => {
     it('Ends With - Valid', () => {
         control = createAbstractControlSpy('nGuard is an Angular library');
         expect(MultiValidators.endsWith('library')(control)).toBeNull();
