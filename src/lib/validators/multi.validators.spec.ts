@@ -84,3 +84,35 @@ describe('Multi Validators - Same', () => {
         expect(MultiValidators.same('', false)(control)).toBeNull();
     });
 });
+
+describe('String Validators - Starts With', () => {
+    it('Starts With - Valid', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+        expect(MultiValidators.startsWith('angular', 'nguard')(control)).toBeNull();
+    });
+
+    it('Starts With - Invalid', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+        expect(MultiValidators.startsWith('is', 'an')(control)).toEqual({startsWith: true});
+    });
+
+    it('Starts With - Valid if a number starts with the digits in a given string', () => {
+        control = createAbstractControlSpy(2024);
+        expect(MultiValidators.startsWith('20')(control)).toBeNull();
+    });
+
+    it('Starts With - Invalid if a number doesnt start with the digits in a given string', () => {
+        control = createAbstractControlSpy(2024);
+        expect(MultiValidators.startsWith('24')(control)).toEqual({startsWith: true});
+    });
+
+    it('Starts With - Valid if a boolean starts with the string tr (from true)', () => {
+        control = createAbstractControlSpy(true);
+        expect(MultiValidators.startsWith('tr')(control)).toBeNull();
+    });
+
+    it('Starts With - Invalid if a boolean starts with the character 1', () => {
+        control = createAbstractControlSpy(true);
+        expect(MultiValidators.startsWith('1')(control)).toEqual({startsWith: true});
+    });
+});

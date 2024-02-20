@@ -70,4 +70,29 @@ export namespace MultiValidators {
             };
         }
     }
+
+    /**
+     * Validate that an attribute starts with one of the given values.
+     * The performed check is case insensitive
+     * 
+     * ```
+     * new FormControl('', [
+     *   StringValidators.startsWith('first', 'second', 'third')
+     * ])
+     * ```
+     * @return {ValidationFn}
+     */
+    export const startsWith = (...values: primitive[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            for (const value of values) {
+                if (`${control.value}`.toLowerCase().startsWith(`${value}`.toLowerCase())) {
+                    return null;
+                }
+            }
+
+            return {
+                startsWith: true
+            };
+        }
+    };
 }

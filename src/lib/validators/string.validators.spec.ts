@@ -252,18 +252,6 @@ describe('String Validators - Doesnt End With', () => {
     });
 });
 
-describe('String Validators - Ends With', () => {
-    it('Ends With - Valid', () => {
-        control = createAbstractControlSpy('nGuard is an Angular library');
-        expect(StringValidators.endsWith('library')(control)).toBeNull();
-    });
-
-    it('Ends With - Invalid (check case insensitive)', () => {
-        control = createAbstractControlSpy('nGuard is an Angular library');
-        expect(StringValidators.endsWith('nGuard', 'an')(control)).toEqual({endsWith: true});
-    });
-});
-
 describe('String Validators - Lowercase', () => {
     it('Lowercase - Validate a lowercase string', () => {
         control = createAbstractControlSpy('a lowercase string');
@@ -278,18 +266,6 @@ describe('String Validators - Lowercase', () => {
     it('Lowercase - A non lowercase string is not valid', () => {
         control = createAbstractControlSpy('A nOn LoWeRcAsE sTrInG');
         expect(StringValidators.lowercase()(control)).toEqual({lowercase: true});
-    });
-});
-
-describe('String Validators - Starts With', () => {
-    it('Starts With - Valid', () => {
-        control = createAbstractControlSpy('nGuard is an Angular library');
-        expect(StringValidators.startsWith('angular', 'nguard')(control)).toBeNull();
-    });
-
-    it('Starts With - Invalid (check case insensitive)', () => {
-        control = createAbstractControlSpy('nGuard is an Angular library');
-        expect(StringValidators.startsWith('is', 'an')(control)).toEqual({startsWith: true});
     });
 });
 
