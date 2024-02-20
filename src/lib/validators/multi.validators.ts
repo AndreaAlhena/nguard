@@ -24,6 +24,31 @@ export namespace MultiValidators {
         }
     }
 
+    /**
+     * Validate that an attribute doesn't end with one of the given values.
+     * The performed check is case insensitive
+     * 
+     * ```
+     * new FormControl('', [
+     *   StringValidators.doesntEndWith('first', 'second', 'third')
+     * ])
+     * ```
+     * @return {ValidationFn}
+     */
+    export const doesntEndWith = (...values: primitive[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            for (const value of values) {
+                if (`${control.value}`.toLowerCase().endsWith(`${value}`.toLowerCase())) {
+                    return {
+                        doesntEndWith: true
+                    };
+                }
+            }
+
+            return null
+        }
+    };
+
      /**
      * Validate that an attribute ends with one of the given values.
      * The performed check is case insensitive

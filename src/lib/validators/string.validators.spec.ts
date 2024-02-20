@@ -240,17 +240,7 @@ describe('String Validators - Doesnt Start With', () => {
     });
 });
 
-describe('String Validators - Doesnt End With', () => {
-    it('Doesnt End With - Valid', () => {
-        control = createAbstractControlSpy('nGuard is an Angular library');
-        expect(StringValidators.doesntStartWith('Angular')(control)).toBeNull();
-    });
 
-    it('Doesnt End With - Invalid (check case insensitive)', () => {
-        control = createAbstractControlSpy('nGuard is an Angular library');
-        expect(StringValidators.doesntEndWith('Library')(control)).toEqual({doesntEndWith: true});
-    });
-});
 
 describe('String Validators - Lowercase', () => {
     it('Lowercase - Validate a lowercase string', () => {
