@@ -1,5 +1,5 @@
 import { StringValidators as NSStringValidators } from "./string.validators";
 
 export namespace NguardValidators {
-  export const StringValidators = NSStringValidators;
+  export const String = NSStringValidators;
 }
