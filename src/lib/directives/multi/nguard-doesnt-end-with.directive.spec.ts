@@ -27,4 +27,11 @@ describe('NguardDoesntEndWithDirective', () => {
 
     expect(directive.validate(control)).toEqual({doesntEndWith: true});
   });
+
+  it('should fail if the field ends with (mixed types)', () => {
+    control = createAbstractControlSpy('abcABC123');
+    directive.values = [123];
+
+    expect(directive.validate(control)).toEqual({doesntEndWith: true});
+  });
 });
