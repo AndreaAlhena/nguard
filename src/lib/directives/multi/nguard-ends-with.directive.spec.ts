@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 import { NguardEndsWithDirective } from './nguard-ends-with.directive';
-import { createAbstractControlSpy } from '../utils/test.utils';
+import { createAbstractControlSpy } from '../../utils/test.utils';
 
 describe('NguardEndsWithDirective', () => {
   let control: AbstractControl;
@@ -26,5 +26,12 @@ describe('NguardEndsWithDirective', () => {
     directive.values = ['abc', '12'];
 
     expect(directive.validate(control)).toEqual({endsWith: true});
+  });
+
+  it('should validate a field that ends with (number)', () => {
+    control = createAbstractControlSpy('abcABC123');
+    directive.values = [123, '456'];
+
+    expect(directive.validate(control)).toBeNull();
   });
 });
