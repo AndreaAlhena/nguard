@@ -8,7 +8,7 @@ export namespace MultiValidators {
      * 
      * ```
      * password: new FormControl(''),
-     * passwordConfirm: new FormControl('', [MultiValidators.different('password')])
+     * passwordConfirm: new FormControl('', [NguardValidators.Multi.different('password')])
      * ```
      * @return {ValidationFn}
      */
@@ -30,7 +30,7 @@ export namespace MultiValidators {
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.doesntEndWith('first', 'second', 'third')
+     *   NguardValidators.String.doesntEndWith('first', 'second', 'third')
      * ])
      * ```
      * @return {ValidationFn}
@@ -55,7 +55,7 @@ export namespace MultiValidators {
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.doesntStartWith('first', 'second', 'third')
+     *   NguardValidators.String.doesntStartWith('first', 'second', 'third')
      * ])
      * ```
      * @return {ValidationFn}
@@ -80,7 +80,7 @@ export namespace MultiValidators {
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.endsWith('first', 'second', 'third')
+     *   NguardValidators.String.endsWith('first', 'second', 'third')
      * ])
      * ```
      * 
@@ -107,7 +107,7 @@ export namespace MultiValidators {
      * 
      * ```
      * password: new FormControl(''),
-     * passwordConfirm: new FormControl('', [StringValidators.same('password')])
+     * passwordConfirm: new FormControl('', [NguardValidators.String.same('password')])
      * ```
      * @return {ValidationFn}
      */
@@ -129,7 +129,7 @@ export namespace MultiValidators {
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.startsWith('first', 'second', 'third')
+     *   NguardValidators.String.startsWith('first', 'second', 'third')
      * ])
      * ```
      * 
@@ -159,7 +159,7 @@ export namespace MultiValidators {
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.requiredIf('anotherField', 'another field value', true)
+     *   NguardValidators.String.requiredIf('anotherField', 'another field value', true)
      * ])
      * ```
      * 
