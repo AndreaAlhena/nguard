@@ -102,6 +102,38 @@ describe('Multi Validators - Ends With', () => {
     });
 });
 
+describe('Multi Validators - Required If', () => {
+    it('Required If - Valid if both fields are set', () => {
+        control = createAbstractControlSpyWithSibling('value', 'value');
+        expect(MultiValidators.requiredIf('key')(control)).toBeNull();
+    });
+
+    it('Required If - Valid if both fields are set and the given value matches (non strict)', () => {
+        control = createAbstractControlSpyWithSibling('value', 'value');
+        expect(MultiValidators.requiredIf('key', 'value')(control)).toBeNull();
+    });
+
+    it('Required If - Invalid if the given field is not set', () => {
+        control = createAbstractControlSpyWithSibling('value', '');
+        expect(MultiValidators.requiredIf('key')(control)).toEqual({requiredIf: true});
+    });
+
+    it('Required If - Invalid if the given field is set but the current field is not set', () => {
+        control = createAbstractControlSpyWithSibling('', 'value');
+        expect(MultiValidators.requiredIf('key')(control)).toEqual({requiredIf: true});
+    });
+
+    it('Required If - Invalid if the given field is set but doesnt match the given value (non strict)', () => {
+        control = createAbstractControlSpyWithSibling('value', 'value');
+        expect(MultiValidators.requiredIf('key', 'none')(control)).toEqual({requiredIf: true});
+    });
+
+    it('Required If - Invalid if the given field is set but doesnt match the given value (strict)', () => {
+        control = createAbstractControlSpyWithSibling('value', '1');
+        expect(MultiValidators.requiredIf('key', 1, true)(control)).toEqual({requiredIf: true});
+    });
+});
+
 describe('Multi Validators - Same', () => {
     it('Same - Valid if both fields have the same value', () => {
         control = createAbstractControlSpyWithSibling('abc', 'abc');

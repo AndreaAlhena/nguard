@@ -149,4 +149,34 @@ export namespace MultiValidators {
             };
         }
     };
+
+    /**
+     * The field is required if another field, for the given fieldKey, is set.
+     * If a value is provided, the other field must match that value
+     * (the equality check is non strict until true is passed to the isStrict param)
+     * 
+     * The field is considered filled if the provided value is true while casted to boolean
+     * 
+     * ```
+     * new FormControl('', [
+     *   StringValidators.requiredIf('anotherField', 'another field value', true)
+     * ])
+     * ```
+     * 
+     * @param {string} fieldKey The key of the field to check in the current field group
+     * @param {primitive} [value] If present, the field that belongs to the given fieldKey must match the specified value
+     * @param {boolean} [isStrict] If true, the equality check is performed with a strict equality operator
+     * @returns {ValidatorFn}
+     */
+    export const requiredIf = (fieldKey: string, value?: primitive, isStrict: boolean = false) => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const check = c.value && value
+                ? c.value && equalityCheck(c.parent?.get(fieldKey)?.value, value, isStrict)
+                : c.value && c.parent?.get(fieldKey)?.value;
+
+            return check
+                ? null
+                : {requiredIf: true}
+        };
+    };
 }
