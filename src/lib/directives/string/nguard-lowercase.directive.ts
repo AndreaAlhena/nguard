@@ -17,6 +17,6 @@ export class NguardLowercaseDirective implements Validator {
   constructor() { }
 
   public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return StringValidators.lowercase()(control);
+    return StringValidators.lowercase(control);
   }
 }

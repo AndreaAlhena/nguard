@@ -17,6 +17,6 @@ export class NguardUppercaseDirective implements Validator {
   constructor() { }
 
   public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return StringValidators.uppercase()(control);
+    return StringValidators.uppercase(control);
   }
 }

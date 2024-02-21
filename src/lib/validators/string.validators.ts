@@ -89,45 +89,39 @@ export namespace StringValidators {
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.ascii()
+     *   StringValidators.ascii
      * ])
      * ```
-     * @return {ValidationFn}
+     * @return {ValidationErrors | null}
      */
-    export const ascii = () => {
-        return (c: AbstractControl) => /^[\x09\x0A\x0D\x20-\x7E]+$/.test(c.value)
-            ? null
-            : { ascii: true };
-        };
+    export const ascii = (c: AbstractControl) => /^[\x09\x0A\x0D\x20-\x7E]+$/.test(c.value)
+        ? null
+        : { ascii: true }
     ;
 
     /**
      * The field under validation must be lowercase
      * 
      * ```
-     * new FormControl('', [StringValidators.lowercase()]),
+     * new FormControl('', [StringValidators.lowercase]),
      * ```
-     * @return {ValidationFn}
+     * @return {ValidationErrors | null}
      */
-    export const lowercase = (): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => c.value.toLowerCase() === c.value
-            ? null
-            : {lowercase: true};
-    };
+    export const lowercase = (c: AbstractControl): ValidationErrors | null => c.value.toLowerCase() === c.value
+        ? null
+        : {lowercase: true};
 
     /**
      * The field under validation must be uppercase
      * 
      * ```
-     * new FormControl('', [StringValidators.uppercase()]),
+     * new FormControl('', [StringValidators.uppercase]),
      * ```
-     * @return {ValidationFn}
+     * @return {ValidationErrors | null}
      */
-    export const uppercase = (): ValidatorFn => {
-        return (c: AbstractControl<string>): ValidationErrors | null => isString(c.value) && c.value.toUpperCase() === c.value
-            ? null
-            : {uppercase: true};
-    };
+    export const uppercase = (c: AbstractControl<string>): ValidationErrors | null => isString(c.value) && c.value.toUpperCase() === c.value
+        ? null
+        : {uppercase: true};
 
     /**
      * The field under validation must be a valid URL as...
@@ -139,16 +133,13 @@ export namespace StringValidators {
      * Query arguments and more complex paths are valid
      * 
      * ```
-     * new FormControl('', [StringValidators.url()]),
+     * new FormControl('', [StringValidators.url]),
      * ```
      * 
-     * @returns {ValidatorFn}
+     * @returns {ValidationErrors | null}
      */
-    export const url = (): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            return /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(c.value)
-                ? null
-                : {url: true};
-        }
-    };
+    export const url = (c: AbstractControl): ValidationErrors | null => /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(c.value)
+        ? null
+        : {url: true};
+    ;
 }

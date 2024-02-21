@@ -15,6 +15,6 @@ export class NguardUrlDirective implements Validator {
   constructor() { }
 
   public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return StringValidators.url()(control);
+    return StringValidators.url(control);
   }
 }

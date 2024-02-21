@@ -17,6 +17,6 @@ export class NguardAsciiDirective implements Validator {
   constructor() { }
 
   public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return StringValidators.ascii()(control);
+    return StringValidators.ascii(control);
   }
 }
