@@ -129,6 +129,21 @@ export namespace StringValidators {
             : {uppercase: true};
     };
 
+    /**
+     * The field under validation must be a valid URL as...
+     *   - http://www.domain.com
+     *   - https://www.domain.com
+     *   - www.domain.com
+     *   - domain.com
+     * 
+     * Query arguments and more complex paths are valid
+     * 
+     * ```
+     * new FormControl('', [StringValidators.url()]),
+     * ```
+     * 
+     * @returns {ValidatorFn}
+     */
     export const url = (): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
             return /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(c.value)
