@@ -10,7 +10,7 @@ export namespace StringValidators {
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.alpha() // or StringValidators.alpha(true)
+     *   NguardValidators.String.alpha() // or NguardValidators.String.alpha(true)
      * ])
      * ```
      * @param {boolean} hasAsciiOnly If true, limits characters to ASCII chars (a-z and A-Z)
@@ -35,7 +35,7 @@ export namespace StringValidators {
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.alphaDash() // or StringValidators.alphaDash(true)
+     *   NguardValidators.String.alphaDash() // or NguardValidators.String.alphaDash(true)
      * ])
      * ```
      * @param {boolean} hasAsciiOnly If true, limits characters to ASCII chars (a-z and A-Z)
@@ -60,7 +60,7 @@ export namespace StringValidators {
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.alphaNum() // or StringValidators.alphaNum(true)
+     *   NguardValidators.String.alphaNum() // or NguardValidators.String.alphaNum(true)
      * ])
      * ```
      * @param {boolean} hasAsciiOnly If true, limits characters to ASCII chars (a-z and A-Z)
@@ -89,7 +89,7 @@ export namespace StringValidators {
      * 
      * ```
      * new FormControl('', [
-     *   StringValidators.ascii
+     *   NguardValidators.String.ascii
      * ])
      * ```
      * @return {ValidationErrors | null}
@@ -103,7 +103,7 @@ export namespace StringValidators {
      * The field under validation must be lowercase
      * 
      * ```
-     * new FormControl('', [StringValidators.lowercase]),
+     * new FormControl('', [NguardValidators.String.lowercase]),
      * ```
      * @return {ValidationErrors | null}
      */
@@ -115,7 +115,7 @@ export namespace StringValidators {
      * The field under validation must be uppercase
      * 
      * ```
-     * new FormControl('', [StringValidators.uppercase]),
+     * new FormControl('', [NguardValidators.String.uppercase]),
      * ```
      * @return {ValidationErrors | null}
      */
@@ -133,7 +133,7 @@ export namespace StringValidators {
      * Query arguments and more complex paths are valid
      * 
      * ```
-     * new FormControl('', [StringValidators.url]),
+     * new FormControl('', [NguardValidators.String.url]),
      * ```
      * 
      * @returns {ValidationErrors | null}
