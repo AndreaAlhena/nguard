@@ -29,7 +29,7 @@ export namespace StringValidators {
     };
 
     /**
-     * Validate that an attribute contains only Unicode alphanumeric characters (matched by \p{L} and \p{M}), dash and underscores
+     * Validate that an attribute contains only Unicode alphanumeric characters (matched by \p{L}, \p{M} and \p{N}), dash and underscores
      * If the hasAsciiOnly flag is set to true, the validation is restricted by characters in the ASCII range
      * (a-z, A-Z and 0-9), dashes and underscores
      * 

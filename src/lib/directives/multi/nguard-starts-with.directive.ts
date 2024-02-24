@@ -1,6 +1,9 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
+// Interfaces
+import { primitive } from '../../utils/validators.utils';
+
 // Validators
 import { MultiValidators } from '../../validators/multi.validators';
 
@@ -14,7 +17,7 @@ import { MultiValidators } from '../../validators/multi.validators';
   standalone: true
 })
 export class NguardStartsWithDirective implements Validator {
-  @Input('nguardStartsWith') public values!: string[];
+  @Input('nguardStartsWith') public values!: primitive[];
 
   constructor() { }
 

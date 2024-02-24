@@ -30,7 +30,7 @@ export namespace MultiValidators {
      * 
      * ```
      * new FormControl('', [
-     *   NguardValidators.String.doesntEndWith('first', 'second', 'third')
+     *   NguardValidators.Multi.doesntEndWith('first', 'second', 'third')
      * ])
      * ```
      * @return {ValidationFn}
@@ -55,7 +55,7 @@ export namespace MultiValidators {
      * 
      * ```
      * new FormControl('', [
-     *   NguardValidators.String.doesntStartWith('first', 'second', 'third')
+     *   NguardValidators.Multi.doesntStartWith('first', 'second', 'third')
      * ])
      * ```
      * @return {ValidationFn}
@@ -80,7 +80,7 @@ export namespace MultiValidators {
      * 
      * ```
      * new FormControl('', [
-     *   NguardValidators.String.endsWith('first', 'second', 'third')
+     *   NguardValidators.Multi.endsWith('first', 'second', 'third')
      * ])
      * ```
      * 
@@ -107,7 +107,7 @@ export namespace MultiValidators {
      * 
      * ```
      * password: new FormControl(''),
-     * passwordConfirm: new FormControl('', [NguardValidators.String.same('password')])
+     * passwordConfirm: new FormControl('', [NguardValidators.Multi.same('password')])
      * ```
      * @return {ValidationFn}
      */
