@@ -17,11 +17,12 @@ import { MultiValidators } from '../../validators/multi.validators';
   standalone: true
 })
 export class NguardDoesntStartWithDirective implements Validator {
-  @Input('nguardDoesntStartWith') public values!: primitive[];
+  @Input('nguardDoesntStartWith') public values!: primitive | primitive[];
 
   constructor() { }
 
   public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return MultiValidators.doesntStartWith(...this.values)(control);
+    const values = Array.isArray(this.values) ? this.values : [this.values];
+    return MultiValidators.doesntStartWith(...values)(control);
   }
 }
