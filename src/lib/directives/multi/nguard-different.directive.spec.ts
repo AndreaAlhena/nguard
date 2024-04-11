@@ -14,6 +14,13 @@ describe('NguardDifferentDirective', () => {
     expect(directive).toBeTruthy();
   });
 
+  it('should validate two fields with different values, simple string as config and same types (strict disabled / not given)', () => {
+    control = createAbstractControlSpyWithSibling('abc', 'def');
+    directive.config = '';
+
+    expect(directive.validate(control)).toBeNull();
+  });
+
   it('should validate two fields with different values, same types (strict disabled / not given)', () => {
     control = createAbstractControlSpyWithSibling('abc', 'def');
     directive.config = {compareFieldKey: ''};
