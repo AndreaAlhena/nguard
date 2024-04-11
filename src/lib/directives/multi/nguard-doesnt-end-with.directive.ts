@@ -17,11 +17,12 @@ import { MultiValidators } from '../../validators/multi.validators';
   standalone: true
 })
 export class NguardDoesntEndWithDirective implements Validator {
-  @Input('nguardDoesntEndWith') public values!: primitive[];
+  @Input('nguardDoesntEndWith') public values!: primitive | primitive[];
 
   constructor() { }
 
   public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return MultiValidators.doesntEndWith(...this.values)(control);
+    const values = Array.isArray(this.values) ? this.values : [this.values];
+    return MultiValidators.doesntEndWith(...values)(control);
   }
 }
