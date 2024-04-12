@@ -14,11 +14,25 @@ describe('NguardEndsWithDirective', () => {
     expect(directive).toBeTruthy();
   });
 
+  it('should validate a field that ends with (single value / no array)', () => {
+    control = createAbstractControlSpy('abcABC123');
+    directive.values = '123';
+
+    expect(directive.validate(control)).toBeNull();
+  });
+
   it('should validate a field that ends with', () => {
     control = createAbstractControlSpy('abcABC123');
     directive.values = ['123', '456'];
 
     expect(directive.validate(control)).toBeNull();
+  });
+
+  it('should fail if the field doesnt ends with (single value / no array)', () => {
+    control = createAbstractControlSpy('abcABC123');
+    directive.values = '12';
+
+    expect(directive.validate(control)).toEqual({endsWith: true});
   });
 
   it('should fail if the field doesnt ends with', () => {
