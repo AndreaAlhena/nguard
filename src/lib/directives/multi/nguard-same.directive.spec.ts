@@ -14,11 +14,25 @@ describe('NguardSameDirective', () => {
     expect(directive).toBeTruthy();
   });
 
+  it('should validate two fields with the same value (field name only / no object)', () => {
+    control = createAbstractControlSpyWithSibling('abc', 'abc');
+    directive.config = '';
+
+    expect(directive.validate(control)).toBeNull();
+  });
+
   it('should validate two fields with the same value', () => {
     control = createAbstractControlSpyWithSibling('abc', 'abc');
     directive.config = {compareFieldKey: ''};
 
     expect(directive.validate(control)).toBeNull();
+  });
+
+  it('should fail if two fields have different values (field name only / no object)', () => {
+    control = createAbstractControlSpyWithSibling('abc', 'def');
+    directive.config = '';
+
+    expect(directive.validate(control)).toEqual({same: true});
   });
 
   it('should fail if two fields have different values', () => {

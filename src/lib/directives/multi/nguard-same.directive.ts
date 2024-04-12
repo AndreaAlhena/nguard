@@ -13,11 +13,15 @@ import { IComparable } from '../../interfaces/comparable.interface';
   standalone: true
 })
 export class NguardSameDirective implements Validator {
-  @Input('nguardSame') public config!: IComparable;
+  @Input('nguardSame') public config!: string | IComparable;
 
   constructor() { }
 
   public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return MultiValidators.same(this.config.compareFieldKey, this.config.isStrict)(control);
+    const args: [string] | [string, boolean | undefined] = typeof this.config === 'string'
+      ? [this.config]
+      : [this.config.compareFieldKey, this.config.isStrict];
+
+    return MultiValidators.same.apply(this, args)(control);
   }
 }
