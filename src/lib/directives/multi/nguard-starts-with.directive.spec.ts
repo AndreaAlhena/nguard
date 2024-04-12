@@ -14,11 +14,25 @@ describe('NguardStartsWithDirective', () => {
     expect(directive).toBeTruthy();
   });
 
+  it('should validate a field that starts with (single value / no array)', () => {
+    control = createAbstractControlSpy('abcABC123');
+    directive.values = 'abc';
+
+    expect(directive.validate(control)).toBeNull();
+  });
+
   it('should validate a field that starts with', () => {
     control = createAbstractControlSpy('abcABC123');
     directive.values = ['123', 'abc'];
 
     expect(directive.validate(control)).toBeNull();
+  });
+
+  it('should fail if the field doesnt start with (single value / no array)', () => {
+    control = createAbstractControlSpy('abcABC123');
+    directive.values = '123';
+
+    expect(directive.validate(control)).toEqual({startsWith: true});
   });
 
   it('should fail if the field doesnt start with', () => {
