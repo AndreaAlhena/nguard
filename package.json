@@ -17,6 +17,7 @@
   },
   "scripts": {
     "prepare": "husky",
-    "test": "ng test nguard --karma-config ./projects/nguard/karma.conf.js --progress --no-watch"
+    "test": "ng test nguard --karma-config ./projects/nguard/karma.conf.js --progress --no-watch",
+    "test-dev": "ng test nguard --karma-config ./projects/nguard/karma.conf.js --progress"
   }
 }
