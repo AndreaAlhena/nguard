@@ -7,3 +7,5 @@ export const equalityCheck = (value1: any, value2: any, isStrict: boolean = fals
 
   return false;
 }
+
+export const haveSameType = (value1: any, value2: any): boolean => typeof value1 === typeof value2;
