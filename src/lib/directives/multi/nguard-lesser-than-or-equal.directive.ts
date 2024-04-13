@@ -9,16 +9,16 @@ import { NguardDifferentDirective } from './nguard-different.directive';
     provide: NG_VALIDATORS,
     useExisting: NguardDifferentDirective
   }],
-  selector: '[nguardLesserThan]',
+  selector: '[nguardLesserThanOrEqual]',
   standalone: true
 })
-export class LesserThanDirective implements Validator {
+export class NguardLesserThanOrEqualDirective implements Validator {
   @Input() public compareFieldKey!: string;
 
   constructor() { }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    return MultiValidators.lesserThan(this.compareFieldKey)(control);
+    return MultiValidators.lesserThanOrEqual(this.compareFieldKey)(control);
   }
 
 }

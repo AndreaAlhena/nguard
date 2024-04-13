@@ -1,12 +1,12 @@
-import { LesserThanDirective } from './lesser-than.directive';
 import { createAbstractControlSpyWithSibling } from '../../utils/test.utils';
+import { NguardLesserThanOrEqualDirective } from './nguard-lesser-than-or-equal.directive';
 
 describe('LesserThanDirective', () => {
   let control;
-  let directive: LesserThanDirective;
+  let directive: NguardLesserThanOrEqualDirective;
 
   beforeEach(() => {
-    directive = new LesserThanDirective();
+    directive = new NguardLesserThanOrEqualDirective();
   });
 
   it('should create an instance', () => {
@@ -24,13 +24,13 @@ describe('LesserThanDirective', () => {
     control = createAbstractControlSpyWithSibling(10, 1);
     directive.compareFieldKey = '';
 
-    expect(directive.validate(control)).toEqual({lesserThan: true});
+    expect(directive.validate(control)).toEqual({lesserThanOrEqual: true});
   });
 
   it('should fail with two fields of different types', () => {
     control = createAbstractControlSpyWithSibling('1', 10);
     directive.compareFieldKey = '';
 
-    expect(directive.validate(control)).toEqual({lesserThan: true});
+    expect(directive.validate(control)).toEqual({lesserThanOrEqual: true});
   });
 });
