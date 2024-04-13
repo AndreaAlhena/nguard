@@ -129,6 +129,38 @@ describe('Multi Validators - Greater Than', () => {
     });
 });
 
+describe('Multi Validators - Greater Than or Equal', () => {
+    it('Greater Than or Equal - Valid (strings)', () => {
+        control = createAbstractControlSpyWithSibling('nGuard is an Angular library', 'library');
+        expect(MultiValidators.greaterThanOrEqual('')(control)).toBeNull();
+    });
+
+    it('Greater Than or Equal - Valid (strings) - First is equal the second', () => {
+        control = createAbstractControlSpyWithSibling('nGuard!', 'library');
+        expect(MultiValidators.greaterThanOrEqual('')(control)).toBeNull();
+    });
+
+    it('Greater Than or Equal - Invalid (strings) - First is less than the second', () => {
+        control = createAbstractControlSpyWithSibling('library', 'nGuard is an Angular library');
+        expect(MultiValidators.greaterThanOrEqual('nGuard')(control)).toEqual({greaterThanOrEqual: true});
+    });
+
+    it('Greater Than or Equal - Valid (numbers)', () => {
+        control = createAbstractControlSpyWithSibling(70, 10);
+        expect(MultiValidators.greaterThanOrEqual('')(control)).toBeNull();
+    });
+
+    it('Greater Than or Equal - Invalid (numbers)', () => {
+        control = createAbstractControlSpyWithSibling(10, 70);
+        expect(MultiValidators.greaterThanOrEqual('')(control)).toEqual({greaterThanOrEqual: true});
+    });
+
+    it('Greater Than or Equal - Invalid (types mismatch)', () => {
+        control = createAbstractControlSpyWithSibling(70, '10');
+        expect(MultiValidators.greaterThanOrEqual('')(control)).toEqual({greaterThanOrEqual: true});
+    });
+});
+
 describe('Multi Validators - Lesser Than', () => {
     it('Lesser Than - Valid (strings)', () => {
         control = createAbstractControlSpyWithSibling('library', 'nGuard is an Angular library');

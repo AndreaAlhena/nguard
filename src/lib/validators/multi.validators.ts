@@ -132,6 +132,36 @@ export namespace MultiValidators {
     }
 
     /**
+     * The field under validation must be greater than or equal the given field name.
+     * Both fields must be of the same type. In case of a type mismatch, the validator
+     * will return a validation error
+     * 
+     * Strings are evaluated accordingly to their length
+     * Numerics are evaluated accordingly to their value
+     * 
+     * new FormControl('', [
+     *   NguardValidators.Multi.greaterThan('fieldToCompare')
+     * ])
+     * ```
+     * 
+     * @param {string} compareFieldKey 
+     * @returns {ValidatorFn}
+     */
+    export const greaterThanOrEqual = (compareFieldKey: string): ValidatorFn => {
+        return (c: AbstractControl) => {
+            const [value1, value2] = [c.value, c.parent?.get(compareFieldKey)?.value];
+
+            if (!haveSameType(value1, value2)) {
+                return { greaterThanOrEqual: true };
+            };
+
+            return typeof value1 === 'string' && value1.length >= value2.length || typeof value1 === 'number' && value1 >= value2
+                ? null
+                : { greaterThanOrEqual: true };
+        }
+    }
+
+    /**
      * The field under validation must be lesser than the given field name.
      * Both fields must be of the same type. In case of a type mismatch, the validator
      * will return a validation error
