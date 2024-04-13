@@ -24,6 +24,15 @@ module.exports = function (config) {
         { type: 'text-summary' }
       ]
     },
+    customLaunchers: {
+      base: 'ChromeHeadless',
+      flags: [
+        "--user-data-dir=/tmp/chrome-test-profile",
+        "--disable-web-security",
+        "--remote-debugging-port=9222",
+      ]
+    },
+    debug: true,
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     jasmineHtmlReporter: {
       suppressAll: true // removes the duplicated traces
@@ -36,6 +45,7 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     reporters: ['progress', 'kjhtml'],
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    singleRun: false
   });
 };
