@@ -102,12 +102,17 @@ export namespace MultiValidators {
     };
 
     /**
-     * The field under validation must be lesset than the given field name.
+     * The field under validation must be lesser than the given field name.
      * Both fields must be of the same type. In case of a type mismatch, the validator
      * will return a validation error
      * 
      * Strings are evaluated accordingly to their length
      * Numerics are evaluated accordingly to their value
+     * 
+     * new FormControl('', [
+     *   NguardValidators.Multi.lesserThan('fieldToCompare')
+     * ])
+     * ```
      * 
      * @param {string} compareFieldKey 
      * @returns {ValidatorFn}
@@ -123,6 +128,36 @@ export namespace MultiValidators {
             return typeof value1 === 'string' && value1.length < value2.length || typeof value1 === 'number' && value1 < value2
                 ? null
                 : { lesserThan: true };
+        }
+    }
+
+    /**
+     * The field under validation must be lesser than the given field name.
+     * Both fields must be of the same type. In case of a type mismatch, the validator
+     * will return a validation error
+     * 
+     * Strings are evaluated accordingly to their length
+     * Numerics are evaluated accordingly to their value
+     * 
+     * new FormControl('', [
+     *   NguardValidators.Multi.lesserThanOrEqual('fieldToCompare')
+     * ])
+     * ```
+     * 
+     * @param {string} compareFieldKey 
+     * @returns {ValidatorFn}
+     */
+    export const lesserThanOrEqual = (compareFieldKey: string): ValidatorFn => {
+        return (c: AbstractControl) => {
+            const [value1, value2] = [c.value, c.parent?.get(compareFieldKey)?.value];
+
+            if (!haveSameType(value1, value2)) {
+                return { lesserThanOrEqual: true };
+            };
+
+            return typeof value1 === 'string' && value1.length <= value2.length || typeof value1 === 'number' && value1 <= value2
+                ? null
+                : { lesserThanOrEqual: true };
         }
     }
 
