@@ -102,6 +102,33 @@ describe('Multi Validators - Ends With', () => {
     });
 });
 
+describe('Multi Validators - Lesser Than', () => {
+    it('Lesser Than - Valid (strings)', () => {
+        control = createAbstractControlSpyWithSibling('library', 'nGuard is an Angular library');
+        expect(MultiValidators.lesserThan('')(control)).toBeNull();
+    });
+
+    it('Ends With - Invalid (strings)', () => {
+        control = createAbstractControlSpyWithSibling('nGuard is an Angular library', 'library');
+        expect(MultiValidators.lesserThan('nGuard')(control)).toEqual({lesserThan: true});
+    });
+
+    it('Lesser Than - Valid (numbers)', () => {
+        control = createAbstractControlSpyWithSibling(10, 70);
+        expect(MultiValidators.lesserThan('')(control)).toBeNull();
+    });
+
+    it('Lesser Than - Invalid (numbers)', () => {
+        control = createAbstractControlSpyWithSibling(70, 10);
+        expect(MultiValidators.lesserThan('')(control)).toEqual({lesserThan: true});
+    });
+
+    it('Lesser Than - Invalid (types mismatch)', () => {
+        control = createAbstractControlSpyWithSibling(70, '10');
+        expect(MultiValidators.lesserThan('')(control)).toEqual({lesserThan: true});
+    });
+});
+
 describe('Multi Validators - Required If', () => {
     it('Required If - Valid if both fields are set', () => {
         control = createAbstractControlSpyWithSibling('value', 'value');

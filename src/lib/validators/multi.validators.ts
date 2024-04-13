@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
-import { equalityCheck, primitive } from "../utils/validators.utils";
+import { equalityCheck, haveSameType, primitive } from "../utils/validators.utils";
 
 export namespace MultiValidators {
     /**
@@ -74,20 +74,20 @@ export namespace MultiValidators {
         }
     };
 
-     /**
-     * Validate that an attribute ends with one of the given values.
-     * The performed check is case insensitive
-     * 
-     * ```
-     * new FormControl('', [
-     *   NguardValidators.Multi.endsWith('first', 'second', 'third')
-     * ])
-     * ```
-     * 
-     * @param {primitive[]} values A mixed array of primitive values (strings, numbers and boolean)
-     * @return {ValidationFn}
-     */
-     export const endsWith = (...values: primitive[]): ValidatorFn => {
+    /**
+    * Validate that an attribute ends with one of the given values.
+    * The performed check is case insensitive
+    * 
+    * ```
+    * new FormControl('', [
+    *   NguardValidators.Multi.endsWith('first', 'second', 'third')
+    * ])
+    * ```
+    * 
+    * @param {primitive[]} values A mixed array of primitive values (strings, numbers and boolean)
+    * @return {ValidationFn}
+    */
+    export const endsWith = (...values: primitive[]): ValidatorFn => {
         return (control: AbstractControl): ValidationErrors | null => {
             for (const value of values) {
                 if (`${control.value}`.toLowerCase().endsWith(`${value}`.toLowerCase())) {
@@ -100,6 +100,31 @@ export namespace MultiValidators {
             };
         }
     };
+
+    /**
+     * The field under validation must be lesset than the given field name.
+     * Both fields must be of the same type. In case of a type mismatch, the validator
+     * will return a validation error
+     * 
+     * Strings are evaluated accordingly to their length
+     * Numerics are evaluated accordingly to their value
+     * 
+     * @param {string} compareFieldKey 
+     * @returns {ValidatorFn}
+     */
+    export const lesserThan = (compareFieldKey: string): ValidatorFn => {
+        return (c: AbstractControl) => {
+            const [value1, value2] = [c.value, c.parent?.get(compareFieldKey)?.value];
+
+            if (!haveSameType(value1, value2)) {
+                return { lesserThan: true };
+            };
+
+            return typeof value1 === 'string' && value1.length < value2.length || typeof value1 === 'number' && value1 < value2
+                ? null
+                : { lesserThan: true };
+        }
+    }
 
     /**
      * Validate that an attribute is equal to another one with the specified compareFieldKey
@@ -116,7 +141,7 @@ export namespace MultiValidators {
             if (equalityCheck(c.value, c.parent?.get(compareFieldKey)?.value, isStrict)) {
                 return null;
             }
-            
+
             return {
                 same: true
             };
@@ -176,7 +201,7 @@ export namespace MultiValidators {
 
             return check
                 ? null
-                : {requiredIf: true}
+                : { requiredIf: true }
         };
     };
 }
