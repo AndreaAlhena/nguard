@@ -22,7 +22,7 @@ export namespace MultiValidators {
 
             return null;
         }
-    }
+    }   
 
     /**
      * Validate that an attribute doesn't end with one of the given values.
