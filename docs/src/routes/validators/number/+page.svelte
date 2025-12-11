@@ -10,7 +10,6 @@
     <li><a href="/validators/number/negative">Negative</a> - Validates value is negative</li>
     <li><a href="/validators/number/numeric">Numeric</a> - Validates that value is numeric</li>
     <li><a href="/validators/number/positive">Positive</a> - Validates value is positive</li>
-    <li><a href="/validators/number/range">Range</a> - Validates that a number is within a specific range</li>
 </ul>
 
 <h2 class="mt-4">Planned Validators</h2>
