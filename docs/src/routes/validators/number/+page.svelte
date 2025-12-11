@@ -3,22 +3,18 @@
 
 <h2 class="mt-4">Available Validators</h2>
 <ul>
+    <li><a href="/validators/number/between">Between</a> - Validates value is between two numbers (inclusive)</li>
+    <li><a href="/validators/number/integer">Integer</a> - Validates that value is an integer</li>
+    <li><a href="/validators/number/max">Max</a> - Validates maximum value</li>
+    <li><a href="/validators/number/min">Min</a> - Validates minimum value</li>
+    <li><a href="/validators/number/negative">Negative</a> - Validates value is negative</li>
+    <li><a href="/validators/number/numeric">Numeric</a> - Validates that value is numeric</li>
+    <li><a href="/validators/number/positive">Positive</a> - Validates value is positive</li>
     <li><a href="/validators/number/range">Range</a> - Validates that a number is within a specific range</li>
 </ul>
 
 <h2 class="mt-4">Planned Validators</h2>
 <p>The following validators are planned for future releases:</p>
-
-<h3>v0.1.0 - Core Essentials</h3>
-<ul>
-    <li>Integer - Validates that value is an integer</li>
-    <li>Numeric - Validates that value is numeric</li>
-    <li>Min - Validates minimum value</li>
-    <li>Max - Validates maximum value</li>
-    <li>Between - Validates value is between two numbers</li>
-    <li>Positive - Validates value is positive</li>
-    <li>Negative - Validates value is negative</li>
-</ul>
 
 <h3>v0.3.0 - Numeric Power</h3>
 <ul>

@@ -302,4 +302,47 @@ export namespace MultiValidators {
             return check ? null : { requiredIf: true };
         };
     };
+
+    /**
+     * The field under validation must match a field named `{field}_confirmation`.
+     * For example, if the field is `password`, a matching `password_confirmation` field must be present.
+     *
+     * ```
+     * password: new FormControl(''),
+     * password_confirmation: new FormControl('', [NguardValidators.Multi.confirmed('password')])
+     * ```
+     *
+     * @param {string} fieldKey The key of the original field to confirm
+     * @returns {ValidatorFn}
+     */
+    export const confirmed = (fieldKey: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const originalValue = c.parent?.get(fieldKey)?.value;
+            return equalityCheck(c.value, originalValue, true) ? null : { confirmed: true };
+        };
+    };
+
+    /**
+     * Alias for greaterThan - The field under validation must be greater than the given field
+     * @see greaterThan
+     */
+    export const gt = greaterThan;
+
+    /**
+     * Alias for greaterThanOrEqual - The field under validation must be greater than or equal to the given field
+     * @see greaterThanOrEqual
+     */
+    export const gte = greaterThanOrEqual;
+
+    /**
+     * Alias for lesserThan - The field under validation must be less than the given field
+     * @see lesserThan
+     */
+    export const lt = lesserThan;
+
+    /**
+     * Alias for lesserThanOrEqual - The field under validation must be less than or equal to the given field
+     * @see lesserThanOrEqual
+     */
+    export const lte = lesserThanOrEqual;
 }

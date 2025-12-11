@@ -420,6 +420,256 @@ describe('String Validators - URL', () => {
     });
 });
 
+describe('String Validators - Email', () => {
+    it('Email - Valid email address', () => {
+        control = createAbstractControlSpy('test@example.com');
+
+        expect(StringValidators.email(control)).toBeNull();
+    });
+
+    it('Email - Valid email with subdomain', () => {
+        control = createAbstractControlSpy('test@mail.example.com');
+
+        expect(StringValidators.email(control)).toBeNull();
+    });
+
+    it('Email - Valid email with plus sign', () => {
+        control = createAbstractControlSpy('test+tag@example.com');
+
+        expect(StringValidators.email(control)).toBeNull();
+    });
+
+    it('Email - Invalid without @', () => {
+        control = createAbstractControlSpy('testexample.com');
+
+        expect(StringValidators.email(control)).toEqual({ email: true });
+    });
+
+    it('Email - Invalid without domain', () => {
+        control = createAbstractControlSpy('test@');
+
+        expect(StringValidators.email(control)).toEqual({ email: true });
+    });
+
+    it('Email - Invalid without local part', () => {
+        control = createAbstractControlSpy('@example.com');
+
+        expect(StringValidators.email(control)).toEqual({ email: true });
+    });
+
+    it('Email - Invalid with empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.email(control)).toEqual({ email: true });
+    });
+
+    it('Email - Invalid with null', () => {
+        control = createAbstractControlSpy(null);
+
+        expect(StringValidators.email(control)).toEqual({ email: true });
+    });
+
+    it('Email - Invalid with number', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.email(control)).toEqual({ email: true });
+    });
+});
+
+describe('String Validators - Regex', () => {
+    it('Regex - Valid match', () => {
+        control = createAbstractControlSpy('ABC123');
+
+        expect(StringValidators.regex(/^[A-Z0-9]+$/)(control)).toBeNull();
+    });
+
+    it('Regex - Invalid no match', () => {
+        control = createAbstractControlSpy('abc123');
+
+        expect(StringValidators.regex(/^[A-Z0-9]+$/)(control)).toEqual({ regex: true });
+    });
+
+    it('Regex - Valid with complex pattern', () => {
+        control = createAbstractControlSpy('2024-01-15');
+
+        expect(StringValidators.regex(/^\d{4}-\d{2}-\d{2}$/)(control)).toBeNull();
+    });
+
+    it('Regex - Invalid with non-string', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.regex(/^\d+$/)(control)).toEqual({ regex: true });
+    });
+
+    it('Regex - Invalid with null', () => {
+        control = createAbstractControlSpy(null);
+
+        expect(StringValidators.regex(/^.+$/)(control)).toEqual({ regex: true });
+    });
+
+    it('Regex - Invalid with empty string not matching', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.regex(/^.+$/)(control)).toEqual({ regex: true });
+    });
+
+    it('Regex - Valid with empty string matching optional pattern', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.regex(/^.*$/)(control)).toBeNull();
+    });
+});
+
+describe('String Validators - NotRegex', () => {
+    it('NotRegex - Valid when pattern does not match', () => {
+        control = createAbstractControlSpy('abc');
+
+        expect(StringValidators.notRegex(/\d/)(control)).toBeNull();
+    });
+
+    it('NotRegex - Invalid when pattern matches', () => {
+        control = createAbstractControlSpy('abc123');
+
+        expect(StringValidators.notRegex(/\d/)(control)).toEqual({ notRegex: true });
+    });
+
+    it('NotRegex - Invalid with non-string', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.notRegex(/\d/)(control)).toEqual({ notRegex: true });
+    });
+
+    it('NotRegex - Invalid with null', () => {
+        control = createAbstractControlSpy(null);
+
+        expect(StringValidators.notRegex(/\d/)(control)).toEqual({ notRegex: true });
+    });
+
+    it('NotRegex - Valid with empty string not matching pattern', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.notRegex(/\d/)(control)).toBeNull();
+    });
+});
+
+describe('String Validators - JSON', () => {
+    it('JSON - Valid JSON object', () => {
+        control = createAbstractControlSpy('{"key": "value"}');
+
+        expect(StringValidators.json(control)).toBeNull();
+    });
+
+    it('JSON - Valid JSON array', () => {
+        control = createAbstractControlSpy('[1, 2, 3]');
+
+        expect(StringValidators.json(control)).toBeNull();
+    });
+
+    it('JSON - Valid JSON string', () => {
+        control = createAbstractControlSpy('"hello"');
+
+        expect(StringValidators.json(control)).toBeNull();
+    });
+
+    it('JSON - Valid JSON number', () => {
+        control = createAbstractControlSpy('123');
+
+        expect(StringValidators.json(control)).toBeNull();
+    });
+
+    it('JSON - Valid JSON boolean', () => {
+        control = createAbstractControlSpy('true');
+
+        expect(StringValidators.json(control)).toBeNull();
+    });
+
+    it('JSON - Valid JSON null', () => {
+        control = createAbstractControlSpy('null');
+
+        expect(StringValidators.json(control)).toBeNull();
+    });
+
+    it('JSON - Invalid JSON syntax', () => {
+        control = createAbstractControlSpy('{key: value}');
+
+        expect(StringValidators.json(control)).toEqual({ json: true });
+    });
+
+    it('JSON - Invalid with empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.json(control)).toEqual({ json: true });
+    });
+
+    it('JSON - Invalid with null', () => {
+        control = createAbstractControlSpy(null);
+
+        expect(StringValidators.json(control)).toEqual({ json: true });
+    });
+
+    it('JSON - Invalid with non-string', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.json(control)).toEqual({ json: true });
+    });
+
+    it('JSON - Invalid plain text', () => {
+        control = createAbstractControlSpy('hello world');
+
+        expect(StringValidators.json(control)).toEqual({ json: true });
+    });
+});
+
+describe('String Validators - NotBlank', () => {
+    it('NotBlank - Valid with non-empty string', () => {
+        control = createAbstractControlSpy('hello');
+
+        expect(StringValidators.notBlank(control)).toBeNull();
+    });
+
+    it('NotBlank - Valid with string containing spaces', () => {
+        control = createAbstractControlSpy('  hello  ');
+
+        expect(StringValidators.notBlank(control)).toBeNull();
+    });
+
+    it('NotBlank - Invalid with empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.notBlank(control)).toEqual({ notBlank: true });
+    });
+
+    it('NotBlank - Invalid with whitespace only', () => {
+        control = createAbstractControlSpy('   ');
+
+        expect(StringValidators.notBlank(control)).toEqual({ notBlank: true });
+    });
+
+    it('NotBlank - Invalid with tabs only', () => {
+        control = createAbstractControlSpy('\t\t');
+
+        expect(StringValidators.notBlank(control)).toEqual({ notBlank: true });
+    });
+
+    it('NotBlank - Invalid with newlines only', () => {
+        control = createAbstractControlSpy('\n\n');
+
+        expect(StringValidators.notBlank(control)).toEqual({ notBlank: true });
+    });
+
+    it('NotBlank - Invalid with null', () => {
+        control = createAbstractControlSpy(null);
+
+        expect(StringValidators.notBlank(control)).toEqual({ notBlank: true });
+    });
+
+    it('NotBlank - Invalid with number', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.notBlank(control)).toEqual({ notBlank: true });
+    });
+});
+
 describe('String Validators - Edge Cases', () => {
     describe('Null input handling', () => {
         it('Alpha - Should reject null input', () => {

@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 const isString = (value: any) => typeof value === 'string';
 
@@ -128,4 +128,98 @@ export namespace StringValidators {
         )
             ? null
             : { url: true };
+
+    /**
+     * The field under validation must be a valid email address (RFC 5322 compliant)
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.email]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const email = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { email: true };
+        }
+        // RFC 5322 compliant email regex
+        const emailRegex =
+            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        return emailRegex.test(c.value) ? null : { email: true };
+    };
+
+    /**
+     * The field under validation must match the given regular expression pattern
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.regex(/^[A-Z]{3}$/)]),
+     * ```
+     *
+     * @param {RegExp} pattern The regular expression to match against
+     * @returns {ValidatorFn}
+     */
+    export const regex = (pattern: RegExp): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!isString(c.value)) {
+                return { regex: true };
+            }
+            return pattern.test(c.value) ? null : { regex: true };
+        };
+    };
+
+    /**
+     * The field under validation must NOT match the given regular expression pattern
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.notRegex(/\d/)]),
+     * ```
+     *
+     * @param {RegExp} pattern The regular expression that should not match
+     * @returns {ValidatorFn}
+     */
+    export const notRegex = (pattern: RegExp): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!isString(c.value)) {
+                return { notRegex: true };
+            }
+            return pattern.test(c.value) ? { notRegex: true } : null;
+        };
+    };
+
+    /**
+     * The field under validation must be a valid JSON string
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.json]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const json = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { json: true };
+        }
+        try {
+            JSON.parse(c.value);
+            return null;
+        } catch {
+            return { json: true };
+        }
+    };
+
+    /**
+     * The field under validation must not be empty or contain only whitespace
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.notBlank]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const notBlank = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value)) {
+            return { notBlank: true };
+        }
+        return c.value.trim().length > 0 ? null : { notBlank: true };
+    };
 }

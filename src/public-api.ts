@@ -10,10 +10,11 @@ export * from './lib/interfaces/comparable.interface';
 export * from './lib/interfaces/required-if-config.interface';
 
 // Utility types
-export { primitive } from './lib/utils/validators.utils';
+export type { primitive } from './lib/utils/validators.utils';
 
 // Directives
 // - multi
+export * from './lib/directives/multi/nguard-confirmed.directive';
 export * from './lib/directives/multi/nguard-different.directive';
 export * from './lib/directives/multi/nguard-doesnt-end-with.directive';
 export * from './lib/directives/multi/nguard-doesnt-start-with.directive';
@@ -26,13 +27,25 @@ export * from './lib/directives/multi/nguard-required-if.directive';
 export * from './lib/directives/multi/nguard-same.directive';
 export * from './lib/directives/multi/nguard-starts-with.directive';
 // - number
+export * from './lib/directives/number/nguard-between.directive';
+export * from './lib/directives/number/nguard-integer.directive';
+export * from './lib/directives/number/nguard-max.directive';
+export * from './lib/directives/number/nguard-min.directive';
+export * from './lib/directives/number/nguard-negative.directive';
+export * from './lib/directives/number/nguard-numeric.directive';
+export * from './lib/directives/number/nguard-positive.directive';
 export * from './lib/directives/number/nguard-range.directive';
 // - string
 export * from './lib/directives/string/nguard-alpha-dash.directive';
 export * from './lib/directives/string/nguard-alpha-num.directive';
 export * from './lib/directives/string/nguard-alpha.directive';
 export * from './lib/directives/string/nguard-ascii.directive';
+export * from './lib/directives/string/nguard-email.directive';
+export * from './lib/directives/string/nguard-json.directive';
 export * from './lib/directives/string/nguard-lowercase.directive';
+export * from './lib/directives/string/nguard-not-blank.directive';
+export * from './lib/directives/string/nguard-not-regex.directive';
+export * from './lib/directives/string/nguard-regex.directive';
 export * from './lib/directives/string/nguard-uppercase.directive';
 export * from './lib/directives/string/nguard-url.directive';
 

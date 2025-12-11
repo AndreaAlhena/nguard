@@ -380,6 +380,92 @@ describe('Multi Validators - Starts With', () => {
     });
 });
 
+describe('Multi Validators - Confirmed', () => {
+    it('Confirmed - Valid when values match', () => {
+        control = createAbstractControlSpyWithSibling('password123', 'password123');
+
+        expect(MultiValidators.confirmed('password')(control)).toBeNull();
+    });
+
+    it('Confirmed - Invalid when values do not match', () => {
+        control = createAbstractControlSpyWithSibling('password123', 'password456');
+
+        expect(MultiValidators.confirmed('password')(control)).toEqual({ confirmed: true });
+    });
+
+    it('Confirmed - Invalid when types differ (strict comparison)', () => {
+        control = createAbstractControlSpyWithSibling('123', 123);
+
+        expect(MultiValidators.confirmed('field')(control)).toEqual({ confirmed: true });
+    });
+
+    it('Confirmed - Invalid when original field is empty', () => {
+        control = createAbstractControlSpyWithSibling('password123', '');
+
+        expect(MultiValidators.confirmed('password')(control)).toEqual({ confirmed: true });
+    });
+
+    it('Confirmed - Valid when both fields are empty', () => {
+        control = createAbstractControlSpyWithSibling('', '');
+
+        expect(MultiValidators.confirmed('password')(control)).toBeNull();
+    });
+
+    it('Confirmed - Invalid when original field is null', () => {
+        control = createControlSpyWithNullSibling('password123');
+
+        expect(MultiValidators.confirmed('password')(control)).toEqual({ confirmed: true });
+    });
+
+    it('Confirmed - Invalid when control has no parent', () => {
+        control = createOrphanControlSpy('password123');
+
+        expect(MultiValidators.confirmed('password')(control)).toEqual({ confirmed: true });
+    });
+});
+
+describe('Multi Validators - Aliases', () => {
+    it('gt - Should be an alias for greaterThan', () => {
+        expect(MultiValidators.gt).toBe(MultiValidators.greaterThan);
+    });
+
+    it('gte - Should be an alias for greaterThanOrEqual', () => {
+        expect(MultiValidators.gte).toBe(MultiValidators.greaterThanOrEqual);
+    });
+
+    it('lt - Should be an alias for lesserThan', () => {
+        expect(MultiValidators.lt).toBe(MultiValidators.lesserThan);
+    });
+
+    it('lte - Should be an alias for lesserThanOrEqual', () => {
+        expect(MultiValidators.lte).toBe(MultiValidators.lesserThanOrEqual);
+    });
+
+    it('gt - Works like greaterThan', () => {
+        control = createAbstractControlSpyWithSibling(70, 10);
+
+        expect(MultiValidators.gt('')(control)).toBeNull();
+    });
+
+    it('gte - Works like greaterThanOrEqual', () => {
+        control = createAbstractControlSpyWithSibling(10, 10);
+
+        expect(MultiValidators.gte('')(control)).toBeNull();
+    });
+
+    it('lt - Works like lesserThan', () => {
+        control = createAbstractControlSpyWithSibling(10, 70);
+
+        expect(MultiValidators.lt('')(control)).toBeNull();
+    });
+
+    it('lte - Works like lesserThanOrEqual', () => {
+        control = createAbstractControlSpyWithSibling(10, 10);
+
+        expect(MultiValidators.lte('')(control)).toBeNull();
+    });
+});
+
 describe('Multi Validators - Edge Cases', () => {
     describe('Null/Undefined sibling handling', () => {
         it('Different - Should handle null sibling value', () => {
