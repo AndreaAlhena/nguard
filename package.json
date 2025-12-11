@@ -1,6 +1,10 @@
 {
   "name": "nguard",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=18.13.0 || >=20.9.0",
+    "npm": ">=9.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^17.1.0",
     "@angular/core": "^17.1.0",
@@ -11,12 +15,20 @@
   },
   "sideEffects": false,
   "devDependencies": {
+    "@angular-eslint/eslint-plugin": "^17.5.3",
+    "@angular-eslint/template-parser": "^17.5.3",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-jasmine": "^4.2.2",
     "husky": "^9.0.11",
     "puppeteer": "^22.1.0",
     "sass": "^1.71.1"
   },
   "scripts": {
     "prepare": "husky",
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.ts\" --fix",
     "test": "ng test nguard --karma-config ./projects/nguard/karma.conf.js --progress --no-watch",
     "test-dev": "ng test nguard --karma-config ./projects/nguard/karma.conf.js --progress"
   }
