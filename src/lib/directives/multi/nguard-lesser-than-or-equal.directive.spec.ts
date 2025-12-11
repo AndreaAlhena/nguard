@@ -2,35 +2,35 @@ import { createAbstractControlSpyWithSibling } from '../../utils/test.utils';
 import { NguardLesserThanOrEqualDirective } from './nguard-lesser-than-or-equal.directive';
 
 describe('LesserThanDirective', () => {
-  let control;
-  let directive: NguardLesserThanOrEqualDirective;
+    let control;
+    let directive: NguardLesserThanOrEqualDirective;
 
-  beforeEach(() => {
-    directive = new NguardLesserThanOrEqualDirective();
-  });
+    beforeEach(() => {
+        directive = new NguardLesserThanOrEqualDirective();
+    });
 
-  it('should create an instance', () => {
-    expect(directive).toBeTruthy();
-  });
+    it('should create an instance', () => {
+        expect(directive).toBeTruthy();
+    });
 
-  it('should validate two fields of the same type (strings)', () => {
-    control = createAbstractControlSpyWithSibling('abc', 'defghi');
-    directive.compareFieldKey = '';
+    it('should validate two fields of the same type (strings)', () => {
+        control = createAbstractControlSpyWithSibling('abc', 'defghi');
+        directive.compareFieldKey = '';
 
-    expect(directive.validate(control)).toBeNull();
-  });
+        expect(directive.validate(control)).toBeNull();
+    });
 
-  it('should fail with the first value not lesser than the second', () => {
-    control = createAbstractControlSpyWithSibling(10, 1);
-    directive.compareFieldKey = '';
+    it('should fail with the first value not lesser than the second', () => {
+        control = createAbstractControlSpyWithSibling(10, 1);
+        directive.compareFieldKey = '';
 
-    expect(directive.validate(control)).toEqual({lesserThanOrEqual: true});
-  });
+        expect(directive.validate(control)).toEqual({ lesserThanOrEqual: true });
+    });
 
-  it('should fail with two fields of different types', () => {
-    control = createAbstractControlSpyWithSibling('1', 10);
-    directive.compareFieldKey = '';
+    it('should fail with two fields of different types', () => {
+        control = createAbstractControlSpyWithSibling('1', 10);
+        directive.compareFieldKey = '';
 
-    expect(directive.validate(control)).toEqual({lesserThanOrEqual: true});
-  });
+        expect(directive.validate(control)).toEqual({ lesserThanOrEqual: true });
+    });
 });

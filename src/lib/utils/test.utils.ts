@@ -1,13 +1,16 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl } from '@angular/forms';
 
 export const createAbstractControlSpy = <T>(value: T) => jasmine.createSpyObj('AbstractControl', {}, { value });
 
-export const createAbstractControlSpyWithSibling = (field1Value: any, field2Value: any): jasmine.SpyObj<AbstractControl> => {
-  const parent = jasmine.createSpyObj('FormGroup', ['get']);
-  const control1 = jasmine.createSpyObj('FormControl', [], {value: field1Value, parent});
-  const control2 = jasmine.createSpyObj('FormControl', [], {value: field2Value});
+export const createAbstractControlSpyWithSibling = (
+    field1Value: any,
+    field2Value: any
+): jasmine.SpyObj<AbstractControl> => {
+    const parent = jasmine.createSpyObj('FormGroup', ['get']);
+    const control1 = jasmine.createSpyObj('FormControl', [], { value: field1Value, parent });
+    const control2 = jasmine.createSpyObj('FormControl', [], { value: field2Value });
 
-  parent.get.and.returnValue(control2);
+    parent.get.and.returnValue(control2);
 
-  return control1;
-}
+    return control1;
+};

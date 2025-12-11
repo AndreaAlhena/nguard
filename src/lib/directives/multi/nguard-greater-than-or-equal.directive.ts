@@ -3,21 +3,22 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
 import { MultiValidators } from '../../validators/multi.validators';
 
 @Directive({
-  providers: [{
-    multi: true,
-    provide: NG_VALIDATORS,
-    useExisting: NguardGreaterThanOrEqualDirective
-  }],
-  selector: '[nguardGreaterThanOrEqual]',
-  standalone: true
+    providers: [
+        {
+            multi: true,
+            provide: NG_VALIDATORS,
+            useExisting: NguardGreaterThanOrEqualDirective,
+        },
+    ],
+    selector: '[nguardGreaterThanOrEqual]',
+    standalone: true,
 })
 export class NguardGreaterThanOrEqualDirective implements Validator {
-  @Input() public compareFieldKey!: string;
+    @Input() public compareFieldKey!: string;
 
-  constructor() { }
+    constructor() {}
 
-  public validate(control: AbstractControl): ValidationErrors | null {
-    return MultiValidators.greaterThanOrEqual(this.compareFieldKey)(control);
-  }
-
+    public validate(control: AbstractControl): ValidationErrors | null {
+        return MultiValidators.greaterThanOrEqual(this.compareFieldKey)(control);
+    }
 }

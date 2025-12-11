@@ -12,7 +12,7 @@ export * from './lib/directives/multi/nguard-required-if.directive';
 export * from './lib/directives/multi/nguard-same.directive';
 export * from './lib/directives/multi/nguard-starts-with.directive';
 // - number
-export * from './lib/directives/number/nguard-range.directive.ts'
+export * from './lib/directives/number/nguard-range.directive.ts';
 // - string
 export * from './lib/directives/string/nguard-alpha-dash.directive';
 export * from './lib/directives/string/nguard-alpha-num.directive';

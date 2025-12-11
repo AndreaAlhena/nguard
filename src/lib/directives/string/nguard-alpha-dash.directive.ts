@@ -8,20 +8,22 @@ import { IAlphaDashDirectiveConfig } from '../../interfaces/alpha-dash-directive
 import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
-  providers: [{
-    multi: true,
-    provide: NG_VALIDATORS,
-    useExisting: NguardAlphaDashDirective
-  }],
-  selector: '[nguardAlphaDash]',
-  standalone: true
+    providers: [
+        {
+            multi: true,
+            provide: NG_VALIDATORS,
+            useExisting: NguardAlphaDashDirective,
+        },
+    ],
+    selector: '[nguardAlphaDash]',
+    standalone: true,
 })
 export class NguardAlphaDashDirective implements Validator {
-  @Input('nguardAlphaDash') public config!: IAlphaDashDirectiveConfig;
+    @Input('nguardAlphaDash') public config!: IAlphaDashDirectiveConfig;
 
-  constructor() { }
-  
-  public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return StringValidators.alphaDash(this.config?.hasAsciiOnly)(control);
-  }
+    constructor() {}
+
+    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+        return StringValidators.alphaDash(this.config?.hasAsciiOnly)(control);
+    }
 }

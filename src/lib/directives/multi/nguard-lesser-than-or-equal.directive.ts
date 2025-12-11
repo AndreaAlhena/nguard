@@ -3,21 +3,22 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
 import { MultiValidators } from '../../validators/multi.validators';
 
 @Directive({
-  providers: [{
-    multi: true,
-    provide: NG_VALIDATORS,
-    useExisting: NguardLesserThanOrEqualDirective
-  }],
-  selector: '[nguardLesserThanOrEqual]',
-  standalone: true
+    providers: [
+        {
+            multi: true,
+            provide: NG_VALIDATORS,
+            useExisting: NguardLesserThanOrEqualDirective,
+        },
+    ],
+    selector: '[nguardLesserThanOrEqual]',
+    standalone: true,
 })
 export class NguardLesserThanOrEqualDirective implements Validator {
-  @Input() public compareFieldKey!: string;
+    @Input() public compareFieldKey!: string;
 
-  constructor() { }
+    constructor() {}
 
-  public validate(control: AbstractControl): ValidationErrors | null {
-    return MultiValidators.lesserThanOrEqual(this.compareFieldKey)(control);
-  }
-
+    public validate(control: AbstractControl): ValidationErrors | null {
+        return MultiValidators.lesserThanOrEqual(this.compareFieldKey)(control);
+    }
 }

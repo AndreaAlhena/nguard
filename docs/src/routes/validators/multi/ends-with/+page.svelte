@@ -3,10 +3,10 @@
     import Code from "../../../../components/Code.svelte";
 </script>
 
-<h1>Doesn't End With Validator</h1>
+<h1>Ends With Validator</h1>
 <hr class="mt-0 mb-4">
 <p>
-    Validate that an attribute ends with one of the given values.
+    Validates that an attribute ends with one of the given values.
     The performed check is case insensitive
 </p>
 <h2 class="mt-4">API</h2>

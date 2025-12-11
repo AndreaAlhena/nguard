@@ -8,21 +8,23 @@ import { primitive } from '../../utils/validators.utils';
 import { MultiValidators } from '../../validators/multi.validators';
 
 @Directive({
-  providers: [{
-    multi: true,
-    provide: NG_VALIDATORS,
-    useExisting: NguardEndsWithDirective
-  }],
-  selector: '[nguardEndsWith]',
-  standalone: true
+    providers: [
+        {
+            multi: true,
+            provide: NG_VALIDATORS,
+            useExisting: NguardEndsWithDirective,
+        },
+    ],
+    selector: '[nguardEndsWith]',
+    standalone: true,
 })
 export class NguardEndsWithDirective implements Validator {
-  @Input('nguardEndsWith') public values!: primitive | primitive[];
+    @Input('nguardEndsWith') public values!: primitive | primitive[];
 
-  constructor() { }
+    constructor() {}
 
-  public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    const values = Array.isArray(this.values) ? this.values : [this.values];
-    return MultiValidators.endsWith(...values)(control);
-  }
+    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+        const values = Array.isArray(this.values) ? this.values : [this.values];
+        return MultiValidators.endsWith(...values)(control);
+    }
 }

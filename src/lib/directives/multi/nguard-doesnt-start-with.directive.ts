@@ -8,21 +8,23 @@ import { primitive } from '../../utils/validators.utils';
 import { MultiValidators } from '../../validators/multi.validators';
 
 @Directive({
-  providers: [{
-    multi: true,
-    provide: NG_VALIDATORS,
-    useExisting: NguardDoesntStartWithDirective
-  }],
-  selector: '[nguardDoesntStartWith]',
-  standalone: true
+    providers: [
+        {
+            multi: true,
+            provide: NG_VALIDATORS,
+            useExisting: NguardDoesntStartWithDirective,
+        },
+    ],
+    selector: '[nguardDoesntStartWith]',
+    standalone: true,
 })
 export class NguardDoesntStartWithDirective implements Validator {
-  @Input('nguardDoesntStartWith') public values!: primitive | primitive[];
+    @Input('nguardDoesntStartWith') public values!: primitive | primitive[];
 
-  constructor() { }
+    constructor() {}
 
-  public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    const values = Array.isArray(this.values) ? this.values : [this.values];
-    return MultiValidators.doesntStartWith(...values)(control);
-  }
+    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+        const values = Array.isArray(this.values) ? this.values : [this.values];
+        return MultiValidators.doesntStartWith(...values)(control);
+    }
 }

@@ -1,4 +1,4 @@
-import { primitive } from "../utils/validators.utils";
+import { primitive } from '../utils/validators.utils';
 
 export interface IRequiredIfConfig {
     fieldKey: string;

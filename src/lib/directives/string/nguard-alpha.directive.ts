@@ -8,20 +8,22 @@ import { IAlphaDirectiveConfig } from '../../interfaces/alpha-directive-config.i
 import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
-  providers: [{
-    multi: true,
-    provide: NG_VALIDATORS,
-    useExisting: NguardAlphaDirective
-  }],
-  selector: '[nguardAlpha]',
-  standalone: true
+    providers: [
+        {
+            multi: true,
+            provide: NG_VALIDATORS,
+            useExisting: NguardAlphaDirective,
+        },
+    ],
+    selector: '[nguardAlpha]',
+    standalone: true,
 })
 export class NguardAlphaDirective implements Validator {
-  @Input('nguardAlpha') public config!: IAlphaDirectiveConfig;
+    @Input('nguardAlpha') public config!: IAlphaDirectiveConfig;
 
-  constructor() { }
-  
-  public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return StringValidators.alpha(this.config?.hasAsciiOnly)(control);
-  }
+    constructor() {}
+
+    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+        return StringValidators.alpha(this.config?.hasAsciiOnly)(control);
+    }
 }

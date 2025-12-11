@@ -5,18 +5,20 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
 import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
-  providers: [{
-    multi: true,
-    provide: NG_VALIDATORS,
-    useExisting: NguardLowercaseDirective
-  }],
-  selector: '[nguardLowercase]',
-  standalone: true
+    providers: [
+        {
+            multi: true,
+            provide: NG_VALIDATORS,
+            useExisting: NguardLowercaseDirective,
+        },
+    ],
+    selector: '[nguardLowercase]',
+    standalone: true,
 })
 export class NguardLowercaseDirective implements Validator {
-  constructor() { }
+    constructor() {}
 
-  public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return StringValidators.lowercase(control);
-  }
+    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+        return StringValidators.lowercase(control);
+    }
 }

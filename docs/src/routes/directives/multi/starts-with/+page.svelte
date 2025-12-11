@@ -12,12 +12,14 @@
 <hr class="mt-0 mb-4">
 <Code language="typescript">
     //
-    primitive[]
+    primitive | primitive[]
 </Code>
 <h2 class="mt-4">Usage examples</h2>
 <hr class="mt-0 mb-4">
 <Code language="html">
-    //
+    &lt;!-- With a single value --&gt;
+    &lt;input name="fieldA" nguardStartsWith="first" [ngModel]="componentPropA"&gt;
+    &lt;!-- With an array of values --&gt;
     &lt;input name="fieldA" [nguardStartsWith]="['first', 1, 'something']" [ngModel]="componentPropA"&gt;
 </Code>
 <h2 class="mt-4">Errors</h2>

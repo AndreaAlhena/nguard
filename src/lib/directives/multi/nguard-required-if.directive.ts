@@ -5,33 +5,31 @@ import { IRequiredIfConfig } from '../../interfaces/required-if-config.interface
 import { primitive } from '../../utils/validators.utils';
 
 @Directive({
-  providers: [{
-    multi: true,
-    provide: NG_VALIDATORS,
-    useExisting: NguardRequiredIfDirective
-  }],
-  selector: '[nguardRequiredIf]',
-  standalone: true
+    providers: [
+        {
+            multi: true,
+            provide: NG_VALIDATORS,
+            useExisting: NguardRequiredIfDirective,
+        },
+    ],
+    selector: '[nguardRequiredIf]',
+    standalone: true,
 })
 export class NguardRequiredIfDirective implements Validator {
-  @Input('nguardRequiredIf') public config!: string | IRequiredIfConfig;
+    @Input('nguardRequiredIf') public config!: string | IRequiredIfConfig;
 
-  constructor() { }
+    constructor() {}
 
-  public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    const fieldKey = typeof this.config === 'string'
-      ? this.config
-      : this.config.fieldKey;
-    
-    let
-      isStrict: boolean | undefined,
-      value: primitive | undefined;
+    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+        const fieldKey = typeof this.config === 'string' ? this.config : this.config.fieldKey;
 
-    if (typeof this.config === 'object') {
-      isStrict = this.config?.isStrict;
-      value = this.config?.value;
+        let isStrict: boolean | undefined, value: primitive | undefined;
+
+        if (typeof this.config === 'object') {
+            isStrict = this.config?.isStrict;
+            value = this.config?.value;
+        }
+
+        return MultiValidators.requiredIf(fieldKey, value, isStrict)(control);
     }
-
-    return MultiValidators.requiredIf(fieldKey, value, isStrict)(control);
-  }
 }
