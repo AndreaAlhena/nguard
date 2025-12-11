@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+docs/.svelte-kit/
+docs/build/
+*.md
+package-lock.json
