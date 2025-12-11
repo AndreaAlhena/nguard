@@ -1,6 +1,6 @@
 {
   "name": "nguard",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "node": ">=18.13.0 || >=20.9.0",
     "npm": ">=9.0.0"
