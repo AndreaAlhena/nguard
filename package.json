@@ -20,13 +20,18 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jasmine": "^4.2.2",
+    "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.0.11",
+    "prettier": "^3.4.2",
     "puppeteer": "^22.1.0",
     "sass": "^1.71.1"
   },
   "scripts": {
     "prepare": "husky",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix",
     "test": "ng test nguard --karma-config ./projects/nguard/karma.conf.js --progress --no-watch",
