@@ -1,5 +1,9 @@
 # nGuard
 
+<div style='text-align: center'>
+  <img src='https://i.postimg.cc/523Qws7W/logo.png' border='0' alt='logo' width='300'>
+</div>
+
 An Angular validation library inspired by Laravel's validation approach. Provides a comprehensive set of validators for reactive and template-driven forms.
 
 ## Installation
