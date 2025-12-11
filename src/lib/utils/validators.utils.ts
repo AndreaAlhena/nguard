@@ -1,9 +1,9 @@
 export type primitive = boolean | number | string;
 
-export const equalityCheck = (value1: any, value2: any, isStrict: boolean = false): boolean => {
-  if ( isStrict && value1 === value2 || !isStrict && value1 == value2) {
-    return true;
+export const equalityCheck = (value1: unknown, value2: unknown, isStrict: boolean = false): boolean => {
+  if (isStrict) {
+    return value1 === value2;
   }
-
-  return false;
-}
+  // eslint-disable-next-line eqeqeq -- Intentional loose comparison for type coercion
+  return value1 == value2;
+};

@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { AbstractControl, ValidationErrors } from "@angular/forms";
 
 const isString = (value: any) => typeof value === 'string';
 
@@ -141,5 +141,4 @@ export namespace StringValidators {
     export const url = (c: AbstractControl): ValidationErrors | null => /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(c.value)
         ? null
         : {url: true};
-    ;
 }
