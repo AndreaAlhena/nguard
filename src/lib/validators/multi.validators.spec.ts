@@ -384,36 +384,43 @@ describe('Multi Validators - Edge Cases', () => {
     describe('Null/Undefined sibling handling', () => {
         it('Different - Should handle null sibling value', () => {
             control = createControlSpyWithNullSibling('value');
+
             expect(MultiValidators.different('key')(control)).toBeNull();
         });
 
         it('Different - Should handle undefined sibling value', () => {
             control = createControlSpyWithUndefinedSibling('value');
+
             expect(MultiValidators.different('key')(control)).toBeNull();
         });
 
         it('Same - Should handle null sibling value', () => {
             control = createControlSpyWithNullSibling('value');
+
             expect(MultiValidators.same('key')(control)).toEqual({ same: true });
         });
 
         it('Same - Should handle undefined sibling value', () => {
             control = createControlSpyWithUndefinedSibling('value');
+
             expect(MultiValidators.same('key')(control)).toEqual({ same: true });
         });
 
         it('GreaterThan - Should handle null sibling value', () => {
             control = createControlSpyWithNullSibling(100);
+
             expect(MultiValidators.greaterThan('key')(control)).toEqual({ greaterThan: true });
         });
 
         it('LesserThan - Should handle null sibling value', () => {
             control = createControlSpyWithNullSibling(100);
+
             expect(MultiValidators.lesserThan('key')(control)).toEqual({ lesserThan: true });
         });
 
         it('RequiredIf - Should handle null sibling value', () => {
             control = createControlSpyWithNullSibling('value');
+
             expect(MultiValidators.requiredIf('key')(control)).toEqual({ requiredIf: true });
         });
     });
@@ -421,31 +428,37 @@ describe('Multi Validators - Edge Cases', () => {
     describe('Null/Undefined control value handling', () => {
         it('StartsWith - Should handle null control value', () => {
             control = createAbstractControlSpy(null);
+
             expect(MultiValidators.startsWith('test')(control)).toEqual({ startsWith: true });
         });
 
         it('StartsWith - Should handle undefined control value', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(MultiValidators.startsWith('test')(control)).toEqual({ startsWith: true });
         });
 
         it('EndsWith - Should handle null control value', () => {
             control = createAbstractControlSpy(null);
+
             expect(MultiValidators.endsWith('test')(control)).toEqual({ endsWith: true });
         });
 
         it('EndsWith - Should handle undefined control value', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(MultiValidators.endsWith('test')(control)).toEqual({ endsWith: true });
         });
 
         it('DoesntStartWith - Should handle null control value', () => {
             control = createAbstractControlSpy(null);
+
             expect(MultiValidators.doesntStartWith('test')(control)).toBeNull();
         });
 
         it('DoesntEndWith - Should handle null control value', () => {
             control = createAbstractControlSpy(null);
+
             expect(MultiValidators.doesntEndWith('test')(control)).toBeNull();
         });
     });
@@ -453,31 +466,37 @@ describe('Multi Validators - Edge Cases', () => {
     describe('Empty string handling', () => {
         it('StartsWith - Should handle empty string control value', () => {
             control = createAbstractControlSpy('');
+
             expect(MultiValidators.startsWith('test')(control)).toEqual({ startsWith: true });
         });
 
         it('EndsWith - Should handle empty string control value', () => {
             control = createAbstractControlSpy('');
+
             expect(MultiValidators.endsWith('test')(control)).toEqual({ endsWith: true });
         });
 
         it('DoesntStartWith - Should pass with empty string control value', () => {
             control = createAbstractControlSpy('');
+
             expect(MultiValidators.doesntStartWith('test')(control)).toBeNull();
         });
 
         it('DoesntEndWith - Should pass with empty string control value', () => {
             control = createAbstractControlSpy('');
+
             expect(MultiValidators.doesntEndWith('test')(control)).toBeNull();
         });
 
         it('Same - Should handle empty strings on both sides', () => {
             control = createAbstractControlSpyWithSibling('', '');
+
             expect(MultiValidators.same('key')(control)).toBeNull();
         });
 
         it('Different - Should fail with empty strings on both sides', () => {
             control = createAbstractControlSpyWithSibling('', '');
+
             expect(MultiValidators.different('key')(control)).toEqual({ different: true });
         });
     });
@@ -485,21 +504,25 @@ describe('Multi Validators - Edge Cases', () => {
     describe('Empty variadic args handling', () => {
         it('StartsWith - Should fail with no arguments', () => {
             control = createAbstractControlSpy('test');
+
             expect(MultiValidators.startsWith()(control)).toEqual({ startsWith: true });
         });
 
         it('EndsWith - Should fail with no arguments', () => {
             control = createAbstractControlSpy('test');
+
             expect(MultiValidators.endsWith()(control)).toEqual({ endsWith: true });
         });
 
         it('DoesntStartWith - Should pass with no arguments', () => {
             control = createAbstractControlSpy('test');
+
             expect(MultiValidators.doesntStartWith()(control)).toBeNull();
         });
 
         it('DoesntEndWith - Should pass with no arguments', () => {
             control = createAbstractControlSpy('test');
+
             expect(MultiValidators.doesntEndWith()(control)).toBeNull();
         });
     });
@@ -507,26 +530,31 @@ describe('Multi Validators - Edge Cases', () => {
     describe('Orphan control handling (no parent)', () => {
         it('Different - Should handle control without parent', () => {
             control = createOrphanControlSpy('value');
+
             expect(MultiValidators.different('key')(control)).toBeNull();
         });
 
         it('Same - Should handle control without parent', () => {
             control = createOrphanControlSpy('value');
+
             expect(MultiValidators.same('key')(control)).toEqual({ same: true });
         });
 
         it('GreaterThan - Should handle control without parent', () => {
             control = createOrphanControlSpy(100);
+
             expect(MultiValidators.greaterThan('key')(control)).toEqual({ greaterThan: true });
         });
 
         it('LesserThan - Should handle control without parent', () => {
             control = createOrphanControlSpy(100);
+
             expect(MultiValidators.lesserThan('key')(control)).toEqual({ lesserThan: true });
         });
 
         it('RequiredIf - Should handle control without parent', () => {
             control = createOrphanControlSpy('value');
+
             expect(MultiValidators.requiredIf('key')(control)).toEqual({ requiredIf: true });
         });
     });

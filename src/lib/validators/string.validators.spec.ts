@@ -424,41 +424,49 @@ describe('String Validators - Edge Cases', () => {
     describe('Null input handling', () => {
         it('Alpha - Should reject null input', () => {
             control = createAbstractControlSpy(null);
+
             expect(StringValidators.alpha()(control)).toEqual({ alpha: true });
         });
 
         it('Alpha (ASCII) - Should reject null input', () => {
             control = createAbstractControlSpy(null);
+
             expect(StringValidators.alpha(true)(control)).toEqual({ alpha: true });
         });
 
         it('AlphaDash - Should reject null input', () => {
             control = createAbstractControlSpy(null);
+
             expect(StringValidators.alphaDash()(control)).toEqual({ alphaDash: true });
         });
 
         it('AlphaDash (ASCII) - Should reject null input', () => {
             control = createAbstractControlSpy(null);
+
             expect(StringValidators.alphaDash(true)(control)).toEqual({ alphaDash: true });
         });
 
         it('AlphaNum - Should reject null input', () => {
             control = createAbstractControlSpy(null);
+
             expect(StringValidators.alphaNum()(control)).toEqual({ alphaNum: true });
         });
 
         it('AlphaNum (ASCII) - Should reject null input', () => {
             control = createAbstractControlSpy(null);
+
             expect(StringValidators.alphaNum(true)(control)).toEqual({ alphaNum: true });
         });
 
         it('ASCII - Should reject null input', () => {
             control = createAbstractControlSpy(null);
+
             expect(StringValidators.ascii(control)).toEqual({ ascii: true });
         });
 
         it('URL - Should reject null input', () => {
             control = createAbstractControlSpy(null);
+
             expect(StringValidators.url(control)).toEqual({ url: true });
         });
     });
@@ -466,41 +474,49 @@ describe('String Validators - Edge Cases', () => {
     describe('Undefined input handling', () => {
         it('Alpha - Should reject undefined input', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(StringValidators.alpha()(control)).toEqual({ alpha: true });
         });
 
         it('Alpha (ASCII) - Should reject undefined input', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(StringValidators.alpha(true)(control)).toEqual({ alpha: true });
         });
 
         it('AlphaDash - Should reject undefined input', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(StringValidators.alphaDash()(control)).toEqual({ alphaDash: true });
         });
 
         it('AlphaDash (ASCII) - Should reject undefined input', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(StringValidators.alphaDash(true)(control)).toEqual({ alphaDash: true });
         });
 
         it('AlphaNum - Should reject undefined input', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(StringValidators.alphaNum()(control)).toEqual({ alphaNum: true });
         });
 
         it('AlphaNum (ASCII) - Should reject undefined input', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(StringValidators.alphaNum(true)(control)).toEqual({ alphaNum: true });
         });
 
         it('ASCII - Should reject undefined input', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(StringValidators.ascii(control)).toEqual({ ascii: true });
         });
 
         it('URL - Should reject undefined input', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(StringValidators.url(control)).toEqual({ url: true });
         });
     });
@@ -508,36 +524,43 @@ describe('String Validators - Edge Cases', () => {
     describe('Empty string input handling', () => {
         it('Alpha - Should reject empty string', () => {
             control = createAbstractControlSpy('');
+
             expect(StringValidators.alpha()(control)).toEqual({ alpha: true });
         });
 
         it('Alpha (ASCII) - Should reject empty string', () => {
             control = createAbstractControlSpy('');
+
             expect(StringValidators.alpha(true)(control)).toEqual({ alpha: true });
         });
 
         it('AlphaDash - Should reject empty string', () => {
             control = createAbstractControlSpy('');
+
             expect(StringValidators.alphaDash()(control)).toEqual({ alphaDash: true });
         });
 
         it('AlphaDash (ASCII) - Should reject empty string', () => {
             control = createAbstractControlSpy('');
+
             expect(StringValidators.alphaDash(true)(control)).toEqual({ alphaDash: true });
         });
 
         it('AlphaNum - Should reject empty string', () => {
             control = createAbstractControlSpy('');
+
             expect(StringValidators.alphaNum()(control)).toEqual({ alphaNum: true });
         });
 
         it('AlphaNum (ASCII) - Should reject empty string', () => {
             control = createAbstractControlSpy('');
+
             expect(StringValidators.alphaNum(true)(control)).toEqual({ alphaNum: true });
         });
 
         it('ASCII - Should reject empty string', () => {
             control = createAbstractControlSpy('');
+
             expect(StringValidators.ascii(control)).toEqual({ ascii: true });
         });
     });
@@ -545,26 +568,31 @@ describe('String Validators - Edge Cases', () => {
     describe('Number input handling', () => {
         it('Alpha - Should reject number input', () => {
             control = createAbstractControlSpy(123);
+
             expect(StringValidators.alpha()(control)).toEqual({ alpha: true });
         });
 
         it('AlphaDash - Should reject number input', () => {
             control = createAbstractControlSpy(123);
+
             expect(StringValidators.alphaDash()(control)).toEqual({ alphaDash: true });
         });
 
         it('AlphaNum - Should reject number input', () => {
             control = createAbstractControlSpy(123);
+
             expect(StringValidators.alphaNum()(control)).toEqual({ alphaNum: true });
         });
 
         it('ASCII - Should reject number input', () => {
             control = createAbstractControlSpy(123);
+
             expect(StringValidators.ascii(control)).toEqual({ ascii: true });
         });
 
         it('Uppercase - Should reject number input', () => {
             control = createAbstractControlSpy(123);
+
             expect(StringValidators.uppercase(control)).toEqual({ uppercase: true });
         });
     });
@@ -572,21 +600,25 @@ describe('String Validators - Edge Cases', () => {
     describe('Boolean input handling', () => {
         it('Alpha - Should reject boolean input (true)', () => {
             control = createAbstractControlSpy(true);
+
             expect(StringValidators.alpha()(control)).toEqual({ alpha: true });
         });
 
         it('Alpha - Should reject boolean input (false)', () => {
             control = createAbstractControlSpy(false);
+
             expect(StringValidators.alpha()(control)).toEqual({ alpha: true });
         });
 
         it('AlphaDash - Should reject boolean input', () => {
             control = createAbstractControlSpy(true);
+
             expect(StringValidators.alphaDash()(control)).toEqual({ alphaDash: true });
         });
 
         it('AlphaNum - Should reject boolean input', () => {
             control = createAbstractControlSpy(true);
+
             expect(StringValidators.alphaNum()(control)).toEqual({ alphaNum: true });
         });
     });
@@ -594,16 +626,19 @@ describe('String Validators - Edge Cases', () => {
     describe('Whitespace-only input handling', () => {
         it('Alpha - Should reject whitespace-only string', () => {
             control = createAbstractControlSpy('   ');
+
             expect(StringValidators.alpha()(control)).toEqual({ alpha: true });
         });
 
         it('AlphaDash - Should reject whitespace-only string', () => {
             control = createAbstractControlSpy('   ');
+
             expect(StringValidators.alphaDash()(control)).toEqual({ alphaDash: true });
         });
 
         it('AlphaNum - Should reject whitespace-only string', () => {
             control = createAbstractControlSpy('   ');
+
             expect(StringValidators.alphaNum()(control)).toEqual({ alphaNum: true });
         });
     });

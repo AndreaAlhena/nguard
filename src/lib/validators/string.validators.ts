@@ -94,7 +94,7 @@ export namespace StringValidators {
      * @return {ValidationErrors | null}
      */
     export const lowercase = (c: AbstractControl): ValidationErrors | null =>
-        c.value.toLowerCase() === c.value ? null : { lowercase: true };
+        isString(c.value) && c.value.toLowerCase() === c.value ? null : { lowercase: true };
 
     /**
      * The field under validation must be uppercase

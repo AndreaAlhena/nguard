@@ -33,12 +33,14 @@ module.exports = function (config) {
       }
     },
     customLaunchers: {
-      base: 'ChromeHeadless',
-      flags: [
-        "--user-data-dir=/tmp/chrome-test-profile",
-        "--disable-web-security",
-        "--remote-debugging-port=9222",
-      ]
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: [
+          "--user-data-dir=/tmp/chrome-test-profile",
+          "--disable-web-security",
+          "--remote-debugging-port=9222",
+        ]
+      }
     },
     debug: true,
     frameworks: ['jasmine', '@angular-devkit/build-angular'],

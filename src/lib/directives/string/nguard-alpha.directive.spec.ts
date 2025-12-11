@@ -49,6 +49,7 @@ describe('NguardAlphaDirective', () => {
         it('should return ValidationErrors or null', () => {
             control = createAbstractControlSpy('abc');
             const result = directive.validate(control);
+
             expect(result === null || typeof result === 'object').toBeTrue();
         });
     });

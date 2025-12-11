@@ -26,6 +26,7 @@ describe('Number Validators - Range', () => {
 
     it('Throws error if min is greater than max', () => {
         control = createAbstractControlSpy(3);
+
         expect(() => NumberValidators.range(5, 0)(control)).toThrowError(RangeValidatorErrors.MinGreaterThanMax);
     });
 
@@ -52,11 +53,13 @@ describe('Number Validators - Edge Cases', () => {
     describe('Null/Undefined handling', () => {
         it('Range - Should reject null input', () => {
             control = createAbstractControlSpy(null);
+
             expect(NumberValidators.range(0, 10)(control)).toEqual({ range: true });
         });
 
         it('Range - Should reject undefined input', () => {
             control = createAbstractControlSpy(undefined);
+
             expect(NumberValidators.range(0, 10)(control)).toEqual({ range: true });
         });
     });
@@ -64,6 +67,7 @@ describe('Number Validators - Edge Cases', () => {
     describe('Empty string handling', () => {
         it('Range - Should reject empty string', () => {
             control = createAbstractControlSpy('');
+
             expect(NumberValidators.range(0, 10)(control)).toEqual({ range: true });
         });
     });
@@ -71,26 +75,31 @@ describe('Number Validators - Edge Cases', () => {
     describe('Boundary conditions', () => {
         it('Range - Valid when value equals min', () => {
             control = createAbstractControlSpy(0);
+
             expect(NumberValidators.range(0, 10)(control)).toBeNull();
         });
 
         it('Range - Valid when value equals max', () => {
             control = createAbstractControlSpy(10);
+
             expect(NumberValidators.range(0, 10)(control)).toBeNull();
         });
 
         it('Range - Valid when min equals max and value equals both', () => {
             control = createAbstractControlSpy(5);
+
             expect(NumberValidators.range(5, 5)(control)).toBeNull();
         });
 
         it('Range - Invalid when value is one below min', () => {
             control = createAbstractControlSpy(-1);
+
             expect(NumberValidators.range(0, 10)(control)).toEqual({ range: true });
         });
 
         it('Range - Invalid when value is one above max', () => {
             control = createAbstractControlSpy(11);
+
             expect(NumberValidators.range(0, 10)(control)).toEqual({ range: true });
         });
     });
@@ -98,26 +107,31 @@ describe('Number Validators - Edge Cases', () => {
     describe('Floating point handling', () => {
         it('Range - Valid with float in range', () => {
             control = createAbstractControlSpy(5.5);
+
             expect(NumberValidators.range(0, 10)(control)).toBeNull();
         });
 
         it('Range - Valid with float at boundary', () => {
             control = createAbstractControlSpy(0.0);
+
             expect(NumberValidators.range(0, 10)(control)).toBeNull();
         });
 
         it('Range - Invalid with float below range', () => {
             control = createAbstractControlSpy(-0.1);
+
             expect(NumberValidators.range(0, 10)(control)).toEqual({ range: true });
         });
 
         it('Range - Invalid with float above range', () => {
             control = createAbstractControlSpy(10.1);
+
             expect(NumberValidators.range(0, 10)(control)).toEqual({ range: true });
         });
 
         it('Range - Valid with float string in range', () => {
             control = createAbstractControlSpy('5.5');
+
             expect(NumberValidators.range(0, 10)(control)).toBeNull();
         });
     });
@@ -125,16 +139,19 @@ describe('Number Validators - Edge Cases', () => {
     describe('Negative range handling', () => {
         it('Range - Valid with negative range', () => {
             control = createAbstractControlSpy(-5);
+
             expect(NumberValidators.range(-10, -1)(control)).toBeNull();
         });
 
         it('Range - Valid crossing zero', () => {
             control = createAbstractControlSpy(0);
+
             expect(NumberValidators.range(-5, 5)(control)).toBeNull();
         });
 
         it('Range - Invalid below negative range', () => {
             control = createAbstractControlSpy(-15);
+
             expect(NumberValidators.range(-10, -1)(control)).toEqual({ range: true });
         });
     });
@@ -142,16 +159,19 @@ describe('Number Validators - Edge Cases', () => {
     describe('Special number values', () => {
         it('Range - Should reject NaN', () => {
             control = createAbstractControlSpy(NaN);
+
             expect(NumberValidators.range(0, 10)(control)).toEqual({ range: true });
         });
 
         it('Range - Should reject Infinity', () => {
             control = createAbstractControlSpy(Infinity);
+
             expect(NumberValidators.range(0, 10)(control)).toEqual({ range: true });
         });
 
         it('Range - Should reject negative Infinity', () => {
             control = createAbstractControlSpy(-Infinity);
+
             expect(NumberValidators.range(0, 10)(control)).toEqual({ range: true });
         });
     });
@@ -159,11 +179,13 @@ describe('Number Validators - Edge Cases', () => {
     describe('Boolean handling', () => {
         it('Range - Should handle boolean true (coerced to 1)', () => {
             control = createAbstractControlSpy(true);
+
             expect(NumberValidators.range(0, 10)(control)).toBeNull();
         });
 
         it('Range - Should handle boolean false (coerced to 0)', () => {
             control = createAbstractControlSpy(false);
+
             expect(NumberValidators.range(0, 10)(control)).toBeNull();
         });
     });
