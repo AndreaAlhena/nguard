@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 // Types
@@ -19,11 +19,11 @@ import { StringValidators } from '../../validators/string.validators';
     standalone: true,
 })
 export class NguardAlphaDirective implements Validator {
-    @Input('nguardAlpha') public config!: CharsetConfig;
+    public readonly config = input<CharsetConfig | undefined>(undefined, { alias: 'nguardAlpha' });
 
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-        return StringValidators.alpha(this.config?.hasAsciiOnly)(control);
+        return StringValidators.alpha(this.config()?.hasAsciiOnly)(control);
     }
 }

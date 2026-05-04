@@ -1,13 +1,19 @@
+import { ComponentFixture } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
 import { NguardAlphaDirective } from './nguard-alpha.directive';
-import { createAbstractControlSpy } from '../../utils/test.utils';
+import { createAbstractControlSpy, createDirectiveFixture, TestHostComponent } from '../../utils/test.utils';
 
 describe('NguardAlphaDirective', () => {
     let control: AbstractControl;
     let directive: NguardAlphaDirective;
+    let fixture: ComponentFixture<TestHostComponent>;
+    let host: TestHostComponent;
 
     beforeEach(() => {
-        directive = new NguardAlphaDirective();
+        ({ directive, fixture, host } = createDirectiveFixture(
+            NguardAlphaDirective,
+            '<div [nguardAlpha]="$any(value)"></div>'
+        ));
     });
 
     it('should create an instance', () => {
@@ -16,14 +22,16 @@ describe('NguardAlphaDirective', () => {
 
     it('should validate a properly formatted value (ASCII true)', () => {
         control = createAbstractControlSpy('abc');
-        directive.config = { hasAsciiOnly: true };
+        host.value = { hasAsciiOnly: true };
+        fixture.detectChanges();
 
         expect(directive.validate(control)).toBeNull();
     });
 
     it('should validate a non properly formatted value (ASCII true)', () => {
         control = createAbstractControlSpy('a2c');
-        directive.config = { hasAsciiOnly: true };
+        host.value = { hasAsciiOnly: true };
+        fixture.detectChanges();
 
         expect(directive.validate(control)).toEqual({ alpha: true });
     });
@@ -57,42 +65,46 @@ describe('NguardAlphaDirective', () => {
     describe('Edge Cases', () => {
         it('should handle undefined config', () => {
             control = createAbstractControlSpy('abc');
-            directive.config = undefined as any;
 
             expect(directive.validate(control)).toBeNull();
         });
 
         it('should handle null config', () => {
             control = createAbstractControlSpy('abc');
-            directive.config = null as any;
+            host.value = null;
+            fixture.detectChanges();
 
             expect(directive.validate(control)).toBeNull();
         });
 
         it('should handle empty config object', () => {
             control = createAbstractControlSpy('abc');
-            directive.config = {} as any;
+            host.value = {};
+            fixture.detectChanges();
 
             expect(directive.validate(control)).toBeNull();
         });
 
         it('should handle null input value', () => {
             control = createAbstractControlSpy(null);
-            directive.config = { hasAsciiOnly: true };
+            host.value = { hasAsciiOnly: true };
+            fixture.detectChanges();
 
             expect(directive.validate(control)).toEqual({ alpha: true });
         });
 
         it('should handle undefined input value', () => {
             control = createAbstractControlSpy(undefined);
-            directive.config = { hasAsciiOnly: true };
+            host.value = { hasAsciiOnly: true };
+            fixture.detectChanges();
 
             expect(directive.validate(control)).toEqual({ alpha: true });
         });
 
         it('should handle empty string input value', () => {
             control = createAbstractControlSpy('');
-            directive.config = { hasAsciiOnly: true };
+            host.value = { hasAsciiOnly: true };
+            fixture.detectChanges();
 
             expect(directive.validate(control)).toEqual({ alpha: true });
         });
