@@ -487,6 +487,73 @@ export namespace StringValidators {
     };
 
     /**
+     * The field under validation must be a valid hex color: 3, 4, 6, or 8 hex digits, with an optional leading `#`.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.hexColor]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const hexColor = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { hexColor: true };
+        }
+        return /^#?([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(c.value) ? null : { hexColor: true };
+    };
+
+    /**
+     * The field under validation must be a valid URL slug — lowercase alphanumeric characters separated by single dashes,
+     * with no leading, trailing, or consecutive dashes.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.slug]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const slug = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { slug: true };
+        }
+        return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(c.value) ? null : { slug: true };
+    };
+
+    /**
+     * The field under validation must be a valid ULID — 26 characters in Crockford base32 (excludes I, L, O, U).
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.ulid]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const ulid = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { ulid: true };
+        }
+        return /^[0-9A-HJKMNP-TV-Z]{26}$/i.test(c.value) ? null : { ulid: true };
+    };
+
+    /**
+     * The field under validation must be a valid UUID (v1-v5 per RFC 4122).
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.uuid]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const uuid = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { uuid: true };
+        }
+        return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(c.value)
+            ? null
+            : { uuid: true };
+    };
+
+    /**
      * Validate that an attribute starts with one of the given values.
      * The performed check is case insensitive
      *
