@@ -14,7 +14,7 @@ export namespace StringValidators {
      * ])
      * ```
      * @param {boolean} hasAsciiOnly If true, limits characters to ASCII chars (a-z and A-Z)
-     * @return {ValidationFn}
+     * @return {ValidatorFn}
      */
     export const alpha = (hasAsciiOnly: boolean = false) => {
         return (c: AbstractControl): ValidationErrors | null => {
@@ -38,7 +38,7 @@ export namespace StringValidators {
      * ])
      * ```
      * @param {boolean} hasAsciiOnly If true, limits characters to ASCII chars (a-z and A-Z)
-     * @return {ValidationFn}
+     * @return {ValidatorFn}
      */
     export const alphaDash = (hasAsciiOnly: boolean = false) => {
         return (c: AbstractControl): ValidationErrors | null => {
@@ -62,7 +62,7 @@ export namespace StringValidators {
      * ])
      * ```
      * @param {boolean} hasAsciiOnly If true, limits characters to ASCII chars (a-z and A-Z)
-     * @return {ValidationFn}
+     * @return {ValidatorFn}
      */
     export const alphaNum = (hasAsciiOnly: boolean = false) => {
         return (c: AbstractControl): ValidationErrors | null => {
