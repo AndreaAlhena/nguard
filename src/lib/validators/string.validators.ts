@@ -581,6 +581,20 @@ export namespace StringValidators {
     };
 
     /**
+     * The field under validation must be a string (`typeof === 'string'`).
+     * Companion to Laravel's `string` rule. Useful when explicit type guarding is needed
+     * separately from any other constraint.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.string]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const string = (c: AbstractControl): ValidationErrors | null =>
+        isString(c.value) ? null : { string: true };
+
+    /**
      * The field under validation must be uppercase
      *
      * ```

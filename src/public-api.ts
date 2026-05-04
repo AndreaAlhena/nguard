@@ -54,6 +54,7 @@ export * from './lib/directives/string/nguard-shorter-or-equal-to.directive';
 export * from './lib/directives/string/nguard-shorter-than.directive';
 export * from './lib/directives/string/nguard-slug.directive';
 export * from './lib/directives/string/nguard-starts-with.directive';
+export * from './lib/directives/string/nguard-string.directive';
 export * from './lib/directives/string/nguard-ulid.directive';
 export * from './lib/directives/string/nguard-uppercase.directive';
 export * from './lib/directives/string/nguard-url.directive';
