@@ -144,16 +144,11 @@ export namespace NumberValidators {
             if (minVal > maxVal) {
                 throw new RangeValidatorErrors.MinGreaterThanMax();
             }
-
-            const value = +c.value;
-
-            if (isNaN(value) || value < minVal || value > maxVal) {
-                return {
-                    range: true,
-                };
+            if (!isNumeric(c.value)) {
+                return { range: true };
             }
-
-            return null;
+            const value = Number(c.value);
+            return value >= minVal && value <= maxVal ? null : { range: true };
         };
     };
 }
