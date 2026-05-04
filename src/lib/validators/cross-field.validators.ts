@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { equalityCheck, haveSameType, primitive } from '../utils/validators.utils';
+import { equalityCheck, primitive } from '../utils/validators.utils';
 
 export namespace CrossFieldValidators {
     /**
@@ -40,130 +40,6 @@ export namespace CrossFieldValidators {
             }
 
             return null;
-        };
-    };
-
-    /**
-     * The field under validation must be greater than the given field name.
-     * Both fields must be of the same type. In case of a type mismatch, the validator
-     * will return a validation error
-     *
-     * Strings are evaluated accordingly to their length
-     * Numerics are evaluated accordingly to their value
-     *
-     * new FormControl('', [
-     *   NguardValidators.CrossField.greaterThan('fieldToCompare')
-     * ])
-     * ```
-     *
-     * @param {string} fieldKey
-     * @returns {ValidatorFn}
-     */
-    export const greaterThan = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl) => {
-            const [value1, value2] = [c.value, c.parent?.get(fieldKey)?.value];
-
-            if (!haveSameType(value1, value2)) {
-                return { greaterThan: true };
-            }
-
-            return (typeof value1 === 'string' && value1.length > value2.length) ||
-                (typeof value1 === 'number' && value1 > value2)
-                ? null
-                : { greaterThan: true };
-        };
-    };
-
-    /**
-     * The field under validation must be greater than or equal the given field name.
-     * Both fields must be of the same type. In case of a type mismatch, the validator
-     * will return a validation error
-     *
-     * Strings are evaluated accordingly to their length
-     * Numerics are evaluated accordingly to their value
-     *
-     * new FormControl('', [
-     *   NguardValidators.CrossField.greaterThanOrEqual('fieldToCompare')
-     * ])
-     * ```
-     *
-     * @param {string} fieldKey
-     * @returns {ValidatorFn}
-     */
-    export const greaterThanOrEqual = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl) => {
-            const [value1, value2] = [c.value, c.parent?.get(fieldKey)?.value];
-
-            if (!haveSameType(value1, value2)) {
-                return { greaterThanOrEqual: true };
-            }
-
-            return (typeof value1 === 'string' && value1.length >= value2.length) ||
-                (typeof value1 === 'number' && value1 >= value2)
-                ? null
-                : { greaterThanOrEqual: true };
-        };
-    };
-
-    /**
-     * The field under validation must be lesser than the given field name.
-     * Both fields must be of the same type. In case of a type mismatch, the validator
-     * will return a validation error
-     *
-     * Strings are evaluated accordingly to their length
-     * Numerics are evaluated accordingly to their value
-     *
-     * new FormControl('', [
-     *   NguardValidators.CrossField.lesserThan('fieldToCompare')
-     * ])
-     * ```
-     *
-     * @param {string} fieldKey
-     * @returns {ValidatorFn}
-     */
-    export const lesserThan = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl) => {
-            const [value1, value2] = [c.value, c.parent?.get(fieldKey)?.value];
-
-            if (!haveSameType(value1, value2)) {
-                return { lesserThan: true };
-            }
-
-            return (typeof value1 === 'string' && value1.length < value2.length) ||
-                (typeof value1 === 'number' && value1 < value2)
-                ? null
-                : { lesserThan: true };
-        };
-    };
-
-    /**
-     * The field under validation must be lesser than or equal the given field name.
-     * Both fields must be of the same type. In case of a type mismatch, the validator
-     * will return a validation error
-     *
-     * Strings are evaluated accordingly to their length
-     * Numerics are evaluated accordingly to their value
-     *
-     * new FormControl('', [
-     *   NguardValidators.CrossField.lesserThanOrEqual('fieldToCompare')
-     * ])
-     * ```
-     *
-     * @param {string} fieldKey
-     * @returns {ValidatorFn}
-     */
-    export const lesserThanOrEqual = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl) => {
-            const [value1, value2] = [c.value, c.parent?.get(fieldKey)?.value];
-
-            if (!haveSameType(value1, value2)) {
-                return { lesserThanOrEqual: true };
-            }
-
-            return (typeof value1 === 'string' && value1.length <= value2.length) ||
-                (typeof value1 === 'number' && value1 <= value2)
-                ? null
-                : { lesserThanOrEqual: true };
         };
     };
 
@@ -217,32 +93,4 @@ export namespace CrossFieldValidators {
             };
         };
     };
-
-    // ============================================================================
-    // Aliases
-    // ============================================================================
-
-    /**
-     * Alias for greaterThan - The field under validation must be greater than the given field
-     * @see greaterThan
-     */
-    export const gt = greaterThan;
-
-    /**
-     * Alias for greaterThanOrEqual - The field under validation must be greater than or equal to the given field
-     * @see greaterThanOrEqual
-     */
-    export const gte = greaterThanOrEqual;
-
-    /**
-     * Alias for lesserThan - The field under validation must be less than the given field
-     * @see lesserThan
-     */
-    export const lt = lesserThan;
-
-    /**
-     * Alias for lesserThanOrEqual - The field under validation must be less than or equal to the given field
-     * @see lesserThanOrEqual
-     */
-    export const lte = lesserThanOrEqual;
 }

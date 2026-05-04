@@ -18,20 +18,20 @@ describe('NguardLesserThanDirective', () => {
         expect(directive).toBeTruthy();
     });
 
-    it('should validate two fields of the same type (strings)', () => {
-        control = createAbstractControlSpyWithSibling('abc', 'defghi');
+    it('should validate when current is lesser than sibling', () => {
+        control = createAbstractControlSpyWithSibling(10, 70);
 
         expect(directive.validate(control)).toBeNull();
     });
 
-    it('should fail with the first value not lesser than the second', () => {
+    it('should fail when current is not lesser than sibling', () => {
         control = createAbstractControlSpyWithSibling(10, 1);
 
         expect(directive.validate(control)).toEqual({ lesserThan: true });
     });
 
-    it('should fail with two fields of different types', () => {
-        control = createAbstractControlSpyWithSibling('1', 10);
+    it('should fail when sibling is not numeric', () => {
+        control = createAbstractControlSpyWithSibling(10, 'abc');
 
         expect(directive.validate(control)).toEqual({ lesserThan: true });
     });

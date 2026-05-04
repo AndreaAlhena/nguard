@@ -1,5 +1,10 @@
 import { AbstractControl } from '@angular/forms';
-import { createAbstractControlSpy } from '../utils/test.utils';
+import {
+    createAbstractControlSpy,
+    createAbstractControlSpyWithSibling,
+    createControlSpyWithNullSibling,
+    createOrphanControlSpy,
+} from '../utils/test.utils';
 import { NumberValidators } from './number.validators';
 import { RangeValidatorErrors } from '../errors/range-validator.errors';
 
@@ -526,5 +531,133 @@ describe('Number Validators - Edge Cases', () => {
 
             expect(NumberValidators.range(0, 10)(control)).toBeNull();
         });
+    });
+});
+
+describe('Number Validators - Greater Than', () => {
+    it('Valid when current is greater than sibling', () => {
+        control = createAbstractControlSpyWithSibling(70, 10);
+
+        expect(NumberValidators.greaterThan('')(control)).toBeNull();
+    });
+
+    it('Invalid when current is equal to sibling', () => {
+        control = createAbstractControlSpyWithSibling(10, 10);
+
+        expect(NumberValidators.greaterThan('')(control)).toEqual({ greaterThan: true });
+    });
+
+    it('Invalid when current is lesser than sibling', () => {
+        control = createAbstractControlSpyWithSibling(10, 70);
+
+        expect(NumberValidators.greaterThan('')(control)).toEqual({ greaterThan: true });
+    });
+
+    it('Invalid when current is not numeric', () => {
+        control = createAbstractControlSpyWithSibling('abc', 10);
+
+        expect(NumberValidators.greaterThan('')(control)).toEqual({ greaterThan: true });
+    });
+
+    it('Invalid when sibling is not numeric', () => {
+        control = createAbstractControlSpyWithSibling(10, 'abc');
+
+        expect(NumberValidators.greaterThan('')(control)).toEqual({ greaterThan: true });
+    });
+
+    it('Invalid when sibling is null', () => {
+        control = createControlSpyWithNullSibling(10);
+
+        expect(NumberValidators.greaterThan('')(control)).toEqual({ greaterThan: true });
+    });
+
+    it('Invalid when control has no parent', () => {
+        control = createOrphanControlSpy(10);
+
+        expect(NumberValidators.greaterThan('')(control)).toEqual({ greaterThan: true });
+    });
+});
+
+describe('Number Validators - Greater Than or Equal', () => {
+    it('Valid when current is greater than sibling', () => {
+        control = createAbstractControlSpyWithSibling(70, 10);
+
+        expect(NumberValidators.greaterThanOrEqual('')(control)).toBeNull();
+    });
+
+    it('Valid when current is equal to sibling', () => {
+        control = createAbstractControlSpyWithSibling(10, 10);
+
+        expect(NumberValidators.greaterThanOrEqual('')(control)).toBeNull();
+    });
+
+    it('Invalid when current is lesser than sibling', () => {
+        control = createAbstractControlSpyWithSibling(10, 70);
+
+        expect(NumberValidators.greaterThanOrEqual('')(control)).toEqual({ greaterThanOrEqual: true });
+    });
+
+    it('Invalid when sibling is not numeric', () => {
+        control = createAbstractControlSpyWithSibling(10, 'abc');
+
+        expect(NumberValidators.greaterThanOrEqual('')(control)).toEqual({ greaterThanOrEqual: true });
+    });
+});
+
+describe('Number Validators - Lesser Than', () => {
+    it('Valid when current is lesser than sibling', () => {
+        control = createAbstractControlSpyWithSibling(10, 70);
+
+        expect(NumberValidators.lesserThan('')(control)).toBeNull();
+    });
+
+    it('Invalid when current is equal to sibling', () => {
+        control = createAbstractControlSpyWithSibling(10, 10);
+
+        expect(NumberValidators.lesserThan('')(control)).toEqual({ lesserThan: true });
+    });
+
+    it('Invalid when current is greater than sibling', () => {
+        control = createAbstractControlSpyWithSibling(70, 10);
+
+        expect(NumberValidators.lesserThan('')(control)).toEqual({ lesserThan: true });
+    });
+
+    it('Invalid when current is not numeric', () => {
+        control = createAbstractControlSpyWithSibling('abc', 10);
+
+        expect(NumberValidators.lesserThan('')(control)).toEqual({ lesserThan: true });
+    });
+
+    it('Invalid when control has no parent', () => {
+        control = createOrphanControlSpy(10);
+
+        expect(NumberValidators.lesserThan('')(control)).toEqual({ lesserThan: true });
+    });
+});
+
+describe('Number Validators - Lesser Than or Equal', () => {
+    it('Valid when current is lesser than sibling', () => {
+        control = createAbstractControlSpyWithSibling(10, 70);
+
+        expect(NumberValidators.lesserThanOrEqual('')(control)).toBeNull();
+    });
+
+    it('Valid when current is equal to sibling', () => {
+        control = createAbstractControlSpyWithSibling(10, 10);
+
+        expect(NumberValidators.lesserThanOrEqual('')(control)).toBeNull();
+    });
+
+    it('Invalid when current is greater than sibling', () => {
+        control = createAbstractControlSpyWithSibling(70, 10);
+
+        expect(NumberValidators.lesserThanOrEqual('')(control)).toEqual({ lesserThanOrEqual: true });
+    });
+
+    it('Invalid when sibling is not numeric', () => {
+        control = createAbstractControlSpyWithSibling(10, 'abc');
+
+        expect(NumberValidators.lesserThanOrEqual('')(control)).toEqual({ lesserThanOrEqual: true });
     });
 });

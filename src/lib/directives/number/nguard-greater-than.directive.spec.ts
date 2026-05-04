@@ -18,20 +18,20 @@ describe('NguardGreaterThanDirective', () => {
         expect(directive).toBeTruthy();
     });
 
-    it('should validate two fields of the same type (strings)', () => {
-        control = createAbstractControlSpyWithSibling('defghi', 'abc');
+    it('should validate when current is greater than sibling', () => {
+        control = createAbstractControlSpyWithSibling(70, 10);
 
         expect(directive.validate(control)).toBeNull();
     });
 
-    it('should fail with the first value not greater than the second', () => {
+    it('should fail when current is not greater than sibling', () => {
         control = createAbstractControlSpyWithSibling(1, 10);
 
         expect(directive.validate(control)).toEqual({ greaterThan: true });
     });
 
-    it('should fail with two fields of different types', () => {
-        control = createAbstractControlSpyWithSibling('1', 10);
+    it('should fail when sibling is not numeric', () => {
+        control = createAbstractControlSpyWithSibling(10, 'abc');
 
         expect(directive.validate(control)).toEqual({ greaterThan: true });
     });

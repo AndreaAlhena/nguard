@@ -1,6 +1,11 @@
 import { AbstractControl } from '@angular/forms';
 import { StringValidators } from './string.validators';
-import { createAbstractControlSpy } from '../utils/test.utils';
+import {
+    createAbstractControlSpy,
+    createAbstractControlSpyWithSibling,
+    createControlSpyWithNullSibling,
+    createOrphanControlSpy,
+} from '../utils/test.utils';
 
 let control: jasmine.SpyObj<AbstractControl>;
 
@@ -1111,5 +1116,133 @@ describe('String Validators - StartsWith / EndsWith Edge Cases', () => {
 
             expect(StringValidators.doesntEndWith()(control)).toBeNull();
         });
+    });
+});
+
+describe('String Validators - Longer Than', () => {
+    it('Valid when current is longer than sibling', () => {
+        control = createAbstractControlSpyWithSibling('nGuard is an Angular library', 'short');
+
+        expect(StringValidators.longerThan('')(control)).toBeNull();
+    });
+
+    it('Invalid when current has the same length as sibling', () => {
+        control = createAbstractControlSpyWithSibling('abc', 'xyz');
+
+        expect(StringValidators.longerThan('')(control)).toEqual({ longerThan: true });
+    });
+
+    it('Invalid when current is shorter than sibling', () => {
+        control = createAbstractControlSpyWithSibling('a', 'longer');
+
+        expect(StringValidators.longerThan('')(control)).toEqual({ longerThan: true });
+    });
+
+    it('Invalid when current is not a string', () => {
+        control = createAbstractControlSpyWithSibling(123, 'abc');
+
+        expect(StringValidators.longerThan('')(control)).toEqual({ longerThan: true });
+    });
+
+    it('Invalid when sibling is not a string', () => {
+        control = createAbstractControlSpyWithSibling('abc', 5);
+
+        expect(StringValidators.longerThan('')(control)).toEqual({ longerThan: true });
+    });
+
+    it('Invalid when sibling is null', () => {
+        control = createControlSpyWithNullSibling('abc');
+
+        expect(StringValidators.longerThan('')(control)).toEqual({ longerThan: true });
+    });
+
+    it('Invalid when control has no parent', () => {
+        control = createOrphanControlSpy('abc');
+
+        expect(StringValidators.longerThan('')(control)).toEqual({ longerThan: true });
+    });
+});
+
+describe('String Validators - Longer or Equal To', () => {
+    it('Valid when current is longer than sibling', () => {
+        control = createAbstractControlSpyWithSibling('long string', 'short');
+
+        expect(StringValidators.longerOrEqualTo('')(control)).toBeNull();
+    });
+
+    it('Valid when current has the same length as sibling', () => {
+        control = createAbstractControlSpyWithSibling('abc', 'xyz');
+
+        expect(StringValidators.longerOrEqualTo('')(control)).toBeNull();
+    });
+
+    it('Invalid when current is shorter than sibling', () => {
+        control = createAbstractControlSpyWithSibling('a', 'longer');
+
+        expect(StringValidators.longerOrEqualTo('')(control)).toEqual({ longerOrEqualTo: true });
+    });
+
+    it('Invalid when sibling is not a string', () => {
+        control = createAbstractControlSpyWithSibling('abc', 5);
+
+        expect(StringValidators.longerOrEqualTo('')(control)).toEqual({ longerOrEqualTo: true });
+    });
+});
+
+describe('String Validators - Shorter Than', () => {
+    it('Valid when current is shorter than sibling', () => {
+        control = createAbstractControlSpyWithSibling('a', 'longer');
+
+        expect(StringValidators.shorterThan('')(control)).toBeNull();
+    });
+
+    it('Invalid when current has the same length as sibling', () => {
+        control = createAbstractControlSpyWithSibling('abc', 'xyz');
+
+        expect(StringValidators.shorterThan('')(control)).toEqual({ shorterThan: true });
+    });
+
+    it('Invalid when current is longer than sibling', () => {
+        control = createAbstractControlSpyWithSibling('long string', 'short');
+
+        expect(StringValidators.shorterThan('')(control)).toEqual({ shorterThan: true });
+    });
+
+    it('Invalid when current is not a string', () => {
+        control = createAbstractControlSpyWithSibling(5, 'abc');
+
+        expect(StringValidators.shorterThan('')(control)).toEqual({ shorterThan: true });
+    });
+
+    it('Invalid when control has no parent', () => {
+        control = createOrphanControlSpy('abc');
+
+        expect(StringValidators.shorterThan('')(control)).toEqual({ shorterThan: true });
+    });
+});
+
+describe('String Validators - Shorter or Equal To', () => {
+    it('Valid when current is shorter than sibling', () => {
+        control = createAbstractControlSpyWithSibling('a', 'longer');
+
+        expect(StringValidators.shorterOrEqualTo('')(control)).toBeNull();
+    });
+
+    it('Valid when current has the same length as sibling', () => {
+        control = createAbstractControlSpyWithSibling('abc', 'xyz');
+
+        expect(StringValidators.shorterOrEqualTo('')(control)).toBeNull();
+    });
+
+    it('Invalid when current is longer than sibling', () => {
+        control = createAbstractControlSpyWithSibling('long string', 'short');
+
+        expect(StringValidators.shorterOrEqualTo('')(control)).toEqual({ shorterOrEqualTo: true });
+    });
+
+    it('Invalid when sibling is not a string', () => {
+        control = createAbstractControlSpyWithSibling('abc', 5);
+
+        expect(StringValidators.shorterOrEqualTo('')(control)).toEqual({ shorterOrEqualTo: true });
     });
 });
