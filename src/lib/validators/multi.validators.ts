@@ -29,7 +29,7 @@ export namespace MultiValidators {
      * password: new FormControl(''),
      * passwordConfirm: new FormControl('', [NguardValidators.Multi.different('password')])
      * ```
-     * @return {ValidationFn}
+     * @return {ValidatorFn}
      */
     export const different = (fieldKey: string, isStrict: boolean = false): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
@@ -52,7 +52,7 @@ export namespace MultiValidators {
      *   NguardValidators.Multi.doesntEndWith('first', 'second', 'third')
      * ])
      * ```
-     * @return {ValidationFn}
+     * @return {ValidatorFn}
      */
     export const doesntEndWith = (...values: primitive[]): ValidatorFn => {
         return (control: AbstractControl): ValidationErrors | null => {
@@ -77,7 +77,7 @@ export namespace MultiValidators {
      *   NguardValidators.Multi.doesntStartWith('first', 'second', 'third')
      * ])
      * ```
-     * @return {ValidationFn}
+     * @return {ValidatorFn}
      */
     export const doesntStartWith = (...values: primitive[]): ValidatorFn => {
         return (control: AbstractControl): ValidationErrors | null => {
@@ -104,7 +104,7 @@ export namespace MultiValidators {
      * ```
      *
      * @param {primitive[]} values A mixed array of primitive values (strings, numbers and boolean)
-     * @return {ValidationFn}
+     * @return {ValidatorFn}
      */
     export const endsWith = (...values: primitive[]): ValidatorFn => {
         return (control: AbstractControl): ValidationErrors | null => {
@@ -253,7 +253,7 @@ export namespace MultiValidators {
      *
      * ```
      * new FormControl('', [
-     *   NguardValidators.String.requiredIf('anotherField', 'another field value', true)
+     *   NguardValidators.Multi.requiredIf('anotherField', 'another field value', true)
      * ])
      * ```
      *
@@ -281,7 +281,7 @@ export namespace MultiValidators {
      * password: new FormControl(''),
      * passwordConfirm: new FormControl('', [NguardValidators.Multi.same('password')])
      * ```
-     * @return {ValidationFn}
+     * @return {ValidatorFn}
      */
     export const same = (fieldKey: string, isStrict: boolean = false): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
@@ -306,7 +306,7 @@ export namespace MultiValidators {
      * ```
      *
      * @param {primitive[]} values A mixed array of primitive values (strings, numbers and boolean)
-     * @return {ValidationFn}
+     * @return {ValidatorFn}
      */
     export const startsWith = (...values: primitive[]): ValidatorFn => {
         return (control: AbstractControl): ValidationErrors | null => {
