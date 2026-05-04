@@ -16,9 +16,7 @@ import { NumberValidators } from '../../validators/number.validators';
 export class NguardBetweenDirective implements Validator {
     public readonly values = input.required<[number, number]>({ alias: 'nguardBetween' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return NumberValidators.between(...this.values())(control);
     }
 }

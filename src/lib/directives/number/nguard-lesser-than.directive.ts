@@ -16,9 +16,7 @@ import { NumberValidators } from '../../validators/number.validators';
 export class NguardLesserThanDirective implements Validator {
     public readonly fieldKey = input.required<string>({ alias: 'nguardLesserThan' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return NumberValidators.lesserThan(this.fieldKey())(control);
     }
 }

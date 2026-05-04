@@ -16,9 +16,7 @@ import { StringValidators } from '../../validators/string.validators';
     standalone: true,
 })
 export class NguardAsciiDirective implements Validator {
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return StringValidators.ascii(control);
     }
 }

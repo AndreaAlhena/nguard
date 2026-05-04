@@ -21,9 +21,7 @@ import { CrossFieldValidators } from '../../validators/cross-field.validators';
 export class NguardDifferentDirective implements Validator {
     public readonly config = input.required<string | FieldComparisonConfig>({ alias: 'nguardDifferent' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         const cfg = this.config();
         const [fieldKey, isStrict]: [string, boolean | undefined] =
             typeof cfg === 'string' ? [cfg, undefined] : [cfg.fieldKey, cfg.isStrict];

@@ -21,9 +21,7 @@ import { StringValidators } from '../../validators/string.validators';
 export class NguardEndsWithDirective implements Validator {
     public readonly values = input.required<primitive | primitive[]>({ alias: 'nguardEndsWith' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         const raw = this.values();
         const values = Array.isArray(raw) ? raw : [raw];
         return StringValidators.endsWith(...values)(control);

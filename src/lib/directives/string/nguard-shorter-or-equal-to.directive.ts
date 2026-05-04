@@ -16,9 +16,7 @@ import { StringValidators } from '../../validators/string.validators';
 export class NguardShorterOrEqualToDirective implements Validator {
     public readonly fieldKey = input.required<string>({ alias: 'nguardShorterOrEqualTo' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return StringValidators.shorterOrEqualTo(this.fieldKey())(control);
     }
 }

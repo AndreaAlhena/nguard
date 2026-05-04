@@ -17,9 +17,7 @@ import { FieldComparisonConfig } from '../../types/field-comparison-config.type'
 export class NguardSameDirective implements Validator {
     public readonly config = input.required<string | FieldComparisonConfig>({ alias: 'nguardSame' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         const cfg = this.config();
         const [fieldKey, isStrict]: [string, boolean | undefined] =
             typeof cfg === 'string' ? [cfg, undefined] : [cfg.fieldKey, cfg.isStrict];
