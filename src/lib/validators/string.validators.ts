@@ -283,6 +283,55 @@ export namespace StringValidators {
     };
 
     /**
+     * The field under validation must be a valid IPv4 address (four 0-255 octets, dotted notation).
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.ipv4]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const ipv4 = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { ipv4: true };
+        }
+        return /^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$/.test(c.value)
+            ? null
+            : { ipv4: true };
+    };
+
+    /**
+     * The field under validation must be a valid IPv6 address. Accepts full and compressed forms.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.ipv6]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const ipv6 = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { ipv6: true };
+        }
+        const ipv6Regex =
+            /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))$/;
+        return ipv6Regex.test(c.value) ? null : { ipv6: true };
+    };
+
+    /**
+     * The field under validation must be a valid IP address (IPv4 or IPv6).
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.ip]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const ip = (c: AbstractControl): ValidationErrors | null => {
+        return ipv4(c) === null || ipv6(c) === null ? null : { ip: true };
+    };
+
+    /**
      * The field under validation must be a string of exactly the given length.
      *
      * ```
