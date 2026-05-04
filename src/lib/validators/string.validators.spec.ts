@@ -1348,3 +1348,79 @@ describe('String Validators - Max Length', () => {
         expect(StringValidators.maxLength(10)(control)).toEqual({ maxLength: true });
     });
 });
+
+describe('String Validators - Contains', () => {
+    it('Valid when string contains the substring', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.contains('Angular')(control)).toBeNull();
+    });
+
+    it('Valid (case insensitive)', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.contains('ANGULAR')(control)).toBeNull();
+    });
+
+    it('Valid when string contains at least one of multiple substrings', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.contains('python', 'angular')(control)).toBeNull();
+    });
+
+    it('Invalid when string contains none of the substrings', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.contains('python', 'rust')(control)).toEqual({ contains: true });
+    });
+
+    it('Invalid when no substrings supplied', () => {
+        control = createAbstractControlSpy('anything');
+
+        expect(StringValidators.contains()(control)).toEqual({ contains: true });
+    });
+
+    it('Invalid on non-string input', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.contains('1')(control)).toEqual({ contains: true });
+    });
+});
+
+describe('String Validators - Not Contains', () => {
+    it('Valid when string contains none of the substrings', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.notContains('python', 'rust')(control)).toBeNull();
+    });
+
+    it('Invalid when string contains a substring', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.notContains('Angular')(control)).toEqual({ notContains: true });
+    });
+
+    it('Invalid (case insensitive) when string contains a substring', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.notContains('ANGULAR')(control)).toEqual({ notContains: true });
+    });
+
+    it('Invalid when string contains any of multiple substrings', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.notContains('python', 'angular')(control)).toEqual({ notContains: true });
+    });
+
+    it('Valid when no substrings supplied', () => {
+        control = createAbstractControlSpy('anything');
+
+        expect(StringValidators.notContains()(control)).toBeNull();
+    });
+
+    it('Invalid on non-string input', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.notContains('1')(control)).toEqual({ notContains: true });
+    });
+});
