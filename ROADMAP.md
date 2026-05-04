@@ -14,7 +14,7 @@ Three namespaces today, more on the way:
 - `NguardValidators.Number` — numeric value validation
 - `NguardValidators.String` — string format and length validation
 
-Future namespaces map cleanly onto the same axis: `Date`, `Array`, `Boolean`, `Network`, `Format`, `Async`.
+Future namespaces map cleanly onto the same axis: `Array`, `Boolean`, `Async`. Validators that operate on strings — including IP/MAC addresses (network formats) and credit cards / phone numbers / IBAN / etc. (real-world formats) — live in `String`, not in topical groupings, since the data type they operate on *is* a string. Topical organization is a documentation concern, not a namespace one. `Date` is the only genuinely borderline case and stays open pending design (Date objects vs. ISO strings).
 
 ### Invariants
 
@@ -95,9 +95,9 @@ The architectural refactor (umbrella issue #12, six PRs) reshaped the library be
 
 ---
 
-## v0.2.0 — Enhanced Strings & Network
+## v0.2.0 — Enhanced Strings (formats, length, network)
 
-**Goal:** Add network-related validators and enhance string validation capabilities.
+**Goal:** Expand the `String` namespace with format and length validators, including network address formats.
 
 ### `NguardValidators.String` additions
 
@@ -112,11 +112,7 @@ The architectural refactor (umbrella issue #12, six PRs) reshaped the library be
 | `slug` | Valid URL slug (lowercase, dashes) | Medium |
 | `hexColor` | Valid hex color (`#fff`, `#ffffff`) | Medium |
 | `ulid` | Valid ULID | Medium |
-
-### `NguardValidators.Network` (new namespace)
-
-| Validator | Description | Priority |
-|-----------|-------------|----------|
+| `string` | Value is a string (Laravel parity) | — |
 | `ip` | Valid IP address (v4 or v6) | High |
 | `ipv4` | Valid IPv4 address | High |
 | `ipv6` | Valid IPv6 address | High |
@@ -124,14 +120,13 @@ The architectural refactor (umbrella issue #12, six PRs) reshaped the library be
 
 ### Tasks
 
-- [ ] Create `NetworkValidators` namespace
-- [ ] Implement 9 string validators
-- [ ] Implement 4 network validators
-- [ ] Create directives for all new validators (parity invariant)
-- [ ] Write unit tests
+- [x] Implement string format / length validators (9 + Laravel-parity `string`)
+- [x] Implement IP and MAC address validators in `String` (4)
+- [x] Create directives for all new validators (parity invariant)
+- [x] Write unit tests
 - [ ] Update documentation site
 
-**Total new validators: 13**
+**Total new validators: 14**
 
 ---
 
@@ -323,9 +318,9 @@ These attach to the data-type namespace they validate against. `String.in('a', '
 
 ## v0.9.0 — Real-World Formats
 
-**Goal:** Validators for common real-world data formats.
+**Goal:** Validators for common real-world data formats. All land in the existing `String` namespace — they're string formats, no different from `email` or `uuid`.
 
-### `NguardValidators.Format` (new namespace)
+### `NguardValidators.String` additions
 
 | Validator | Description | Priority |
 |-----------|-------------|----------|
@@ -341,8 +336,7 @@ These attach to the data-type namespace they validate against. `String.in('a', '
 
 ### Tasks
 
-- [ ] Create `FormatValidators` namespace
-- [ ] Implement 9 format validators
+- [ ] Implement 9 format validators in `String`
 - [ ] Support country-specific formats where applicable
 - [ ] Consider `libphonenumber-js` as optional peer dependency
 - [ ] Create directives for all new validators
@@ -469,16 +463,16 @@ username: new FormControl('', [], [
 | Release | Focus | New validators | Cumulative |
 |---------|-------|----------------|------------|
 | v0.1.0 | Current state (post-refactor) | — | **35** |
-| v0.2.0 | Strings & Network | 13 | 48 |
-| v0.3.0 | Numeric Power | 8 | 56 |
-| v0.4.0 | Date & Time | 13 | 69 |
-| v0.5.0 | Conditional Logic | 11 | 80 |
-| v0.6.0 | Boolean & Acceptance | 7 | 87 |
-| v0.7.0 | Arrays & Collections | 10 | 97 |
-| v0.8.0 | Inclusion & Enumeration | 10 | 107 |
-| v0.9.0 | Real-World Formats | 9 | 116 |
-| v0.10.0 | Async Validators | 7 | 123 |
-| v1.0.0 | Stable Release | 7 | **130** |
+| v0.2.0 | Strings (formats, length, network) | 14 | 49 |
+| v0.3.0 | Numeric Power | 8 | 57 |
+| v0.4.0 | Date & Time | 13 | 70 |
+| v0.5.0 | Conditional Logic | 11 | 81 |
+| v0.6.0 | Boolean & Acceptance | 7 | 88 |
+| v0.7.0 | Arrays & Collections | 10 | 98 |
+| v0.8.0 | Inclusion & Enumeration | 10 | 108 |
+| v0.9.0 | Real-World String Formats | 9 | 117 |
+| v0.10.0 | Async Validators | 7 | 124 |
+| v1.0.0 | Stable Release | 7 | **131** |
 
 ---
 
