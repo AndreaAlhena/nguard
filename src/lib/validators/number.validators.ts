@@ -124,6 +124,35 @@ export namespace NumberValidators {
     };
 
     /**
+     * The field under validation must be a number with a specific count of decimal places.
+     * Pass a single argument for exact match (e.g. `decimal(2)` requires `1.23`),
+     * or two arguments for an inclusive range (e.g. `decimal(1, 3)` accepts `1.2`, `1.23`, `1.234`).
+     *
+     * ```
+     * price: new FormControl('', [NumberValidators.decimal(2)]),
+     * ```
+     *
+     * @param {number} minPlaces Required (or minimum) decimal places
+     * @param {number} [maxPlaces] Optional maximum decimal places (range form)
+     * @returns {ValidatorFn}
+     */
+    export const decimal = (minPlaces: number, maxPlaces?: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (maxPlaces !== undefined && minPlaces > maxPlaces) {
+                throw new RangeValidatorErrors.MinGreaterThanMax();
+            }
+            if (!isNumeric(c.value)) {
+                return { decimal: true };
+            }
+            const str = String(c.value);
+            const dotIndex = str.indexOf('.');
+            const places = dotIndex === -1 ? 0 : str.length - dotIndex - 1;
+            const ok = maxPlaces === undefined ? places === minPlaces : places >= minPlaces && places <= maxPlaces;
+            return ok ? null : { decimal: true };
+        };
+    };
+
+    /**
      * The field under validation must be an integer with exactly `n` digits (sign and decimal point excluded).
      *
      * ```
