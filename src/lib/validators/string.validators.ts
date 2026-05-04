@@ -421,6 +421,29 @@ export namespace StringValidators {
         isString(c.value) && c.value.length > 0 && c.value.toLowerCase() === c.value ? null : { lowercase: true };
 
     /**
+     * The field under validation must be a valid MAC address. Accepts colon-separated
+     * (`00:1B:44:11:3A:B7`), dash-separated (`00-1B-44-11-3A-B7`), and Cisco dot-separated
+     * (`001B.4411.3AB7`) formats.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.macAddress]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const macAddress = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { macAddress: true };
+        }
+        // Backreference \1 forces the same separator (`:` or `-`) across every octet.
+        return /^[0-9A-Fa-f]{2}([:-])(?:[0-9A-Fa-f]{2}\1){4}[0-9A-Fa-f]{2}$|^([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}$/.test(
+            c.value
+        )
+            ? null
+            : { macAddress: true };
+    };
+
+    /**
      * The field under validation must not be empty or contain only whitespace
      *
      * ```
