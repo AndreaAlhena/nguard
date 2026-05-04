@@ -1620,3 +1620,117 @@ describe('String Validators - String', () => {
         expect(StringValidators.string(control)).toEqual({ string: true });
     });
 });
+
+describe('String Validators - IPv4', () => {
+    it('Valid standard IPv4', () => {
+        control = createAbstractControlSpy('192.168.1.1');
+
+        expect(StringValidators.ipv4(control)).toBeNull();
+    });
+
+    it('Valid edge IPv4 (0.0.0.0)', () => {
+        control = createAbstractControlSpy('0.0.0.0');
+
+        expect(StringValidators.ipv4(control)).toBeNull();
+    });
+
+    it('Valid edge IPv4 (255.255.255.255)', () => {
+        control = createAbstractControlSpy('255.255.255.255');
+
+        expect(StringValidators.ipv4(control)).toBeNull();
+    });
+
+    it('Invalid out-of-range octet', () => {
+        control = createAbstractControlSpy('256.0.0.1');
+
+        expect(StringValidators.ipv4(control)).toEqual({ ipv4: true });
+    });
+
+    it('Invalid missing octet', () => {
+        control = createAbstractControlSpy('192.168.1');
+
+        expect(StringValidators.ipv4(control)).toEqual({ ipv4: true });
+    });
+
+    it('Invalid for IPv6 input', () => {
+        control = createAbstractControlSpy('2001:db8::1');
+
+        expect(StringValidators.ipv4(control)).toEqual({ ipv4: true });
+    });
+
+    it('Invalid for empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.ipv4(control)).toEqual({ ipv4: true });
+    });
+
+    it('Invalid for non-string input', () => {
+        control = createAbstractControlSpy(192168);
+
+        expect(StringValidators.ipv4(control)).toEqual({ ipv4: true });
+    });
+});
+
+describe('String Validators - IPv6', () => {
+    it('Valid full IPv6', () => {
+        control = createAbstractControlSpy('2001:0db8:85a3:0000:0000:8a2e:0370:7334');
+
+        expect(StringValidators.ipv6(control)).toBeNull();
+    });
+
+    it('Valid compressed IPv6', () => {
+        control = createAbstractControlSpy('2001:db8::1');
+
+        expect(StringValidators.ipv6(control)).toBeNull();
+    });
+
+    it('Valid loopback', () => {
+        control = createAbstractControlSpy('::1');
+
+        expect(StringValidators.ipv6(control)).toBeNull();
+    });
+
+    it('Valid unspecified', () => {
+        control = createAbstractControlSpy('::');
+
+        expect(StringValidators.ipv6(control)).toBeNull();
+    });
+
+    it('Invalid for IPv4 input', () => {
+        control = createAbstractControlSpy('192.168.1.1');
+
+        expect(StringValidators.ipv6(control)).toEqual({ ipv6: true });
+    });
+
+    it('Invalid for empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.ipv6(control)).toEqual({ ipv6: true });
+    });
+});
+
+describe('String Validators - IP', () => {
+    it('Valid IPv4 input', () => {
+        control = createAbstractControlSpy('192.168.1.1');
+
+        expect(StringValidators.ip(control)).toBeNull();
+    });
+
+    it('Valid IPv6 input', () => {
+        control = createAbstractControlSpy('2001:db8::1');
+
+        expect(StringValidators.ip(control)).toBeNull();
+    });
+
+    it('Invalid for malformed input', () => {
+        control = createAbstractControlSpy('not-an-ip');
+
+        expect(StringValidators.ip(control)).toEqual({ ip: true });
+    });
+
+    it('Invalid for empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.ip(control)).toEqual({ ip: true });
+    });
+});
