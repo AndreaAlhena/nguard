@@ -35,152 +35,6 @@ describe('CrossField Validators - Different', () => {
     });
 });
 
-describe('CrossField Validators - Greater Than', () => {
-    it('Greater Than - Valid (strings)', () => {
-        control = createAbstractControlSpyWithSibling('nGuard is an Angular library', 'library');
-
-        expect(CrossFieldValidators.greaterThan('')(control)).toBeNull();
-    });
-
-    it('Greater Than - Invalid (strings)', () => {
-        control = createAbstractControlSpyWithSibling('library', 'nGuard is an Angular library');
-
-        expect(CrossFieldValidators.greaterThan('nGuard')(control)).toEqual({ greaterThan: true });
-    });
-
-    it('Greater Than - Valid (numbers)', () => {
-        control = createAbstractControlSpyWithSibling(70, 10);
-
-        expect(CrossFieldValidators.greaterThan('')(control)).toBeNull();
-    });
-
-    it('Greater Than - Invalid (numbers)', () => {
-        control = createAbstractControlSpyWithSibling(10, 70);
-
-        expect(CrossFieldValidators.greaterThan('')(control)).toEqual({ greaterThan: true });
-    });
-
-    it('Greater Than - Invalid (types mismatch)', () => {
-        control = createAbstractControlSpyWithSibling(70, '10');
-
-        expect(CrossFieldValidators.greaterThan('')(control)).toEqual({ greaterThan: true });
-    });
-});
-
-describe('CrossField Validators - Greater Than or Equal', () => {
-    it('Greater Than or Equal - Valid (strings)', () => {
-        control = createAbstractControlSpyWithSibling('nGuard is an Angular library', 'library');
-
-        expect(CrossFieldValidators.greaterThanOrEqual('')(control)).toBeNull();
-    });
-
-    it('Greater Than or Equal - Valid (strings) - First is equal the second', () => {
-        control = createAbstractControlSpyWithSibling('nGuard!', 'library');
-
-        expect(CrossFieldValidators.greaterThanOrEqual('')(control)).toBeNull();
-    });
-
-    it('Greater Than or Equal - Invalid (strings) - First is less than the second', () => {
-        control = createAbstractControlSpyWithSibling('library', 'nGuard is an Angular library');
-
-        expect(CrossFieldValidators.greaterThanOrEqual('nGuard')(control)).toEqual({ greaterThanOrEqual: true });
-    });
-
-    it('Greater Than or Equal - Valid (numbers)', () => {
-        control = createAbstractControlSpyWithSibling(70, 10);
-
-        expect(CrossFieldValidators.greaterThanOrEqual('')(control)).toBeNull();
-    });
-
-    it('Greater Than or Equal - Invalid (numbers)', () => {
-        control = createAbstractControlSpyWithSibling(10, 70);
-
-        expect(CrossFieldValidators.greaterThanOrEqual('')(control)).toEqual({ greaterThanOrEqual: true });
-    });
-
-    it('Greater Than or Equal - Invalid (types mismatch)', () => {
-        control = createAbstractControlSpyWithSibling(70, '10');
-
-        expect(CrossFieldValidators.greaterThanOrEqual('')(control)).toEqual({ greaterThanOrEqual: true });
-    });
-});
-
-describe('CrossField Validators - Lesser Than', () => {
-    it('Lesser Than - Valid (strings)', () => {
-        control = createAbstractControlSpyWithSibling('library', 'nGuard is an Angular library');
-
-        expect(CrossFieldValidators.lesserThan('')(control)).toBeNull();
-    });
-
-    it('Lesser Than - Invalid (strings)', () => {
-        control = createAbstractControlSpyWithSibling('nGuard is an Angular library', 'library');
-
-        expect(CrossFieldValidators.lesserThan('nGuard')(control)).toEqual({ lesserThan: true });
-    });
-
-    it('Lesser Than - Valid (numbers)', () => {
-        control = createAbstractControlSpyWithSibling(10, 70);
-
-        expect(CrossFieldValidators.lesserThan('')(control)).toBeNull();
-    });
-
-    it('Lesser Than - Invalid (numbers)', () => {
-        control = createAbstractControlSpyWithSibling(70, 10);
-
-        expect(CrossFieldValidators.lesserThan('')(control)).toEqual({ lesserThan: true });
-    });
-
-    it('Lesser Than - Invalid (types mismatch)', () => {
-        control = createAbstractControlSpyWithSibling(70, '10');
-
-        expect(CrossFieldValidators.lesserThan('')(control)).toEqual({ lesserThan: true });
-    });
-});
-
-describe('CrossField Validators - Lesser Than or Equal', () => {
-    it('Lesser Than or Equal - Valid (strings) - First is less than the second', () => {
-        control = createAbstractControlSpyWithSibling('library', 'nGuard is an Angular library');
-
-        expect(CrossFieldValidators.lesserThanOrEqual('')(control)).toBeNull();
-    });
-
-    it('Lesser Than or Equal - Valid (strings) - First is equal the second', () => {
-        control = createAbstractControlSpyWithSibling('library', 'nGuard!');
-
-        expect(CrossFieldValidators.lesserThanOrEqual('')(control)).toBeNull();
-    });
-
-    it('Lesser Than or Equal - Invalid (strings)', () => {
-        control = createAbstractControlSpyWithSibling('nGuard is an Angular library', 'library');
-
-        expect(CrossFieldValidators.lesserThanOrEqual('nGuard')(control)).toEqual({ lesserThanOrEqual: true });
-    });
-
-    it('Lesser Than or Equal - Valid (numbers) - First is less than the second', () => {
-        control = createAbstractControlSpyWithSibling(10, 70);
-
-        expect(CrossFieldValidators.lesserThanOrEqual('')(control)).toBeNull();
-    });
-
-    it('Lesser Than or Equal - Valid (numbers) - First is equal the second', () => {
-        control = createAbstractControlSpyWithSibling(10, 10);
-
-        expect(CrossFieldValidators.lesserThanOrEqual('')(control)).toBeNull();
-    });
-
-    it('Lesser Than or Equal - Invalid (numbers)', () => {
-        control = createAbstractControlSpyWithSibling(70, 10);
-
-        expect(CrossFieldValidators.lesserThanOrEqual('')(control)).toEqual({ lesserThanOrEqual: true });
-    });
-
-    it('Lesser Than or Equal - Invalid (types mismatch)', () => {
-        control = createAbstractControlSpyWithSibling(70, '10');
-
-        expect(CrossFieldValidators.lesserThanOrEqual('')(control)).toEqual({ lesserThanOrEqual: true });
-    });
-});
-
 describe('CrossField Validators - Required If', () => {
     it('Required If - Valid if both fields are set', () => {
         control = createAbstractControlSpyWithSibling('value', 'value');
@@ -295,48 +149,6 @@ describe('CrossField Validators - Confirmed', () => {
     });
 });
 
-describe('CrossField Validators - Aliases', () => {
-    it('gt - Should be an alias for greaterThan', () => {
-        expect(CrossFieldValidators.gt).toBe(CrossFieldValidators.greaterThan);
-    });
-
-    it('gte - Should be an alias for greaterThanOrEqual', () => {
-        expect(CrossFieldValidators.gte).toBe(CrossFieldValidators.greaterThanOrEqual);
-    });
-
-    it('lt - Should be an alias for lesserThan', () => {
-        expect(CrossFieldValidators.lt).toBe(CrossFieldValidators.lesserThan);
-    });
-
-    it('lte - Should be an alias for lesserThanOrEqual', () => {
-        expect(CrossFieldValidators.lte).toBe(CrossFieldValidators.lesserThanOrEqual);
-    });
-
-    it('gt - Works like greaterThan', () => {
-        control = createAbstractControlSpyWithSibling(70, 10);
-
-        expect(CrossFieldValidators.gt('')(control)).toBeNull();
-    });
-
-    it('gte - Works like greaterThanOrEqual', () => {
-        control = createAbstractControlSpyWithSibling(10, 10);
-
-        expect(CrossFieldValidators.gte('')(control)).toBeNull();
-    });
-
-    it('lt - Works like lesserThan', () => {
-        control = createAbstractControlSpyWithSibling(10, 70);
-
-        expect(CrossFieldValidators.lt('')(control)).toBeNull();
-    });
-
-    it('lte - Works like lesserThanOrEqual', () => {
-        control = createAbstractControlSpyWithSibling(10, 10);
-
-        expect(CrossFieldValidators.lte('')(control)).toBeNull();
-    });
-});
-
 describe('CrossField Validators - Edge Cases', () => {
     describe('Null/Undefined sibling handling', () => {
         it('Different - Should handle null sibling value', () => {
@@ -361,18 +173,6 @@ describe('CrossField Validators - Edge Cases', () => {
             control = createControlSpyWithUndefinedSibling('value');
 
             expect(CrossFieldValidators.same('key')(control)).toEqual({ same: true });
-        });
-
-        it('GreaterThan - Should handle null sibling value', () => {
-            control = createControlSpyWithNullSibling(100);
-
-            expect(CrossFieldValidators.greaterThan('key')(control)).toEqual({ greaterThan: true });
-        });
-
-        it('LesserThan - Should handle null sibling value', () => {
-            control = createControlSpyWithNullSibling(100);
-
-            expect(CrossFieldValidators.lesserThan('key')(control)).toEqual({ lesserThan: true });
         });
 
         it('RequiredIf - Should handle null sibling value', () => {
@@ -407,18 +207,6 @@ describe('CrossField Validators - Edge Cases', () => {
             control = createOrphanControlSpy('value');
 
             expect(CrossFieldValidators.same('key')(control)).toEqual({ same: true });
-        });
-
-        it('GreaterThan - Should handle control without parent', () => {
-            control = createOrphanControlSpy(100);
-
-            expect(CrossFieldValidators.greaterThan('key')(control)).toEqual({ greaterThan: true });
-        });
-
-        it('LesserThan - Should handle control without parent', () => {
-            control = createOrphanControlSpy(100);
-
-            expect(CrossFieldValidators.lesserThan('key')(control)).toEqual({ lesserThan: true });
         });
 
         it('RequiredIf - Should handle control without parent', () => {

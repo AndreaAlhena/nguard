@@ -218,6 +218,49 @@ export namespace StringValidators {
     };
 
     /**
+     * The field under validation must be a string strictly longer than another field's string.
+     * Both values must be strings; non-string inputs (including the sibling) cause the validator to fail.
+     *
+     * ```
+     * password: new FormControl(''),
+     * fullPassword: new FormControl('', [StringValidators.longerThan('password')]),
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose length is the target
+     * @returns {ValidatorFn}
+     */
+    export const longerThan = (fieldKey: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const sibling = c.parent?.get(fieldKey)?.value;
+            if (!isString(c.value) || !isString(sibling)) {
+                return { longerThan: true };
+            }
+            return c.value.length > sibling.length ? null : { longerThan: true };
+        };
+    };
+
+    /**
+     * The field under validation must be a string longer than or equal in length to another field's string.
+     *
+     * ```
+     * minPassword: new FormControl(''),
+     * password: new FormControl('', [StringValidators.longerOrEqualTo('minPassword')]),
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose length is the target
+     * @returns {ValidatorFn}
+     */
+    export const longerOrEqualTo = (fieldKey: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const sibling = c.parent?.get(fieldKey)?.value;
+            if (!isString(c.value) || !isString(sibling)) {
+                return { longerOrEqualTo: true };
+            }
+            return c.value.length >= sibling.length ? null : { longerOrEqualTo: true };
+        };
+    };
+
+    /**
      * The field under validation must be lowercase
      *
      * ```
@@ -279,6 +322,49 @@ export namespace StringValidators {
                 return { regex: true };
             }
             return pattern.test(c.value) ? null : { regex: true };
+        };
+    };
+
+    /**
+     * The field under validation must be a string strictly shorter than another field's string.
+     * Both values must be strings; non-string inputs (including the sibling) cause the validator to fail.
+     *
+     * ```
+     * abbreviation: new FormControl('', [StringValidators.shorterThan('fullName')]),
+     * fullName: new FormControl(''),
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose length is the target
+     * @returns {ValidatorFn}
+     */
+    export const shorterThan = (fieldKey: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const sibling = c.parent?.get(fieldKey)?.value;
+            if (!isString(c.value) || !isString(sibling)) {
+                return { shorterThan: true };
+            }
+            return c.value.length < sibling.length ? null : { shorterThan: true };
+        };
+    };
+
+    /**
+     * The field under validation must be a string shorter than or equal in length to another field's string.
+     *
+     * ```
+     * abbreviation: new FormControl('', [StringValidators.shorterOrEqualTo('fullName')]),
+     * fullName: new FormControl(''),
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose length is the target
+     * @returns {ValidatorFn}
+     */
+    export const shorterOrEqualTo = (fieldKey: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const sibling = c.parent?.get(fieldKey)?.value;
+            if (!isString(c.value) || !isString(sibling)) {
+                return { shorterOrEqualTo: true };
+            }
+            return c.value.length <= sibling.length ? null : { shorterOrEqualTo: true };
         };
     };
 

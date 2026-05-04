@@ -1,6 +1,6 @@
 import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
-import { CrossFieldValidators } from '../../validators/cross-field.validators';
+import { NumberValidators } from '../../validators/number.validators';
 
 @Directive({
     providers: [
@@ -19,6 +19,6 @@ export class NguardGreaterThanOrEqualDirective implements Validator {
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-        return CrossFieldValidators.greaterThanOrEqual(this.fieldKey())(control);
+        return NumberValidators.greaterThanOrEqual(this.fieldKey())(control);
     }
 }

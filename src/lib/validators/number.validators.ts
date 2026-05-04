@@ -11,6 +11,91 @@ const isNumeric = (value: unknown): boolean => {
 
 export namespace NumberValidators {
     /**
+     * The field under validation must have a numeric value strictly greater than another field's numeric value.
+     * Both values must be numeric; non-numeric inputs (including the sibling) cause the validator to fail.
+     *
+     * ```
+     * floor: new FormControl(0),
+     * ceiling: new FormControl(0, [NumberValidators.greaterThan('floor')]),
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field to compare against
+     * @returns {ValidatorFn}
+     */
+    export const greaterThan = (fieldKey: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const sibling = c.parent?.get(fieldKey)?.value;
+            if (!isNumeric(c.value) || !isNumeric(sibling)) {
+                return { greaterThan: true };
+            }
+            return Number(c.value) > Number(sibling) ? null : { greaterThan: true };
+        };
+    };
+
+    /**
+     * The field under validation must have a numeric value greater than or equal to another field's numeric value.
+     *
+     * ```
+     * floor: new FormControl(0),
+     * ceiling: new FormControl(0, [NumberValidators.greaterThanOrEqual('floor')]),
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field to compare against
+     * @returns {ValidatorFn}
+     */
+    export const greaterThanOrEqual = (fieldKey: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const sibling = c.parent?.get(fieldKey)?.value;
+            if (!isNumeric(c.value) || !isNumeric(sibling)) {
+                return { greaterThanOrEqual: true };
+            }
+            return Number(c.value) >= Number(sibling) ? null : { greaterThanOrEqual: true };
+        };
+    };
+
+    /**
+     * The field under validation must have a numeric value strictly lesser than another field's numeric value.
+     *
+     * ```
+     * ceiling: new FormControl(0),
+     * floor: new FormControl(0, [NumberValidators.lesserThan('ceiling')]),
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field to compare against
+     * @returns {ValidatorFn}
+     */
+    export const lesserThan = (fieldKey: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const sibling = c.parent?.get(fieldKey)?.value;
+            if (!isNumeric(c.value) || !isNumeric(sibling)) {
+                return { lesserThan: true };
+            }
+            return Number(c.value) < Number(sibling) ? null : { lesserThan: true };
+        };
+    };
+
+    /**
+     * The field under validation must have a numeric value lesser than or equal to another field's numeric value.
+     *
+     * ```
+     * ceiling: new FormControl(0),
+     * floor: new FormControl(0, [NumberValidators.lesserThanOrEqual('ceiling')]),
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field to compare against
+     * @returns {ValidatorFn}
+     */
+    export const lesserThanOrEqual = (fieldKey: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const sibling = c.parent?.get(fieldKey)?.value;
+            if (!isNumeric(c.value) || !isNumeric(sibling)) {
+                return { lesserThanOrEqual: true };
+            }
+            return Number(c.value) <= Number(sibling) ? null : { lesserThanOrEqual: true };
+        };
+    };
+
+    /**
      * The field under validation must be between the given minimum and maximum values (inclusive)
      *
      * ```
