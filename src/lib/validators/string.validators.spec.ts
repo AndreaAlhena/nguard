@@ -893,3 +893,223 @@ describe('String Validators - Edge Cases', () => {
         });
     });
 });
+
+describe('String Validators - Doesnt End With', () => {
+    it('Doesnt End With - Valid', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.doesntEndWith('Angular')(control)).toBeNull();
+    });
+
+    it('Doesnt End With - Invalid (check case insensitive)', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.doesntEndWith('Library')(control)).toEqual({ doesntEndWith: true });
+    });
+
+    it('Doesnt End With - Valid with mixed types', () => {
+        control = createAbstractControlSpy('2024');
+
+        expect(StringValidators.doesntEndWith(20)(control)).toBeNull();
+    });
+
+    it('Doesnt End With - Invalid with mixed types', () => {
+        control = createAbstractControlSpy('2024');
+
+        expect(StringValidators.doesntEndWith(24)(control)).toEqual({ doesntEndWith: true });
+    });
+});
+
+describe('String Validators - Doesnt Start With', () => {
+    it('Doesnt Start With - Valid', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.doesntStartWith('Angular')(control)).toBeNull();
+    });
+
+    it('Doesnt Start With - Invalid (check case insensitive)', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.doesntStartWith('nguard')(control)).toEqual({ doesntStartWith: true });
+    });
+
+    it('Doesnt Start With - Valid with mixed types', () => {
+        control = createAbstractControlSpy('2024');
+
+        expect(StringValidators.doesntStartWith(24)(control)).toBeNull();
+    });
+
+    it('Doesnt Start With - Invalid with mixed types', () => {
+        control = createAbstractControlSpy('2024');
+
+        expect(StringValidators.doesntStartWith(20)(control)).toEqual({ doesntStartWith: true });
+    });
+});
+
+describe('String Validators - Ends With', () => {
+    it('Ends With - Valid', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.endsWith('library')(control)).toBeNull();
+    });
+
+    it('Ends With - Invalid (check case insensitive)', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.endsWith('nGuard', 'an')(control)).toEqual({ endsWith: true });
+    });
+
+    it('Ends With - Valid if a number ends with the digits in a given string', () => {
+        control = createAbstractControlSpy(2024);
+
+        expect(StringValidators.endsWith('24')(control)).toBeNull();
+    });
+
+    it('Ends With - Invalid if a number doesnt end with the digits in a given string', () => {
+        control = createAbstractControlSpy(2024);
+
+        expect(StringValidators.endsWith('20')(control)).toEqual({ endsWith: true });
+    });
+
+    it('Ends With - Valid if a boolean ends with the string ue (from true)', () => {
+        control = createAbstractControlSpy(true);
+
+        expect(StringValidators.endsWith('ue')(control)).toBeNull();
+    });
+
+    it('Ends With - Invalid if a boolean ends with the character 1', () => {
+        control = createAbstractControlSpy(true);
+
+        expect(StringValidators.endsWith('1')(control)).toEqual({ endsWith: true });
+    });
+});
+
+describe('String Validators - Starts With', () => {
+    it('Starts With - Valid', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.startsWith('angular', 'nguard')(control)).toBeNull();
+    });
+
+    it('Starts With - Invalid', () => {
+        control = createAbstractControlSpy('nGuard is an Angular library');
+
+        expect(StringValidators.startsWith('is', 'an')(control)).toEqual({ startsWith: true });
+    });
+
+    it('Starts With - Valid if a number starts with the digits in a given string', () => {
+        control = createAbstractControlSpy(2024);
+
+        expect(StringValidators.startsWith('20')(control)).toBeNull();
+    });
+
+    it('Starts With - Invalid if a number doesnt start with the digits in a given string', () => {
+        control = createAbstractControlSpy(2024);
+
+        expect(StringValidators.startsWith('24')(control)).toEqual({ startsWith: true });
+    });
+
+    it('Starts With - Valid if a boolean starts with the string tr (from true)', () => {
+        control = createAbstractControlSpy(true);
+
+        expect(StringValidators.startsWith('tr')(control)).toBeNull();
+    });
+
+    it('Starts With - Invalid if a boolean starts with the character 1', () => {
+        control = createAbstractControlSpy(true);
+
+        expect(StringValidators.startsWith('1')(control)).toEqual({ startsWith: true });
+    });
+});
+
+describe('String Validators - StartsWith / EndsWith Edge Cases', () => {
+    describe('Null/Undefined control value handling', () => {
+        it('StartsWith - Should handle null control value', () => {
+            control = createAbstractControlSpy(null);
+
+            expect(StringValidators.startsWith('test')(control)).toEqual({ startsWith: true });
+        });
+
+        it('StartsWith - Should handle undefined control value', () => {
+            control = createAbstractControlSpy(undefined);
+
+            expect(StringValidators.startsWith('test')(control)).toEqual({ startsWith: true });
+        });
+
+        it('EndsWith - Should handle null control value', () => {
+            control = createAbstractControlSpy(null);
+
+            expect(StringValidators.endsWith('test')(control)).toEqual({ endsWith: true });
+        });
+
+        it('EndsWith - Should handle undefined control value', () => {
+            control = createAbstractControlSpy(undefined);
+
+            expect(StringValidators.endsWith('test')(control)).toEqual({ endsWith: true });
+        });
+
+        it('DoesntStartWith - Should handle null control value', () => {
+            control = createAbstractControlSpy(null);
+
+            expect(StringValidators.doesntStartWith('test')(control)).toBeNull();
+        });
+
+        it('DoesntEndWith - Should handle null control value', () => {
+            control = createAbstractControlSpy(null);
+
+            expect(StringValidators.doesntEndWith('test')(control)).toBeNull();
+        });
+    });
+
+    describe('Empty string handling', () => {
+        it('StartsWith - Should handle empty string control value', () => {
+            control = createAbstractControlSpy('');
+
+            expect(StringValidators.startsWith('test')(control)).toEqual({ startsWith: true });
+        });
+
+        it('EndsWith - Should handle empty string control value', () => {
+            control = createAbstractControlSpy('');
+
+            expect(StringValidators.endsWith('test')(control)).toEqual({ endsWith: true });
+        });
+
+        it('DoesntStartWith - Should pass with empty string control value', () => {
+            control = createAbstractControlSpy('');
+
+            expect(StringValidators.doesntStartWith('test')(control)).toBeNull();
+        });
+
+        it('DoesntEndWith - Should pass with empty string control value', () => {
+            control = createAbstractControlSpy('');
+
+            expect(StringValidators.doesntEndWith('test')(control)).toBeNull();
+        });
+    });
+
+    describe('Empty variadic args handling', () => {
+        it('StartsWith - Should fail with no arguments', () => {
+            control = createAbstractControlSpy('test');
+
+            expect(StringValidators.startsWith()(control)).toEqual({ startsWith: true });
+        });
+
+        it('EndsWith - Should fail with no arguments', () => {
+            control = createAbstractControlSpy('test');
+
+            expect(StringValidators.endsWith()(control)).toEqual({ endsWith: true });
+        });
+
+        it('DoesntStartWith - Should pass with no arguments', () => {
+            control = createAbstractControlSpy('test');
+
+            expect(StringValidators.doesntStartWith()(control)).toBeNull();
+        });
+
+        it('DoesntEndWith - Should pass with no arguments', () => {
+            control = createAbstractControlSpy('test');
+
+            expect(StringValidators.doesntEndWith()(control)).toBeNull();
+        });
+    });
+});

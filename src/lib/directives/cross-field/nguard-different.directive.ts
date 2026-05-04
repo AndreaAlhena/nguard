@@ -1,21 +1,25 @@
 import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
-import { MultiValidators } from '../../validators/multi.validators';
+
+// Types
 import { FieldComparisonConfig } from '../../types/field-comparison-config.type';
+
+// Validators
+import { CrossFieldValidators } from '../../validators/cross-field.validators';
 
 @Directive({
     providers: [
         {
             multi: true,
             provide: NG_VALIDATORS,
-            useExisting: NguardSameDirective,
+            useExisting: NguardDifferentDirective,
         },
     ],
-    selector: '[nguardSame]',
+    selector: '[nguardDifferent]',
     standalone: true,
 })
-export class NguardSameDirective implements Validator {
-    public readonly config = input.required<string | FieldComparisonConfig>({ alias: 'nguardSame' });
+export class NguardDifferentDirective implements Validator {
+    public readonly config = input.required<string | FieldComparisonConfig>({ alias: 'nguardDifferent' });
 
     constructor() {}
 
@@ -24,6 +28,6 @@ export class NguardSameDirective implements Validator {
         const [fieldKey, isStrict]: [string, boolean | undefined] =
             typeof cfg === 'string' ? [cfg, undefined] : [cfg.fieldKey, cfg.isStrict];
 
-        return MultiValidators.same(fieldKey, isStrict)(control);
+        return CrossFieldValidators.different(fieldKey, isStrict)(control);
     }
 }

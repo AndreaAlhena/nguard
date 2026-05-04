@@ -1,6 +1,6 @@
 import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
-import { MultiValidators } from '../../validators/multi.validators';
+import { CrossFieldValidators } from '../../validators/cross-field.validators';
 import { FieldConditionConfig } from '../../types/field-condition-config.type';
 
 @Directive({
@@ -25,6 +25,6 @@ export class NguardRequiredIfDirective implements Validator {
         const isStrict = typeof cfg === 'string' ? undefined : cfg.isStrict;
         const value = typeof cfg === 'string' ? undefined : cfg.value;
 
-        return MultiValidators.requiredIf(fieldKey, value, isStrict)(control);
+        return CrossFieldValidators.requiredIf(fieldKey, value, isStrict)(control);
     }
 }

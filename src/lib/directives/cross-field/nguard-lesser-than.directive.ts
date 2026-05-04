@@ -1,6 +1,6 @@
 import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
-import { MultiValidators } from '../../validators/multi.validators';
+import { CrossFieldValidators } from '../../validators/cross-field.validators';
 
 @Directive({
     providers: [
@@ -19,6 +19,6 @@ export class NguardLesserThanDirective implements Validator {
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-        return MultiValidators.lesserThan(this.fieldKey())(control);
+        return CrossFieldValidators.lesserThan(this.fieldKey())(control);
     }
 }
