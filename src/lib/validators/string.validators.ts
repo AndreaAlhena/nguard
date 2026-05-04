@@ -21,6 +21,25 @@ const _compareLength = (value: unknown, target: unknown, op: '>' | '>=' | '<' | 
     }
 };
 
+const _compareLengthLiteral = (value: unknown, target: number, op: '>' | '>=' | '<' | '<=' | '==='): boolean => {
+    if (!isString(value)) {
+        return false;
+    }
+    const a = value.length;
+    switch (op) {
+        case '>':
+            return a > target;
+        case '>=':
+            return a >= target;
+        case '<':
+            return a < target;
+        case '<=':
+            return a <= target;
+        case '===':
+            return a === target;
+    }
+};
+
 export namespace StringValidators {
     /**
      * Validate that an attribute contains only Unicode alphabetic characters (matched by \p{L} and \p{M})
@@ -233,6 +252,51 @@ export namespace StringValidators {
         } catch {
             return { json: true };
         }
+    };
+
+    /**
+     * The field under validation must be a string of exactly the given length.
+     *
+     * ```
+     * code: new FormControl('', [StringValidators.length(6)]),
+     * ```
+     *
+     * @param {number} n The required string length
+     * @returns {ValidatorFn}
+     */
+    export const length = (n: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compareLengthLiteral(c.value, n, '===') ? null : { length: true };
+    };
+
+    /**
+     * The field under validation must be a string of length less than or equal to the given maximum.
+     *
+     * ```
+     * username: new FormControl('', [StringValidators.maxLength(20)]),
+     * ```
+     *
+     * @param {number} n The maximum allowed length
+     * @returns {ValidatorFn}
+     */
+    export const maxLength = (n: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compareLengthLiteral(c.value, n, '<=') ? null : { maxLength: true };
+    };
+
+    /**
+     * The field under validation must be a string of length greater than or equal to the given minimum.
+     *
+     * ```
+     * password: new FormControl('', [StringValidators.minLength(8)]),
+     * ```
+     *
+     * @param {number} n The minimum required length
+     * @returns {ValidatorFn}
+     */
+    export const minLength = (n: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compareLengthLiteral(c.value, n, '>=') ? null : { minLength: true };
     };
 
     /**

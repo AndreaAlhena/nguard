@@ -1246,3 +1246,105 @@ describe('String Validators - Shorter or Equal To', () => {
         expect(StringValidators.shorterOrEqualTo('')(control)).toEqual({ shorterOrEqualTo: true });
     });
 });
+
+describe('String Validators - Length', () => {
+    it('Valid when length matches exactly', () => {
+        control = createAbstractControlSpy('hello');
+
+        expect(StringValidators.length(5)(control)).toBeNull();
+    });
+
+    it('Invalid when length is shorter', () => {
+        control = createAbstractControlSpy('hi');
+
+        expect(StringValidators.length(5)(control)).toEqual({ length: true });
+    });
+
+    it('Invalid when length is longer', () => {
+        control = createAbstractControlSpy('hellos');
+
+        expect(StringValidators.length(5)(control)).toEqual({ length: true });
+    });
+
+    it('Valid for empty string when length(0)', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.length(0)(control)).toBeNull();
+    });
+
+    it('Invalid on non-string input', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.length(5)(control)).toEqual({ length: true });
+    });
+
+    it('Invalid on null input', () => {
+        control = createAbstractControlSpy(null);
+
+        expect(StringValidators.length(5)(control)).toEqual({ length: true });
+    });
+});
+
+describe('String Validators - Min Length', () => {
+    it('Valid when length equals minimum', () => {
+        control = createAbstractControlSpy('hello');
+
+        expect(StringValidators.minLength(5)(control)).toBeNull();
+    });
+
+    it('Valid when length exceeds minimum', () => {
+        control = createAbstractControlSpy('hello world');
+
+        expect(StringValidators.minLength(5)(control)).toBeNull();
+    });
+
+    it('Invalid when length is below minimum', () => {
+        control = createAbstractControlSpy('hi');
+
+        expect(StringValidators.minLength(5)(control)).toEqual({ minLength: true });
+    });
+
+    it('Invalid on empty string when min > 0', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.minLength(1)(control)).toEqual({ minLength: true });
+    });
+
+    it('Invalid on non-string input', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.minLength(2)(control)).toEqual({ minLength: true });
+    });
+});
+
+describe('String Validators - Max Length', () => {
+    it('Valid when length equals maximum', () => {
+        control = createAbstractControlSpy('hello');
+
+        expect(StringValidators.maxLength(5)(control)).toBeNull();
+    });
+
+    it('Valid when length is below maximum', () => {
+        control = createAbstractControlSpy('hi');
+
+        expect(StringValidators.maxLength(5)(control)).toBeNull();
+    });
+
+    it('Invalid when length exceeds maximum', () => {
+        control = createAbstractControlSpy('hello world');
+
+        expect(StringValidators.maxLength(5)(control)).toEqual({ maxLength: true });
+    });
+
+    it('Valid on empty string when max >= 0', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.maxLength(5)(control)).toBeNull();
+    });
+
+    it('Invalid on non-string input', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.maxLength(10)(control)).toEqual({ maxLength: true });
+    });
+});
