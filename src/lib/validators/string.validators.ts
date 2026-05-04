@@ -188,6 +188,34 @@ export namespace StringValidators {
     };
 
     /**
+     * Validate that the attribute contains at least one of the given substrings.
+     * The performed check is case insensitive.
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.String.contains('first', 'second', 'third')
+     * ])
+     * ```
+     *
+     * @param {primitive[]} values A mixed array of primitive values
+     * @return {ValidatorFn}
+     */
+    export const contains = (...values: primitive[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            if (!isString(control.value)) {
+                return { contains: true };
+            }
+            const haystack = control.value.toLowerCase();
+            for (const value of values) {
+                if (haystack.includes(`${value}`.toLowerCase())) {
+                    return null;
+                }
+            }
+            return { contains: true };
+        };
+    };
+
+    /**
      * The field under validation must be a valid email address (RFC 5322 compliant)
      *
      * ```
@@ -357,6 +385,34 @@ export namespace StringValidators {
             return { notBlank: true };
         }
         return c.value.trim().length > 0 ? null : { notBlank: true };
+    };
+
+    /**
+     * Validate that the attribute contains none of the given substrings.
+     * The performed check is case insensitive.
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.String.notContains('badword', 'forbidden')
+     * ])
+     * ```
+     *
+     * @param {primitive[]} values A mixed array of primitive values
+     * @return {ValidatorFn}
+     */
+    export const notContains = (...values: primitive[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            if (!isString(control.value)) {
+                return { notContains: true };
+            }
+            const haystack = control.value.toLowerCase();
+            for (const value of values) {
+                if (haystack.includes(`${value}`.toLowerCase())) {
+                    return { notContains: true };
+                }
+            }
+            return null;
+        };
     };
 
     /**
