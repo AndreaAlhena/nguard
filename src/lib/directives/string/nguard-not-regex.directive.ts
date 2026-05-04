@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { StringValidators } from '../../validators/string.validators';
 
@@ -14,11 +14,11 @@ import { StringValidators } from '../../validators/string.validators';
     standalone: true,
 })
 export class NguardNotRegexDirective implements Validator {
-    @Input('nguardNotRegex') public pattern!: RegExp;
+    public readonly pattern = input.required<RegExp>({ alias: 'nguardNotRegex' });
 
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-        return StringValidators.notRegex(this.pattern)(control);
+        return StringValidators.notRegex(this.pattern())(control);
     }
 }

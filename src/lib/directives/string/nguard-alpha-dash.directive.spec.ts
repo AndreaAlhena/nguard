@@ -1,13 +1,19 @@
+import { ComponentFixture } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
 import { NguardAlphaDashDirective } from './nguard-alpha-dash.directive';
-import { createAbstractControlSpy } from '../../utils/test.utils';
+import { createAbstractControlSpy, createDirectiveFixture, TestHostComponent } from '../../utils/test.utils';
 
 describe('NguardAlphaDashDirective', () => {
     let control: AbstractControl;
     let directive: NguardAlphaDashDirective;
+    let fixture: ComponentFixture<TestHostComponent>;
+    let host: TestHostComponent;
 
     beforeEach(() => {
-        directive = new NguardAlphaDashDirective();
+        ({ directive, fixture, host } = createDirectiveFixture(
+            NguardAlphaDashDirective,
+            '<div [nguardAlphaDash]="$any(value)"></div>'
+        ));
     });
 
     it('should create an instance', () => {
@@ -16,14 +22,16 @@ describe('NguardAlphaDashDirective', () => {
 
     it('should validate a properly formatted value (ASCII true)', () => {
         control = createAbstractControlSpy('abcABC_-123');
-        directive.config = { hasAsciiOnly: true };
+        host.value = { hasAsciiOnly: true };
+        fixture.detectChanges();
 
         expect(directive.validate(control)).toBeNull();
     });
 
     it('should validate a non properly formatted value (ASCII true)', () => {
         control = createAbstractControlSpy('a 2 c');
-        directive.config = { hasAsciiOnly: true };
+        host.value = { hasAsciiOnly: true };
+        fixture.detectChanges();
 
         expect(directive.validate(control)).toEqual({ alphaDash: true });
     });
