@@ -1,7 +1,25 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { primitive } from '../utils/validators.utils';
 
-const isString = (value: unknown): boolean => typeof value === 'string';
+const isString = (value: unknown): value is string => typeof value === 'string';
+
+const _compareLength = (value: unknown, target: unknown, op: '>' | '>=' | '<' | '<='): boolean => {
+    if (!isString(value) || !isString(target)) {
+        return false;
+    }
+    const a = value.length;
+    const b = target.length;
+    switch (op) {
+        case '>':
+            return a > b;
+        case '>=':
+            return a >= b;
+        case '<':
+            return a < b;
+        case '<=':
+            return a <= b;
+    }
+};
 
 export namespace StringValidators {
     /**
@@ -230,13 +248,8 @@ export namespace StringValidators {
      * @returns {ValidatorFn}
      */
     export const longerThan = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            const sibling = c.parent?.get(fieldKey)?.value;
-            if (!isString(c.value) || !isString(sibling)) {
-                return { longerThan: true };
-            }
-            return c.value.length > sibling.length ? null : { longerThan: true };
-        };
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compareLength(c.value, c.parent?.get(fieldKey)?.value, '>') ? null : { longerThan: true };
     };
 
     /**
@@ -251,13 +264,8 @@ export namespace StringValidators {
      * @returns {ValidatorFn}
      */
     export const longerOrEqualTo = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            const sibling = c.parent?.get(fieldKey)?.value;
-            if (!isString(c.value) || !isString(sibling)) {
-                return { longerOrEqualTo: true };
-            }
-            return c.value.length >= sibling.length ? null : { longerOrEqualTo: true };
-        };
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compareLength(c.value, c.parent?.get(fieldKey)?.value, '>=') ? null : { longerOrEqualTo: true };
     };
 
     /**
@@ -338,13 +346,8 @@ export namespace StringValidators {
      * @returns {ValidatorFn}
      */
     export const shorterThan = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            const sibling = c.parent?.get(fieldKey)?.value;
-            if (!isString(c.value) || !isString(sibling)) {
-                return { shorterThan: true };
-            }
-            return c.value.length < sibling.length ? null : { shorterThan: true };
-        };
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compareLength(c.value, c.parent?.get(fieldKey)?.value, '<') ? null : { shorterThan: true };
     };
 
     /**
@@ -359,13 +362,8 @@ export namespace StringValidators {
      * @returns {ValidatorFn}
      */
     export const shorterOrEqualTo = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            const sibling = c.parent?.get(fieldKey)?.value;
-            if (!isString(c.value) || !isString(sibling)) {
-                return { shorterOrEqualTo: true };
-            }
-            return c.value.length <= sibling.length ? null : { shorterOrEqualTo: true };
-        };
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compareLength(c.value, c.parent?.get(fieldKey)?.value, '<=') ? null : { shorterOrEqualTo: true };
     };
 
     /**
