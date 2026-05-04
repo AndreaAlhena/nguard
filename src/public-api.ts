@@ -2,12 +2,10 @@
  * Public API Surface of nguard
  */
 
-// Interfaces (Config types for directives)
-export * from './lib/interfaces/alpha-directive-config.interface';
-export * from './lib/interfaces/alpha-dash-directive-config.interface';
-export * from './lib/interfaces/alpha-num-directive-config.interface';
-export * from './lib/interfaces/comparable.interface';
-export * from './lib/interfaces/required-if-config.interface';
+// Types (config shapes for directives)
+export * from './lib/types/charset-config.type';
+export * from './lib/types/field-comparison-config.type';
+export * from './lib/types/field-condition-config.type';
 
 // Utility types
 export type { primitive } from './lib/utils/validators.utils';

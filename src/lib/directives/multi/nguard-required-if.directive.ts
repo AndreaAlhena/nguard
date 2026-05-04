@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { MultiValidators } from '../../validators/multi.validators';
-import { IRequiredIfConfig } from '../../interfaces/required-if-config.interface';
+import { FieldConditionConfig } from '../../types/field-condition-config.type';
 import { primitive } from '../../utils/validators.utils';
 
 @Directive({
@@ -16,7 +16,7 @@ import { primitive } from '../../utils/validators.utils';
     standalone: true,
 })
 export class NguardRequiredIfDirective implements Validator {
-    @Input('nguardRequiredIf') public config!: string | IRequiredIfConfig;
+    @Input('nguardRequiredIf') public config!: string | FieldConditionConfig;
 
     constructor() {}
 
