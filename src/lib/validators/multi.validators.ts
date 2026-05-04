@@ -22,7 +22,7 @@ export namespace MultiValidators {
     };
 
     /**
-     * Validate that an attribute is different to another one with the specified compareFieldKey
+     * Validate that an attribute is different to another one with the specified fieldKey
      * The performed check is case sensitive for strings
      *
      * ```
@@ -31,9 +31,9 @@ export namespace MultiValidators {
      * ```
      * @return {ValidationFn}
      */
-    export const different = (compareFieldKey: string, isStrict: boolean = false): ValidatorFn => {
+    export const different = (fieldKey: string, isStrict: boolean = false): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            if (equalityCheck(c.value, c.parent?.get(compareFieldKey)?.value, isStrict)) {
+            if (equalityCheck(c.value, c.parent?.get(fieldKey)?.value, isStrict)) {
                 return {
                     different: true,
                 };
@@ -133,12 +133,12 @@ export namespace MultiValidators {
      * ])
      * ```
      *
-     * @param {string} compareFieldKey
+     * @param {string} fieldKey
      * @returns {ValidatorFn}
      */
-    export const greaterThan = (compareFieldKey: string): ValidatorFn => {
+    export const greaterThan = (fieldKey: string): ValidatorFn => {
         return (c: AbstractControl) => {
-            const [value1, value2] = [c.value, c.parent?.get(compareFieldKey)?.value];
+            const [value1, value2] = [c.value, c.parent?.get(fieldKey)?.value];
 
             if (!haveSameType(value1, value2)) {
                 return { greaterThan: true };
@@ -164,12 +164,12 @@ export namespace MultiValidators {
      * ])
      * ```
      *
-     * @param {string} compareFieldKey
+     * @param {string} fieldKey
      * @returns {ValidatorFn}
      */
-    export const greaterThanOrEqual = (compareFieldKey: string): ValidatorFn => {
+    export const greaterThanOrEqual = (fieldKey: string): ValidatorFn => {
         return (c: AbstractControl) => {
-            const [value1, value2] = [c.value, c.parent?.get(compareFieldKey)?.value];
+            const [value1, value2] = [c.value, c.parent?.get(fieldKey)?.value];
 
             if (!haveSameType(value1, value2)) {
                 return { greaterThanOrEqual: true };
@@ -195,12 +195,12 @@ export namespace MultiValidators {
      * ])
      * ```
      *
-     * @param {string} compareFieldKey
+     * @param {string} fieldKey
      * @returns {ValidatorFn}
      */
-    export const lesserThan = (compareFieldKey: string): ValidatorFn => {
+    export const lesserThan = (fieldKey: string): ValidatorFn => {
         return (c: AbstractControl) => {
-            const [value1, value2] = [c.value, c.parent?.get(compareFieldKey)?.value];
+            const [value1, value2] = [c.value, c.parent?.get(fieldKey)?.value];
 
             if (!haveSameType(value1, value2)) {
                 return { lesserThan: true };
@@ -226,12 +226,12 @@ export namespace MultiValidators {
      * ])
      * ```
      *
-     * @param {string} compareFieldKey
+     * @param {string} fieldKey
      * @returns {ValidatorFn}
      */
-    export const lesserThanOrEqual = (compareFieldKey: string): ValidatorFn => {
+    export const lesserThanOrEqual = (fieldKey: string): ValidatorFn => {
         return (c: AbstractControl) => {
-            const [value1, value2] = [c.value, c.parent?.get(compareFieldKey)?.value];
+            const [value1, value2] = [c.value, c.parent?.get(fieldKey)?.value];
 
             if (!haveSameType(value1, value2)) {
                 return { lesserThanOrEqual: true };
@@ -274,7 +274,7 @@ export namespace MultiValidators {
     };
 
     /**
-     * Validate that an attribute is equal to another one with the specified compareFieldKey
+     * Validate that an attribute is equal to another one with the specified fieldKey
      * The performed check is case sensitive
      *
      * ```
@@ -283,9 +283,9 @@ export namespace MultiValidators {
      * ```
      * @return {ValidationFn}
      */
-    export const same = (compareFieldKey: string, isStrict: boolean = false): ValidatorFn => {
+    export const same = (fieldKey: string, isStrict: boolean = false): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            if (equalityCheck(c.value, c.parent?.get(compareFieldKey)?.value, isStrict)) {
+            if (equalityCheck(c.value, c.parent?.get(fieldKey)?.value, isStrict)) {
                 return null;
             }
 
