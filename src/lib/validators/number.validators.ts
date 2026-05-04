@@ -153,6 +153,46 @@ export namespace NumberValidators {
     };
 
     /**
+     * The field under validation must be an even integer.
+     *
+     * ```
+     * count: new FormControl('', [NumberValidators.even]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const even = (c: AbstractControl): ValidationErrors | null => {
+        if (!isNumeric(c.value)) {
+            return { even: true };
+        }
+        const num = Number(c.value);
+        if (!Number.isInteger(num)) {
+            return { even: true };
+        }
+        return num % 2 === 0 ? null : { even: true };
+    };
+
+    /**
+     * The field under validation must be an odd integer.
+     *
+     * ```
+     * count: new FormControl('', [NumberValidators.odd]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const odd = (c: AbstractControl): ValidationErrors | null => {
+        if (!isNumeric(c.value)) {
+            return { odd: true };
+        }
+        const num = Number(c.value);
+        if (!Number.isInteger(num)) {
+            return { odd: true };
+        }
+        return num % 2 !== 0 ? null : { odd: true };
+    };
+
+    /**
      * The field under validation must be an integer with exactly `n` digits (sign and decimal point excluded).
      *
      * ```
