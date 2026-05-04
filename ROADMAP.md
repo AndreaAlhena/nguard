@@ -4,95 +4,117 @@ This document outlines the planned releases for the nGuard Angular validation li
 
 ---
 
-## Current State (v0.0.1)
+## Architectural foundations
 
-### Implemented Validators
+The library is organized **by data type**. Every validator function lives in the namespace that matches the data domain it operates on; cross-field validators are reserved for relations that are genuinely type-agnostic (e.g. equality between two fields).
 
-**String Validators (7)**
-- `alpha` - Unicode alphabetic characters
-- `alphaDash` - Alphanumeric + dash/underscore
-- `alphaNum` - Alphanumeric characters
-- `ascii` - ASCII characters only
-- `lowercase` - Must be lowercase
-- `uppercase` - Must be uppercase
-- `url` - Valid URL format
+Three namespaces today, more on the way:
 
-**Multi-field Validators (8)**
-- `same` - Field equals another field
-- `different` - Field differs from another field
-- `startsWith` - Starts with given value(s)
-- `endsWith` - Ends with given value(s)
-- `doesntStartWith` - Doesn't start with value(s)
-- `doesntEndWith` - Doesn't end with value(s)
-- `requiredIf` - Required if condition met
+- `NguardValidators.CrossField` — validators that read a sibling field via `control.parent.get(...)`
+- `NguardValidators.Number` — numeric value validation
+- `NguardValidators.String` — string format and length validation
+
+Future namespaces map cleanly onto the same axis: `Date`, `Array`, `Boolean`, `Network`, `Format`, `Async`.
+
+### Invariants
+
+- **Validator / directive parity** — every validator function ships with a matching directive that delegates to it without duplicating logic. Reactive forms use the function; template-driven forms use the directive.
+- **Type-explicit** — comparisons like `greaterThan` are split per data type. No silent polymorphism between strings and numbers.
+- **Signal-based inputs** — directives use `input()` / `input.required()` from `@angular/core` (Angular ≥17.3). Specs use a `createDirectiveFixture` host to drive bindings.
+- **No `any`** — source enforces `unknown` over `any` everywhere.
+- **DRY primitives** — internal helpers like `_compare(value, target, op)` and `_compareLength(value, target, op)` back the comparison validators.
 
 ---
 
-## v0.1.0 - Core Essentials
+## Current state (v0.1.0 — shipped)
 
-**Goal:** Implement the most commonly used validators that every form needs.
+**35 validators across 3 namespaces.** All validators have matching directives; all specs pass.
 
-### String Validators
-| Validator | Description | Priority |
-|-----------|-------------|----------|
-| `email` | Valid email address (RFC 5322 compliant) | High |
-| `regex` | Matches a regular expression pattern | High |
-| `notRegex` | Does not match a pattern | High |
-| `json` | Valid JSON string | Medium |
-| `notBlank` | Not empty or whitespace only | High |
+### `NguardValidators.CrossField` (4)
 
-### Number Validators (New Namespace)
-| Validator | Description | Priority |
-|-----------|-------------|----------|
-| `integer` | Must be an integer | High |
-| `numeric` | Must be numeric (int or float) | High |
-| `min` | Minimum value | High |
-| `max` | Maximum value | High |
-| `between` | Value between min and max | High |
-| `positive` | Must be > 0 | Medium |
-| `negative` | Must be < 0 | Medium |
+| Validator | Description |
+|-----------|-------------|
+| `confirmed` | Field matches a `{field}_confirmation` sibling |
+| `different` | Field differs from another field |
+| `requiredIf` | Required when another field has a (matching) value |
+| `same` | Field equals another field |
 
-### Multi-field Validators
-| Validator | Description | Priority |
-|-----------|-------------|----------|
-| `confirmed` | Field matches `{field}_confirmation` | High |
-| `gt` | Greater than another field | High |
-| `gte` | Greater than or equal to another field | High |
-| `lt` | Less than another field | High |
-| `lte` | Less than or equal to another field | High |
+### `NguardValidators.Number` (11)
 
-### Tasks
-- [ ] Create `NumberValidators` namespace
-- [ ] Implement 5 string validators
-- [ ] Implement 7 number validators
-- [ ] Implement 5 multi-field validators
-- [ ] Add null/empty value handling to all validators
-- [ ] Create directives for all new validators
-- [ ] Write unit tests (100% coverage target)
-- [ ] Update documentation site
+| Validator | Description |
+|-----------|-------------|
+| `between` | Numeric value within `[min, max]` (inclusive) |
+| `greaterThan` | Numeric value strictly greater than a sibling field |
+| `greaterThanOrEqual` | Numeric value greater than or equal to a sibling field |
+| `integer` | Whole number |
+| `lesserThan` | Numeric value strictly lesser than a sibling field |
+| `lesserThanOrEqual` | Numeric value lesser than or equal to a sibling field |
+| `max` | Numeric value `<=` literal |
+| `min` | Numeric value `>=` literal |
+| `negative` | Numeric value `< 0` |
+| `numeric` | Numeric (integer or floating point) |
+| `positive` | Numeric value `> 0` |
 
-**Total new validators: 17**
+### `NguardValidators.String` (20)
+
+| Validator | Description |
+|-----------|-------------|
+| `alpha` | Unicode alphabetic characters (ASCII-only mode optional) |
+| `alphaDash` | Alphanumeric + dash/underscore |
+| `alphaNum` | Alphanumeric characters |
+| `ascii` | ASCII range only |
+| `doesntEndWith` | String doesn't end with one of the given values |
+| `doesntStartWith` | String doesn't start with one of the given values |
+| `email` | RFC 5322-compliant email |
+| `endsWith` | String ends with one of the given values |
+| `json` | Valid JSON string |
+| `longerOrEqualTo` | Length `>=` a sibling field's length |
+| `longerThan` | Length strictly greater than a sibling field's length |
+| `lowercase` | All lowercase |
+| `notBlank` | Not empty / whitespace-only |
+| `notRegex` | Does not match the given pattern |
+| `regex` | Matches the given pattern |
+| `shorterOrEqualTo` | Length `<=` a sibling field's length |
+| `shorterThan` | Length strictly lesser than a sibling field's length |
+| `startsWith` | String starts with one of the given values |
+| `uppercase` | All uppercase |
+| `url` | Valid URL format |
+
+### Architectural changes since the initial v0.1.0 implementation
+
+The architectural refactor (umbrella issue #12, six PRs) reshaped the library between the original v0.1.0 implementation and the post-refactor state above:
+
+- Renamed `MultiValidators` → `CrossFieldValidators` (#21)
+- Moved `startsWith`/`endsWith`/`doesntStartWith`/`doesntEndWith` from `Multi` to `String` — they are pure string operations (#24)
+- Split polymorphic `gt`/`gte`/`lt`/`lte` into type-explicit `Number.greaterThan/...` and `String.longerThan/...` (#24)
+- Dropped the `gt`/`gte`/`lt`/`lte` aliases and the `range` validator (duplicate of `between`) (#24)
+- Migrated every directive from `@Input()` to signal-based `input()` / `input.required()` (#21)
+- Standardized directive aliasing — every primary input is aliased to the selector (#21)
+- Consolidated 5 per-directive interfaces into 3 shared types under `src/lib/types/` (#18)
+- Extracted `_compare` and `_compareLength` private helpers used by all comparison validators (#24)
 
 ---
 
-## v0.2.0 - Enhanced Strings & Network
+## v0.2.0 — Enhanced Strings & Network
 
 **Goal:** Add network-related validators and enhance string validation capabilities.
 
-### String Validators
+### `NguardValidators.String` additions
+
 | Validator | Description | Priority |
 |-----------|-------------|----------|
 | `uuid` | Valid UUID (v1-v5) | High |
-| `ulid` | Valid ULID | Medium |
-| `hexColor` | Valid hex color (#fff, #ffffff) | Medium |
-| `slug` | Valid URL slug (lowercase, dashes) | Medium |
+| `minLength` | Minimum string length (literal) | High |
+| `maxLength` | Maximum string length (literal) | High |
+| `length` | Exact string length (literal) | Medium |
 | `contains` | String contains substring | Medium |
 | `notContains` | String doesn't contain substring | Medium |
-| `length` | Exact string length | Medium |
-| `minLength` | Minimum string length | High |
-| `maxLength` | Maximum string length | High |
+| `slug` | Valid URL slug (lowercase, dashes) | Medium |
+| `hexColor` | Valid hex color (`#fff`, `#ffffff`) | Medium |
+| `ulid` | Valid ULID | Medium |
 
-### Network Validators (New Namespace)
+### `NguardValidators.Network` (new namespace)
+
 | Validator | Description | Priority |
 |-----------|-------------|----------|
 | `ip` | Valid IP address (v4 or v6) | High |
@@ -101,10 +123,11 @@ This document outlines the planned releases for the nGuard Angular validation li
 | `macAddress` | Valid MAC address | Medium |
 
 ### Tasks
+
 - [ ] Create `NetworkValidators` namespace
 - [ ] Implement 9 string validators
 - [ ] Implement 4 network validators
-- [ ] Create directives for all new validators
+- [ ] Create directives for all new validators (parity invariant)
 - [ ] Write unit tests
 - [ ] Update documentation site
 
@@ -112,68 +135,64 @@ This document outlines the planned releases for the nGuard Angular validation li
 
 ---
 
-## v0.3.0 - Numeric Power
+## v0.3.0 — Numeric Power
 
 **Goal:** Complete numeric validation with advanced constraints.
 
-### Number Validators
+### `NguardValidators.Number` additions
+
 | Validator | Description | Priority |
 |-----------|-------------|----------|
 | `digits` | Exact number of digits | High |
-| `digitsBetween` | Digit count between min/max | High |
+| `digitsBetween` | Digit count between min and max | High |
+| `decimal` | Decimal with N places | High |
+| `multipleOf` | Must be a multiple of N | Medium |
 | `minDigits` | Minimum number of digits | Medium |
 | `maxDigits` | Maximum number of digits | Medium |
-| `decimal` | Decimal with N places | High |
-| `multipleOf` | Must be multiple of N | Medium |
-| `even` | Must be even number | Low |
-| `odd` | Must be odd number | Low |
-
-### Size Validators (New - works across types)
-| Validator | Description | Priority |
-|-----------|-------------|----------|
-| `size` | Exact size (string length, array count, number value) | High |
-| `minSize` | Minimum size | High |
-| `maxSize` | Maximum size | High |
-| `sizeBetween` | Size between min and max | High |
+| `even` | Must be even | Low |
+| `odd` | Must be odd | Low |
 
 ### Tasks
-- [ ] Create `SizeValidators` namespace (polymorphic)
+
 - [ ] Implement 8 number validators
-- [ ] Implement 4 size validators
 - [ ] Create directives for all new validators
 - [ ] Write unit tests
 - [ ] Update documentation site
 
-**Total new validators: 12**
+**Total new validators: 8**
+
+> The `Size` polymorphic namespace from earlier drafts is collapsed: per-type length / count validators live in their respective namespaces (`String.minLength`, `Array.minSize` once arrays land, `Number.between` for value ranges).
 
 ---
 
-## v0.4.0 - Date & Time
+## v0.4.0 — Date & Time
 
 **Goal:** Comprehensive date and time validation.
 
-### Date Validators (New Namespace)
+### `NguardValidators.Date` (new namespace)
+
 | Validator | Description | Priority |
 |-----------|-------------|----------|
-| `date` | Must be a valid date | High |
-| `dateFormat` | Must match date format | High |
-| `dateEquals` | Must equal specific date | Medium |
-| `after` | Date must be after another | High |
-| `before` | Date must be before another | High |
-| `afterOrEqual` | Date >= another | High |
-| `beforeOrEqual` | Date <= another | High |
-| `afterToday` | Date must be in the future | Medium |
-| `beforeToday` | Date must be in the past | Medium |
-| `today` | Date must be today | Low |
-| `timezone` | Valid timezone identifier | Low |
+| `date` | Valid date | High |
+| `dateFormat` | Matches a date format | High |
+| `after` | Date after another (sibling field, lives in `CrossField` if cross-field) | High |
+| `before` | Date before another | High |
+| `afterOrEqual` | Date `>=` another | High |
+| `beforeOrEqual` | Date `<=` another | High |
+| `dateEquals` | Equals a specific date | Medium |
+| `afterToday` | In the future | Medium |
+| `beforeToday` | In the past | Medium |
 | `time` | Valid time format | Medium |
 | `dateRange` | Date within a range | Medium |
+| `today` | Date is today | Low |
+| `timezone` | Valid timezone identifier | Low |
 
 ### Tasks
+
 - [ ] Create `DateValidators` namespace
-- [ ] Implement 13 date validators
+- [ ] Implement 13 date validators (split between `Date` for self-contained and `CrossField` for sibling-comparison variants)
 - [ ] Support multiple date formats (ISO, locale, custom)
-- [ ] Consider date-fns or dayjs as optional peer dependency
+- [ ] Consider `date-fns` or `dayjs` as optional peer dependency
 - [ ] Create directives for all new validators
 - [ ] Write unit tests
 - [ ] Update documentation site
@@ -182,27 +201,29 @@ This document outlines the planned releases for the nGuard Angular validation li
 
 ---
 
-## v0.5.0 - Conditional Logic
+## v0.5.0 — Conditional Logic
 
-**Goal:** Advanced conditional validation rules.
+**Goal:** Advanced conditional validation rules. All extend the existing `CrossField` namespace.
 
-### Conditional Validators (extend Multi namespace)
+### `NguardValidators.CrossField` additions
+
 | Validator | Description | Priority |
 |-----------|-------------|----------|
-| `requiredUnless` | Required unless field = value | High |
-| `requiredWith` | Required if other field present | High |
-| `requiredWithAll` | Required if all fields present | Medium |
-| `requiredWithout` | Required if other field absent | High |
-| `requiredWithoutAll` | Required if all fields absent | Medium |
-| `presentIf` | Must be present if condition | Medium |
-| `presentUnless` | Must be present unless condition | Medium |
-| `prohibitedIf` | Must be empty if condition | Medium |
-| `prohibitedUnless` | Must be empty unless condition | Medium |
-| `excludeIf` | Exclude from validation if condition | Low |
-| `excludeUnless` | Exclude unless condition | Low |
+| `requiredUnless` | Required unless another field equals a value | High |
+| `requiredWith` | Required if another field is present | High |
+| `requiredWithout` | Required if another field is absent | High |
+| `requiredWithAll` | Required if all of the listed fields are present | Medium |
+| `requiredWithoutAll` | Required if all of the listed fields are absent | Medium |
+| `presentIf` | Must be present if condition holds | Medium |
+| `presentUnless` | Must be present unless condition holds | Medium |
+| `prohibitedIf` | Must be empty if condition holds | Medium |
+| `prohibitedUnless` | Must be empty unless condition holds | Medium |
+| `excludeIf` | Skip validation if condition holds | Low |
+| `excludeUnless` | Skip validation unless condition holds | Low |
 
 ### Tasks
-- [ ] Implement 11 conditional validators
+
+- [ ] Implement 11 conditional validators in `CrossField`
 - [ ] Ensure proper integration with Angular form groups
 - [ ] Create directives for all new validators
 - [ ] Write unit tests
@@ -212,22 +233,24 @@ This document outlines the planned releases for the nGuard Angular validation li
 
 ---
 
-## v0.6.0 - Boolean & Acceptance
+## v0.6.0 — Boolean & Acceptance
 
 **Goal:** Boolean validation and user acceptance patterns.
 
-### Boolean Validators (New Namespace)
+### `NguardValidators.Boolean` (new namespace)
+
 | Validator | Description | Priority |
 |-----------|-------------|----------|
 | `boolean` | Must be boolean-like | High |
-| `accepted` | Must be "yes", "on", 1, true | High |
-| `declined` | Must be "no", "off", 0, false | High |
-| `acceptedIf` | Accepted if condition met | Medium |
-| `declinedIf` | Declined if condition met | Medium |
-| `truthy` | Must be truthy value | Low |
-| `falsy` | Must be falsy value | Low |
+| `accepted` | Must be `'yes'`, `'on'`, `1`, or `true` | High |
+| `declined` | Must be `'no'`, `'off'`, `0`, or `false` | High |
+| `acceptedIf` | Accepted if condition holds | Medium |
+| `declinedIf` | Declined if condition holds | Medium |
+| `truthy` | Truthy value | Low |
+| `falsy` | Falsy value | Low |
 
 ### Tasks
+
 - [ ] Create `BooleanValidators` namespace
 - [ ] Implement 7 boolean validators
 - [ ] Create directives for all new validators
@@ -238,25 +261,27 @@ This document outlines the planned releases for the nGuard Angular validation li
 
 ---
 
-## v0.7.0 - Arrays & Collections
+## v0.7.0 — Arrays & Collections
 
 **Goal:** Validate arrays and their contents.
 
-### Array Validators (New Namespace)
+### `NguardValidators.Array` (new namespace)
+
 | Validator | Description | Priority |
 |-----------|-------------|----------|
 | `array` | Must be an array | High |
-| `arrayMin` | Array with minimum items | High |
-| `arrayMax` | Array with maximum items | High |
-| `arrayBetween` | Array size between min/max | High |
+| `minSize` | Minimum item count | High |
+| `maxSize` | Maximum item count | High |
+| `sizeBetween` | Item count within range | High |
 | `distinct` | No duplicate values | High |
 | `inArray` | Value exists in another field's array | Medium |
 | `contains` | Array contains all specified values | Medium |
-| `doesntContain` | Array doesn't contain values | Medium |
-| `requiredArrayKeys` | Array has required keys | Medium |
+| `doesntContain` | Array does not contain values | Medium |
 | `arrayOf` | All items match a validator | Medium |
+| `requiredArrayKeys` | Array (object) has required keys | Medium |
 
 ### Tasks
+
 - [ ] Create `ArrayValidators` namespace
 - [ ] Implement 10 array validators
 - [ ] Support nested validation with `arrayOf`
@@ -268,35 +293,40 @@ This document outlines the planned releases for the nGuard Angular validation li
 
 ---
 
-## v0.8.0 - Inclusion & Enumeration
+## v0.8.0 — Inclusion & Enumeration
 
 **Goal:** List-based validation and enums.
 
-### Inclusion Validators
+### Inclusion validators (per data type)
+
+These attach to the data-type namespace they validate against. `String.in('a', 'b')` validates a string against a string list; `Number.in(1, 2)` validates a number against a number list.
+
 | Validator | Description | Priority |
 |-----------|-------------|----------|
-| `in` | Value must be in list | High |
-| `notIn` | Value must not be in list | High |
-| `enum` | Value must be valid enum member | High |
-| `equalTo` | Must equal specific value | Medium |
-| `notEqualTo` | Must not equal specific value | Medium |
+| `String.in`, `Number.in` | Value in list | High |
+| `String.notIn`, `Number.notIn` | Value not in list | High |
+| `String.enum`, `Number.enum` | Value matches a TypeScript enum | High |
+| `String.equalTo`, `Number.equalTo` | Equals literal value | Medium |
+| `String.notEqualTo`, `Number.notEqualTo` | Doesn't equal literal value | Medium |
 
 ### Tasks
-- [ ] Implement 5 inclusion validators
+
+- [ ] Implement 5 inclusion validators × 2 namespaces = 10 entries
 - [ ] Support TypeScript enums in `enum` validator
 - [ ] Create directives for all new validators
 - [ ] Write unit tests
 - [ ] Update documentation site
 
-**Total new validators: 5**
+**Total new validators: 10 (5 concepts × 2 namespaces)**
 
 ---
 
-## v0.9.0 - Real-World Formats
+## v0.9.0 — Real-World Formats
 
 **Goal:** Validators for common real-world data formats.
 
-### Format Validators (New Namespace)
+### `NguardValidators.Format` (new namespace)
+
 | Validator | Description | Priority |
 |-----------|-------------|----------|
 | `creditCard` | Valid credit card number (Luhn) | High |
@@ -310,10 +340,11 @@ This document outlines the planned releases for the nGuard Angular validation li
 | `vatNumber` | Valid VAT number (EU) | Low |
 
 ### Tasks
+
 - [ ] Create `FormatValidators` namespace
 - [ ] Implement 9 format validators
 - [ ] Support country-specific formats where applicable
-- [ ] Consider libphonenumber-js as optional peer dependency
+- [ ] Consider `libphonenumber-js` as optional peer dependency
 - [ ] Create directives for all new validators
 - [ ] Write unit tests
 - [ ] Update documentation site
@@ -322,11 +353,12 @@ This document outlines the planned releases for the nGuard Angular validation li
 
 ---
 
-## v0.10.0 - Async Validators
+## v0.10.0 — Async Validators
 
 **Goal:** Server-side validation through HTTP requests.
 
-### Async Validators (New Namespace)
+### `NguardValidators.Async` (new namespace)
+
 | Validator | Description | Priority |
 |-----------|-------------|----------|
 | `unique` | Value is unique in backend (HTTP check) | High |
@@ -337,54 +369,39 @@ This document outlines the planned releases for the nGuard Angular validation li
 | `hCaptcha` | hCaptcha validation | Low |
 | `turnstile` | Cloudflare Turnstile validation | Low |
 
-### Architecture Considerations
+### Architecture considerations
+
 ```typescript
 // Example usage for unique validator
 username: new FormControl('', [], [
-  NguardAsyncValidators.unique({
+  NguardValidators.Async.unique({
     endpoint: '/api/users/check-username',
     method: 'POST',
     debounceTime: 300,
     paramName: 'username'
   })
 ])
-
-// Example usage for exists validator
-categoryId: new FormControl('', [], [
-  NguardAsyncValidators.exists({
-    endpoint: '/api/categories/:value',
-    method: 'GET'
-  })
-])
-
-// Generic remote validation
-email: new FormControl('', [], [
-  NguardAsyncValidators.remoteValidation({
-    endpoint: '/api/validate/email',
-    method: 'POST',
-    transform: (response) => response.isValid ? null : { remoteValidation: response.message }
-  })
-])
 ```
 
 ### Features
+
 - Configurable HTTP method (GET, POST, PUT)
-- Configurable debounce time to reduce server load
-- Configurable parameter name and request body format
-- Support for path parameters (`:value` substitution)
+- Configurable debounce to reduce server load
+- Path parameter substitution (`:value`)
 - Custom response transformation
-- Caching options to avoid redundant requests
+- Caching to avoid redundant requests
 - Pending state indicator support
 - Cancellation of in-flight requests on new input
 
 ### Tasks
+
 - [ ] Create `AsyncValidators` namespace
 - [ ] Implement HTTP-based validation infrastructure
 - [ ] Implement 7 async validators
 - [ ] Add debouncing and request cancellation with RxJS
 - [ ] Add caching layer for repeated validations
 - [ ] Create async directive wrappers
-- [ ] Write unit tests with HttpClientTestingModule
+- [ ] Write unit tests with `HttpClientTestingModule`
 - [ ] Document integration patterns
 - [ ] Update documentation site
 
@@ -392,11 +409,12 @@ email: new FormControl('', [], [
 
 ---
 
-## v1.0.0 - Stable Release
+## v1.0.0 — Stable Release
 
 **Goal:** Production-ready stable release.
 
 ### Tasks
+
 - [ ] Complete all planned validators
 - [ ] Full test coverage (>95%)
 - [ ] Performance optimization
@@ -405,15 +423,16 @@ email: new FormControl('', [], [
 - [ ] API stability guarantee
 - [ ] Migration guide from previous versions
 - [ ] Examples repository
-- [ ] Changelog
+- [ ] CHANGELOG up to date
 
-### Additional Features
+### Additional features
+
 | Feature | Description | Priority |
 |---------|-------------|----------|
 | `password` | Configurable password strength | High |
+| `nullable` | Allow null values | High |
 | `file` | File validation (size, type) | Medium |
 | `image` | Image validation (dimensions) | Medium |
-| `nullable` | Allow null values | High |
 | `filled` | Not empty when present | Medium |
 | `present` | Field must exist | Medium |
 | `prohibited` | Must be missing or empty | Medium |
@@ -422,19 +441,22 @@ email: new FormControl('', [], [
 
 ---
 
-## Post v1.0.0 - Future Enhancements
+## Post v1.0.0 — Future enhancements
 
 ### Internationalization
+
 - Locale-aware validators
 - Custom error messages with i18n support
 - Right-to-left (RTL) text support
 
-### Developer Experience
+### Developer experience
+
 - VS Code extension for autocomplete
 - ESLint plugin for best practices
 - Schematics for Angular CLI
 
-### Advanced Features
+### Advanced features
+
 - Conditional validator composition
 - Custom validator builder API
 - Form-level validation rules
@@ -444,37 +466,35 @@ email: new FormControl('', [], [
 
 ## Summary
 
-| Release | Focus | New Validators | Cumulative |
+| Release | Focus | New validators | Cumulative |
 |---------|-------|----------------|------------|
-| v0.0.1 | Current | 15 | 15 |
-| v0.1.0 | Core Essentials | 17 | 32 |
-| v0.2.0 | Strings & Network | 13 | 45 |
-| v0.3.0 | Numeric Power | 12 | 57 |
-| v0.4.0 | Date & Time | 13 | 70 |
-| v0.5.0 | Conditional Logic | 11 | 81 |
-| v0.6.0 | Boolean & Acceptance | 7 | 88 |
-| v0.7.0 | Arrays & Collections | 10 | 98 |
-| v0.8.0 | Inclusion & Enumeration | 5 | 103 |
-| v0.9.0 | Real-World Formats | 9 | 112 |
-| v0.10.0 | Async Validators | 7 | 119 |
-| v1.0.0 | Stable Release | 7 | 126 |
-
-**Total planned validators: 126**
+| v0.1.0 | Current state (post-refactor) | — | **35** |
+| v0.2.0 | Strings & Network | 13 | 48 |
+| v0.3.0 | Numeric Power | 8 | 56 |
+| v0.4.0 | Date & Time | 13 | 69 |
+| v0.5.0 | Conditional Logic | 11 | 80 |
+| v0.6.0 | Boolean & Acceptance | 7 | 87 |
+| v0.7.0 | Arrays & Collections | 10 | 97 |
+| v0.8.0 | Inclusion & Enumeration | 10 | 107 |
+| v0.9.0 | Real-World Formats | 9 | 116 |
+| v0.10.0 | Async Validators | 7 | 123 |
+| v1.0.0 | Stable Release | 7 | **130** |
 
 ---
 
-## Versioning Strategy
+## Versioning strategy
 
-- **Patch (0.x.Y)**: Bug fixes, documentation updates
-- **Minor (0.X.0)**: New validators, backward-compatible features
-- **Major (X.0.0)**: Breaking changes (after v1.0.0)
+- **Patch (0.x.Y)** — bug fixes, documentation updates
+- **Minor (0.X.0)** — new validators, backward-compatible features
+- **Major (X.0.0)** — breaking changes (after v1.0.0; pre-1.0 minor bumps may carry breaking changes when consolidating architecture)
 
 ## Contributing
 
 Each release should include:
-1. Validator functions in appropriate namespace
-2. Angular directives for template-driven forms
+
+1. Validator functions in the appropriate namespace
+2. Matching Angular directive (validator/directive parity invariant)
 3. Unit tests with >95% coverage
 4. Documentation pages
 5. Updated public API exports
-6. Changelog entry
+6. CHANGELOG entry
