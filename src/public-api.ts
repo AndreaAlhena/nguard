@@ -18,6 +18,7 @@ export * from './lib/directives/cross-field/nguard-required-if.directive';
 export * from './lib/directives/cross-field/nguard-same.directive';
 // - number
 export * from './lib/directives/number/nguard-between.directive';
+export * from './lib/directives/number/nguard-decimal.directive';
 export * from './lib/directives/number/nguard-digits.directive';
 export * from './lib/directives/number/nguard-digits-between.directive';
 export * from './lib/directives/number/nguard-greater-than.directive';

@@ -617,3 +617,71 @@ describe('Number Validators - Max Digits', () => {
         expect(NumberValidators.maxDigits(5)(control)).toEqual({ maxDigits: true });
     });
 });
+
+describe('Number Validators - Decimal', () => {
+    it('Valid for exact decimal places', () => {
+        control = createAbstractControlSpy('1.23');
+
+        expect(NumberValidators.decimal(2)(control)).toBeNull();
+    });
+
+    it('Invalid for too few decimal places', () => {
+        control = createAbstractControlSpy('1.2');
+
+        expect(NumberValidators.decimal(2)(control)).toEqual({ decimal: true });
+    });
+
+    it('Invalid for too many decimal places', () => {
+        control = createAbstractControlSpy('1.234');
+
+        expect(NumberValidators.decimal(2)(control)).toEqual({ decimal: true });
+    });
+
+    it('Invalid for integer when exact decimal places required', () => {
+        control = createAbstractControlSpy(1);
+
+        expect(NumberValidators.decimal(2)(control)).toEqual({ decimal: true });
+    });
+
+    it('Valid for integer when decimal(0)', () => {
+        control = createAbstractControlSpy(42);
+
+        expect(NumberValidators.decimal(0)(control)).toBeNull();
+    });
+
+    it('Valid in range form (lower bound)', () => {
+        control = createAbstractControlSpy('1.2');
+
+        expect(NumberValidators.decimal(1, 3)(control)).toBeNull();
+    });
+
+    it('Valid in range form (upper bound)', () => {
+        control = createAbstractControlSpy('1.234');
+
+        expect(NumberValidators.decimal(1, 3)(control)).toBeNull();
+    });
+
+    it('Invalid below range', () => {
+        control = createAbstractControlSpy(1);
+
+        expect(NumberValidators.decimal(1, 3)(control)).toEqual({ decimal: true });
+    });
+
+    it('Invalid above range', () => {
+        control = createAbstractControlSpy('1.2345');
+
+        expect(NumberValidators.decimal(1, 3)(control)).toEqual({ decimal: true });
+    });
+
+    it('Throws when min > max in range form', () => {
+        control = createAbstractControlSpy('1.23');
+
+        expect(() => NumberValidators.decimal(3, 1)(control)).toThrowError(RangeValidatorErrors.MinGreaterThanMax);
+    });
+
+    it('Invalid for non-numeric input', () => {
+        control = createAbstractControlSpy('abc');
+
+        expect(NumberValidators.decimal(2)(control)).toEqual({ decimal: true });
+    });
+});
