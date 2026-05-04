@@ -23,7 +23,7 @@ describe('NguardSameDirective', () => {
 
     it('should validate two fields with the same value', () => {
         control = createAbstractControlSpyWithSibling('abc', 'abc');
-        directive.config = { compareFieldKey: '' };
+        directive.config = { fieldKey: '' };
 
         expect(directive.validate(control)).toBeNull();
     });
@@ -37,21 +37,21 @@ describe('NguardSameDirective', () => {
 
     it('should fail if two fields have different values', () => {
         control = createAbstractControlSpyWithSibling('abc', 'def');
-        directive.config = { compareFieldKey: '' };
+        directive.config = { fieldKey: '' };
 
         expect(directive.validate(control)).toEqual({ same: true });
     });
 
     it('should validate two fields with the same value / different types (strict disabled)', () => {
         control = createAbstractControlSpyWithSibling('1', 1);
-        directive.config = { compareFieldKey: '', isStrict: false };
+        directive.config = { fieldKey: '', isStrict: false };
 
         expect(directive.validate(control)).toBeNull();
     });
 
     it('should fail if two fields have the same value / different types (strict enabled)', () => {
         control = createAbstractControlSpyWithSibling('1', 1);
-        directive.config = { compareFieldKey: '', isStrict: true };
+        directive.config = { fieldKey: '', isStrict: true };
 
         expect(directive.validate(control)).toEqual({ same: true });
     });

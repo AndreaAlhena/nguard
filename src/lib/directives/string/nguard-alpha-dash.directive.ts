@@ -1,8 +1,8 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
-// Interfaces
-import { IAlphaDashDirectiveConfig } from '../../interfaces/alpha-dash-directive-config.interface';
+// Types
+import { CharsetConfig } from '../../types/charset-config.type';
 
 // Validators
 import { StringValidators } from '../../validators/string.validators';
@@ -19,7 +19,7 @@ import { StringValidators } from '../../validators/string.validators';
     standalone: true,
 })
 export class NguardAlphaDashDirective implements Validator {
-    @Input('nguardAlphaDash') public config!: IAlphaDashDirectiveConfig;
+    @Input('nguardAlphaDash') public config!: CharsetConfig;
 
     constructor() {}
 

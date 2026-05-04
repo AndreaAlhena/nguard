@@ -1,8 +1,8 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
-// Interfaces
-import { IComparable } from '../../interfaces/comparable.interface';
+// Types
+import { FieldComparisonConfig } from '../../types/field-comparison-config.type';
 
 // Validators
 import { MultiValidators } from '../../validators/multi.validators';
@@ -19,13 +19,13 @@ import { MultiValidators } from '../../validators/multi.validators';
     standalone: true,
 })
 export class NguardDifferentDirective implements Validator {
-    @Input('nguardDifferent') public config!: string | IComparable;
+    @Input('nguardDifferent') public config!: string | FieldComparisonConfig;
 
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
         const args: [string] | [string, boolean | undefined] =
-            typeof this.config === 'string' ? [this.config] : [this.config.compareFieldKey, this.config.isStrict];
+            typeof this.config === 'string' ? [this.config] : [this.config.fieldKey, this.config.isStrict];
 
         return MultiValidators.different.apply(this, args)(control);
     }

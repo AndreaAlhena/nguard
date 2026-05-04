@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { MultiValidators } from '../../validators/multi.validators';
-import { IComparable } from '../../interfaces/comparable.interface';
+import { FieldComparisonConfig } from '../../types/field-comparison-config.type';
 
 @Directive({
     providers: [
@@ -15,13 +15,13 @@ import { IComparable } from '../../interfaces/comparable.interface';
     standalone: true,
 })
 export class NguardSameDirective implements Validator {
-    @Input('nguardSame') public config!: string | IComparable;
+    @Input('nguardSame') public config!: string | FieldComparisonConfig;
 
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
         const args: [string] | [string, boolean | undefined] =
-            typeof this.config === 'string' ? [this.config] : [this.config.compareFieldKey, this.config.isStrict];
+            typeof this.config === 'string' ? [this.config] : [this.config.fieldKey, this.config.isStrict];
 
         return MultiValidators.same.apply(this, args)(control);
     }

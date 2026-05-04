@@ -1,8 +1,8 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
-// Interfaces
-import { IAlphaDirectiveConfig } from '../../interfaces/alpha-directive-config.interface';
+// Types
+import { CharsetConfig } from '../../types/charset-config.type';
 
 // Validators
 import { StringValidators } from '../../validators/string.validators';
@@ -19,7 +19,7 @@ import { StringValidators } from '../../validators/string.validators';
     standalone: true,
 })
 export class NguardAlphaDirective implements Validator {
-    @Input('nguardAlpha') public config!: IAlphaDirectiveConfig;
+    @Input('nguardAlpha') public config!: CharsetConfig;
 
     constructor() {}
 
