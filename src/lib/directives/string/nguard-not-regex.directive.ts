@@ -16,9 +16,7 @@ import { StringValidators } from '../../validators/string.validators';
 export class NguardNotRegexDirective implements Validator {
     public readonly pattern = input.required<RegExp>({ alias: 'nguardNotRegex' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return StringValidators.notRegex(this.pattern())(control);
     }
 }

@@ -14,9 +14,7 @@ import { StringValidators } from '../../validators/string.validators';
     standalone: true,
 })
 export class NguardNotBlankDirective implements Validator {
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return StringValidators.notBlank(control);
     }
 }

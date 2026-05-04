@@ -21,9 +21,7 @@ import { StringValidators } from '../../validators/string.validators';
 export class NguardAlphaDirective implements Validator {
     public readonly config = input<CharsetConfig | undefined>(undefined, { alias: 'nguardAlpha' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return StringValidators.alpha(this.config()?.hasAsciiOnly)(control);
     }
 }

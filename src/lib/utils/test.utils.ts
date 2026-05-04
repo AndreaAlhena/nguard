@@ -92,8 +92,8 @@ export const createEmptyStringControlSpy = () => createAbstractControlSpy('');
  * @returns A Jasmine spy object mimicking AbstractControl with parent FormGroup
  */
 export const createAbstractControlSpyWithSibling = (
-    field1Value: any,
-    field2Value: any
+    field1Value: unknown,
+    field2Value: unknown
 ): jasmine.SpyObj<AbstractControl> => {
     const parent = jasmine.createSpyObj('FormGroup', ['get']);
     const control1 = jasmine.createSpyObj('FormControl', [], { value: field1Value, parent });
@@ -109,7 +109,7 @@ export const createAbstractControlSpyWithSibling = (
  * @param field1Value The value of the main control
  * @returns A Jasmine spy object mimicking AbstractControl with null sibling
  */
-export const createControlSpyWithNullSibling = (field1Value: any): jasmine.SpyObj<AbstractControl> =>
+export const createControlSpyWithNullSibling = (field1Value: unknown): jasmine.SpyObj<AbstractControl> =>
     createAbstractControlSpyWithSibling(field1Value, null);
 
 /**
@@ -117,7 +117,7 @@ export const createControlSpyWithNullSibling = (field1Value: any): jasmine.SpyOb
  * @param field1Value The value of the main control
  * @returns A Jasmine spy object mimicking AbstractControl with undefined sibling
  */
-export const createControlSpyWithUndefinedSibling = (field1Value: any): jasmine.SpyObj<AbstractControl> =>
+export const createControlSpyWithUndefinedSibling = (field1Value: unknown): jasmine.SpyObj<AbstractControl> =>
     createAbstractControlSpyWithSibling(field1Value, undefined);
 
 /**

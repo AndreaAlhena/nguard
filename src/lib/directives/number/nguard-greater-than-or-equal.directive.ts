@@ -16,9 +16,7 @@ import { NumberValidators } from '../../validators/number.validators';
 export class NguardGreaterThanOrEqualDirective implements Validator {
     public readonly fieldKey = input.required<string>({ alias: 'nguardGreaterThanOrEqual' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return NumberValidators.greaterThanOrEqual(this.fieldKey())(control);
     }
 }

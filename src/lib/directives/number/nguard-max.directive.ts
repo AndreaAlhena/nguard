@@ -16,9 +16,7 @@ import { NumberValidators } from '../../validators/number.validators';
 export class NguardMaxDirective implements Validator {
     public readonly maxVal = input.required<number>({ alias: 'nguardMax' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return NumberValidators.max(this.maxVal())(control);
     }
 }

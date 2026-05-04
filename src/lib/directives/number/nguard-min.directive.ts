@@ -16,9 +16,7 @@ import { NumberValidators } from '../../validators/number.validators';
 export class NguardMinDirective implements Validator {
     public readonly minVal = input.required<number>({ alias: 'nguardMin' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return NumberValidators.min(this.minVal())(control);
     }
 }

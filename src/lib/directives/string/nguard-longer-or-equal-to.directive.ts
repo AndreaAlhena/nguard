@@ -16,9 +16,7 @@ import { StringValidators } from '../../validators/string.validators';
 export class NguardLongerOrEqualToDirective implements Validator {
     public readonly fieldKey = input.required<string>({ alias: 'nguardLongerOrEqualTo' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return StringValidators.longerOrEqualTo(this.fieldKey())(control);
     }
 }

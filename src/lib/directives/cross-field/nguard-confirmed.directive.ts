@@ -16,9 +16,7 @@ import { CrossFieldValidators } from '../../validators/cross-field.validators';
 export class NguardConfirmedDirective implements Validator {
     public readonly fieldKey = input.required<string>({ alias: 'nguardConfirmed' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return CrossFieldValidators.confirmed(this.fieldKey())(control);
     }
 }

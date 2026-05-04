@@ -17,9 +17,7 @@ import { FieldConditionConfig } from '../../types/field-condition-config.type';
 export class NguardRequiredIfDirective implements Validator {
     public readonly config = input.required<string | FieldConditionConfig>({ alias: 'nguardRequiredIf' });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         const cfg = this.config();
         const fieldKey = typeof cfg === 'string' ? cfg : cfg.fieldKey;
         const isStrict = typeof cfg === 'string' ? undefined : cfg.isStrict;

@@ -14,9 +14,7 @@ import { NumberValidators } from '../../validators/number.validators';
     standalone: true,
 })
 export class NguardNegativeDirective implements Validator {
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    public validate(control: AbstractControl): ValidationErrors | null {
         return NumberValidators.negative(control);
     }
 }
