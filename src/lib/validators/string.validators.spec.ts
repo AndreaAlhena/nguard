@@ -1576,3 +1576,47 @@ describe('String Validators - Slug', () => {
         expect(StringValidators.slug(control)).toEqual({ slug: true });
     });
 });
+
+describe('String Validators - String', () => {
+    it('Valid for a string', () => {
+        control = createAbstractControlSpy('hello');
+
+        expect(StringValidators.string(control)).toBeNull();
+    });
+
+    it('Valid for an empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.string(control)).toBeNull();
+    });
+
+    it('Invalid for a number', () => {
+        control = createAbstractControlSpy(42);
+
+        expect(StringValidators.string(control)).toEqual({ string: true });
+    });
+
+    it('Invalid for null', () => {
+        control = createAbstractControlSpy(null);
+
+        expect(StringValidators.string(control)).toEqual({ string: true });
+    });
+
+    it('Invalid for undefined', () => {
+        control = createAbstractControlSpy(undefined);
+
+        expect(StringValidators.string(control)).toEqual({ string: true });
+    });
+
+    it('Invalid for boolean', () => {
+        control = createAbstractControlSpy(true);
+
+        expect(StringValidators.string(control)).toEqual({ string: true });
+    });
+
+    it('Invalid for an object', () => {
+        control = createAbstractControlSpy({});
+
+        expect(StringValidators.string(control)).toEqual({ string: true });
+    });
+});
