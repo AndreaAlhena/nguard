@@ -17,7 +17,10 @@ export namespace StringValidators {
      * @return {ValidationFn}
      */
     export const alpha = (hasAsciiOnly: boolean = false) => {
-        return (c: AbstractControl) => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!isString(c.value) || c.value.length === 0) {
+                return { alpha: true };
+            }
             const regEx: RegExp = hasAsciiOnly ? /^[a-zA-Z]+$/u : /^[\p{L}\p{M}]+$/u;
 
             return regEx.test(c.value) ? null : { alpha: true };
@@ -38,7 +41,10 @@ export namespace StringValidators {
      * @return {ValidationFn}
      */
     export const alphaDash = (hasAsciiOnly: boolean = false) => {
-        return (c: AbstractControl) => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!isString(c.value) || c.value.length === 0) {
+                return { alphaDash: true };
+            }
             const regEx: RegExp = hasAsciiOnly ? /^[a-zA-Z0-9_-]+$/u : /^[\p{L}\p{M}\p{N}_-]+$/u;
 
             return regEx.test(c.value) ? null : { alphaDash: true };
@@ -59,7 +65,10 @@ export namespace StringValidators {
      * @return {ValidationFn}
      */
     export const alphaNum = (hasAsciiOnly: boolean = false) => {
-        return (c: AbstractControl) => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!isString(c.value) || c.value.length === 0) {
+                return { alphaNum: true };
+            }
             const regEx: RegExp = hasAsciiOnly ? /^[a-zA-Z0-9]+$/u : /^[\p{L}\p{M}\p{N}]+$/u;
 
             return regEx.test(c.value) ? null : { alphaNum: true };
@@ -82,8 +91,13 @@ export namespace StringValidators {
      * ```
      * @return {ValidationErrors | null}
      */
-    // eslint-disable-next-line no-control-regex
-    export const ascii = (c: AbstractControl) => (/^[\x09\x0A\x0D\x20-\x7E]+$/.test(c.value) ? null : { ascii: true });
+    export const ascii = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { ascii: true };
+        }
+        // eslint-disable-next-line no-control-regex
+        return /^[\x09\x0A\x0D\x20-\x7E]+$/.test(c.value) ? null : { ascii: true };
+    };
 
     /**
      * The field under validation must be a valid email address (RFC 5322 compliant)
@@ -134,7 +148,7 @@ export namespace StringValidators {
      * @return {ValidationErrors | null}
      */
     export const lowercase = (c: AbstractControl): ValidationErrors | null =>
-        isString(c.value) && c.value.toLowerCase() === c.value ? null : { lowercase: true };
+        isString(c.value) && c.value.length > 0 && c.value.toLowerCase() === c.value ? null : { lowercase: true };
 
     /**
      * The field under validation must not be empty or contain only whitespace
@@ -199,7 +213,7 @@ export namespace StringValidators {
      * @return {ValidationErrors | null}
      */
     export const uppercase = (c: AbstractControl<string>): ValidationErrors | null =>
-        isString(c.value) && c.value.toUpperCase() === c.value ? null : { uppercase: true };
+        isString(c.value) && c.value.length > 0 && c.value.toUpperCase() === c.value ? null : { uppercase: true };
 
     /**
      * The field under validation must be a valid URL as...
