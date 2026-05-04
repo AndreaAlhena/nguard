@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { NumberValidators } from '../../validators/number.validators';
 
@@ -14,11 +14,11 @@ import { NumberValidators } from '../../validators/number.validators';
     standalone: true,
 })
 export class NguardRangeDirective implements Validator {
-    @Input('nguardRange') public values!: [number, number];
+    public readonly values = input.required<[number, number]>({ alias: 'nguardRange' });
 
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-        return NumberValidators.range(...this.values)(control);
+        return NumberValidators.range(...this.values())(control);
     }
 }

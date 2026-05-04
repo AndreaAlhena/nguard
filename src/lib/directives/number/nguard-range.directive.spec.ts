@@ -1,31 +1,37 @@
+import { ComponentFixture } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
 import { NguardRangeDirective } from './nguard-range.directive';
-import { createAbstractControlSpy } from '../../utils/test.utils';
+import { createAbstractControlSpy, createDirectiveFixture, TestHostComponent } from '../../utils/test.utils';
 
 describe('NguardRangeDirective', () => {
     let control: AbstractControl;
     let directive: NguardRangeDirective;
+    let fixture: ComponentFixture<TestHostComponent>;
+    let host: TestHostComponent;
 
     beforeEach(() => {
-        directive = new NguardRangeDirective();
+        ({ directive, fixture, host } = createDirectiveFixture(
+            NguardRangeDirective,
+            '<div [nguardRange]="$any(value)"></div>'
+        ));
     });
 
     it('should create an instance', () => {
-        const directive = new NguardRangeDirective();
-
         expect(directive).toBeTruthy();
     });
 
     it('Should validate a number in the given range', () => {
         control = createAbstractControlSpy(5);
-        directive.values = [1, 5];
+        host.value = [1, 5];
+        fixture.detectChanges();
 
         expect(directive.validate(control)).toBeNull();
     });
 
     it('Should validate a number is not in the given range', () => {
         control = createAbstractControlSpy(7);
-        directive.values = [1, 5];
+        host.value = [1, 5];
+        fixture.detectChanges();
 
         expect(directive.validate(control)).toEqual({ range: true });
     });
