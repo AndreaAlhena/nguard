@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-const isString = (value: any) => typeof value === 'string';
+const isString = (value: unknown): boolean => typeof value === 'string';
 
 export namespace StringValidators {
     /**
