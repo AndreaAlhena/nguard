@@ -1734,3 +1734,59 @@ describe('String Validators - IP', () => {
         expect(StringValidators.ip(control)).toEqual({ ip: true });
     });
 });
+
+describe('String Validators - MAC Address', () => {
+    it('Valid colon-separated MAC', () => {
+        control = createAbstractControlSpy('00:1B:44:11:3A:B7');
+
+        expect(StringValidators.macAddress(control)).toBeNull();
+    });
+
+    it('Valid lowercase colon-separated MAC', () => {
+        control = createAbstractControlSpy('00:1b:44:11:3a:b7');
+
+        expect(StringValidators.macAddress(control)).toBeNull();
+    });
+
+    it('Valid dash-separated MAC', () => {
+        control = createAbstractControlSpy('00-1B-44-11-3A-B7');
+
+        expect(StringValidators.macAddress(control)).toBeNull();
+    });
+
+    it('Valid Cisco dot-separated MAC', () => {
+        control = createAbstractControlSpy('001B.4411.3AB7');
+
+        expect(StringValidators.macAddress(control)).toBeNull();
+    });
+
+    it('Invalid for mixed separators', () => {
+        control = createAbstractControlSpy('00:1B-44:11-3A:B7');
+
+        expect(StringValidators.macAddress(control)).toEqual({ macAddress: true });
+    });
+
+    it('Invalid for short MAC', () => {
+        control = createAbstractControlSpy('00:1B:44');
+
+        expect(StringValidators.macAddress(control)).toEqual({ macAddress: true });
+    });
+
+    it('Invalid for non-hex characters', () => {
+        control = createAbstractControlSpy('ZZ:1B:44:11:3A:B7');
+
+        expect(StringValidators.macAddress(control)).toEqual({ macAddress: true });
+    });
+
+    it('Invalid for empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.macAddress(control)).toEqual({ macAddress: true });
+    });
+
+    it('Invalid for non-string input', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.macAddress(control)).toEqual({ macAddress: true });
+    });
+});
