@@ -9,6 +9,24 @@ const isNumeric = (value: unknown): boolean => {
     return !isNaN(num) && isFinite(num);
 };
 
+const _compare = (value: unknown, target: unknown, op: '>' | '>=' | '<' | '<='): boolean => {
+    if (!isNumeric(value) || !isNumeric(target)) {
+        return false;
+    }
+    const a = Number(value);
+    const b = Number(target);
+    switch (op) {
+        case '>':
+            return a > b;
+        case '>=':
+            return a >= b;
+        case '<':
+            return a < b;
+        case '<=':
+            return a <= b;
+    }
+};
+
 export namespace NumberValidators {
     /**
      * The field under validation must have a numeric value strictly greater than another field's numeric value.
@@ -23,13 +41,8 @@ export namespace NumberValidators {
      * @returns {ValidatorFn}
      */
     export const greaterThan = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            const sibling = c.parent?.get(fieldKey)?.value;
-            if (!isNumeric(c.value) || !isNumeric(sibling)) {
-                return { greaterThan: true };
-            }
-            return Number(c.value) > Number(sibling) ? null : { greaterThan: true };
-        };
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compare(c.value, c.parent?.get(fieldKey)?.value, '>') ? null : { greaterThan: true };
     };
 
     /**
@@ -44,13 +57,8 @@ export namespace NumberValidators {
      * @returns {ValidatorFn}
      */
     export const greaterThanOrEqual = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            const sibling = c.parent?.get(fieldKey)?.value;
-            if (!isNumeric(c.value) || !isNumeric(sibling)) {
-                return { greaterThanOrEqual: true };
-            }
-            return Number(c.value) >= Number(sibling) ? null : { greaterThanOrEqual: true };
-        };
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compare(c.value, c.parent?.get(fieldKey)?.value, '>=') ? null : { greaterThanOrEqual: true };
     };
 
     /**
@@ -65,13 +73,8 @@ export namespace NumberValidators {
      * @returns {ValidatorFn}
      */
     export const lesserThan = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            const sibling = c.parent?.get(fieldKey)?.value;
-            if (!isNumeric(c.value) || !isNumeric(sibling)) {
-                return { lesserThan: true };
-            }
-            return Number(c.value) < Number(sibling) ? null : { lesserThan: true };
-        };
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compare(c.value, c.parent?.get(fieldKey)?.value, '<') ? null : { lesserThan: true };
     };
 
     /**
@@ -86,17 +89,12 @@ export namespace NumberValidators {
      * @returns {ValidatorFn}
      */
     export const lesserThanOrEqual = (fieldKey: string): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            const sibling = c.parent?.get(fieldKey)?.value;
-            if (!isNumeric(c.value) || !isNumeric(sibling)) {
-                return { lesserThanOrEqual: true };
-            }
-            return Number(c.value) <= Number(sibling) ? null : { lesserThanOrEqual: true };
-        };
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compare(c.value, c.parent?.get(fieldKey)?.value, '<=') ? null : { lesserThanOrEqual: true };
     };
 
     /**
-     * The field under validation must be between the given minimum and maximum values (inclusive)
+     * The field under validation must be between the given minimum and maximum values (inclusive).
      *
      * ```
      * rating: new FormControl('', [NumberValidators.between(1, 5)]),
@@ -110,16 +108,12 @@ export namespace NumberValidators {
             if (minVal > maxVal) {
                 throw new RangeValidatorErrors.MinGreaterThanMax();
             }
-            if (!isNumeric(c.value)) {
-                return { between: true };
-            }
-            const num = Number(c.value);
-            return num >= minVal && num <= maxVal ? null : { between: true };
+            return _compare(c.value, minVal, '>=') && _compare(c.value, maxVal, '<=') ? null : { between: true };
         };
     };
 
     /**
-     * The field under validation must be an integer (whole number)
+     * The field under validation must be an integer (whole number).
      *
      * ```
      * age: new FormControl('', [NumberValidators.integer]),
@@ -130,12 +124,11 @@ export namespace NumberValidators {
         if (!isNumeric(c.value)) {
             return { integer: true };
         }
-        const num = Number(c.value);
-        return Number.isInteger(num) ? null : { integer: true };
+        return Number.isInteger(Number(c.value)) ? null : { integer: true };
     };
 
     /**
-     * The field under validation must be less than or equal to the given maximum value
+     * The field under validation must be less than or equal to the given maximum value.
      *
      * ```
      * quantity: new FormControl('', [NumberValidators.max(100)]),
@@ -144,17 +137,12 @@ export namespace NumberValidators {
      * @returns {ValidatorFn}
      */
     export const max = (maxVal: number): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            if (!isNumeric(c.value)) {
-                return { max: true };
-            }
-            const num = Number(c.value);
-            return num <= maxVal ? null : { max: true };
-        };
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compare(c.value, maxVal, '<=') ? null : { max: true };
     };
 
     /**
-     * The field under validation must be greater than or equal to the given minimum value
+     * The field under validation must be greater than or equal to the given minimum value.
      *
      * ```
      * age: new FormControl('', [NumberValidators.min(18)]),
@@ -163,77 +151,40 @@ export namespace NumberValidators {
      * @returns {ValidatorFn}
      */
     export const min = (minVal: number): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            if (!isNumeric(c.value)) {
-                return { min: true };
-            }
-            const num = Number(c.value);
-            return num >= minVal ? null : { min: true };
-        };
+        return (c: AbstractControl): ValidationErrors | null =>
+            _compare(c.value, minVal, '>=') ? null : { min: true };
     };
 
     /**
-     * The field under validation must be a negative number (less than 0)
+     * The field under validation must be a negative number (less than 0).
      *
      * ```
      * temperature: new FormControl('', [NumberValidators.negative]),
      * ```
      * @returns {ValidationErrors | null}
      */
-    export const negative = (c: AbstractControl): ValidationErrors | null => {
-        if (!isNumeric(c.value)) {
-            return { negative: true };
-        }
-        const num = Number(c.value);
-        return num < 0 ? null : { negative: true };
-    };
+    export const negative = (c: AbstractControl): ValidationErrors | null =>
+        _compare(c.value, 0, '<') ? null : { negative: true };
 
     /**
-     * The field under validation must be numeric (integer or floating point)
+     * The field under validation must be numeric (integer or floating point).
      *
      * ```
      * price: new FormControl('', [NumberValidators.numeric]),
      * ```
      * @returns {ValidationErrors | null}
      */
-    export const numeric = (c: AbstractControl): ValidationErrors | null => {
-        return isNumeric(c.value) ? null : { numeric: true };
-    };
+    export const numeric = (c: AbstractControl): ValidationErrors | null =>
+        isNumeric(c.value) ? null : { numeric: true };
 
     /**
-     * The field under validation must be a positive number (greater than 0)
+     * The field under validation must be a positive number (greater than 0).
      *
      * ```
      * amount: new FormControl('', [NumberValidators.positive]),
      * ```
      * @returns {ValidationErrors | null}
      */
-    export const positive = (c: AbstractControl): ValidationErrors | null => {
-        if (!isNumeric(c.value)) {
-            return { positive: true };
-        }
-        const num = Number(c.value);
-        return num > 0 ? null : { positive: true };
-    };
-
-    /**
-     * Validate that an attribute is in the given range of numbers (min & max values)
-     *
-     * ```
-     * age: new FormControl('', [NumberValidators.range(10, 20)]),
-     * ```
-     * @return {ValidatorFn}
-     */
-    export const range = (minVal: number, maxVal: number): ValidatorFn => {
-        return (c: AbstractControl): ValidationErrors | null => {
-            if (minVal > maxVal) {
-                throw new RangeValidatorErrors.MinGreaterThanMax();
-            }
-            if (!isNumeric(c.value)) {
-                return { range: true };
-            }
-            const value = Number(c.value);
-            return value >= minVal && value <= maxVal ? null : { range: true };
-        };
-    };
+    export const positive = (c: AbstractControl): ValidationErrors | null =>
+        _compare(c.value, 0, '>') ? null : { positive: true };
 }

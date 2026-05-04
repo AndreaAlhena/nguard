@@ -28,7 +28,6 @@ export * from './lib/directives/number/nguard-min.directive';
 export * from './lib/directives/number/nguard-negative.directive';
 export * from './lib/directives/number/nguard-numeric.directive';
 export * from './lib/directives/number/nguard-positive.directive';
-export * from './lib/directives/number/nguard-range.directive';
 // - string
 export * from './lib/directives/string/nguard-alpha-dash.directive';
 export * from './lib/directives/string/nguard-alpha-num.directive';
