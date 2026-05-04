@@ -1,14 +1,14 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { equalityCheck, haveSameType, primitive } from '../utils/validators.utils';
 
-export namespace MultiValidators {
+export namespace CrossFieldValidators {
     /**
      * The field under validation must match a field named `{field}_confirmation`.
      * For example, if the field is `password`, a matching `password_confirmation` field must be present.
      *
      * ```
      * password: new FormControl(''),
-     * password_confirmation: new FormControl('', [NguardValidators.Multi.confirmed('password')])
+     * password_confirmation: new FormControl('', [NguardValidators.CrossField.confirmed('password')])
      * ```
      *
      * @param {string} fieldKey The key of the original field to confirm
@@ -27,7 +27,7 @@ export namespace MultiValidators {
      *
      * ```
      * password: new FormControl(''),
-     * passwordConfirm: new FormControl('', [NguardValidators.Multi.different('password')])
+     * passwordConfirm: new FormControl('', [NguardValidators.CrossField.different('password')])
      * ```
      * @return {ValidatorFn}
      */
@@ -44,83 +44,6 @@ export namespace MultiValidators {
     };
 
     /**
-     * Validate that an attribute doesn't end with one of the given values.
-     * The performed check is case insensitive
-     *
-     * ```
-     * new FormControl('', [
-     *   NguardValidators.Multi.doesntEndWith('first', 'second', 'third')
-     * ])
-     * ```
-     * @return {ValidatorFn}
-     */
-    export const doesntEndWith = (...values: primitive[]): ValidatorFn => {
-        return (control: AbstractControl): ValidationErrors | null => {
-            for (const value of values) {
-                if (`${control.value}`.toLowerCase().endsWith(`${value}`.toLowerCase())) {
-                    return {
-                        doesntEndWith: true,
-                    };
-                }
-            }
-
-            return null;
-        };
-    };
-
-    /**
-     * Validate that an attribute doesn't start with one of the given values.
-     * The performed check is case insensitive
-     *
-     * ```
-     * new FormControl('', [
-     *   NguardValidators.Multi.doesntStartWith('first', 'second', 'third')
-     * ])
-     * ```
-     * @return {ValidatorFn}
-     */
-    export const doesntStartWith = (...values: primitive[]): ValidatorFn => {
-        return (control: AbstractControl): ValidationErrors | null => {
-            for (const value of values) {
-                if (`${control.value}`.toLowerCase().startsWith(`${value}`.toLowerCase())) {
-                    return {
-                        doesntStartWith: true,
-                    };
-                }
-            }
-
-            return null;
-        };
-    };
-
-    /**
-     * Validate that an attribute ends with one of the given values.
-     * The performed check is case insensitive
-     *
-     * ```
-     * new FormControl('', [
-     *   NguardValidators.Multi.endsWith('first', 'second', 'third')
-     * ])
-     * ```
-     *
-     * @param {primitive[]} values A mixed array of primitive values (strings, numbers and boolean)
-     * @return {ValidatorFn}
-     */
-    export const endsWith = (...values: primitive[]): ValidatorFn => {
-        return (control: AbstractControl): ValidationErrors | null => {
-            for (const value of values) {
-                if (`${control.value}`.toLowerCase().endsWith(`${value}`.toLowerCase())) {
-                    return null;
-                }
-            }
-
-            return {
-                endsWith: true,
-            };
-        };
-    };
-
-    /**
      * The field under validation must be greater than the given field name.
      * Both fields must be of the same type. In case of a type mismatch, the validator
      * will return a validation error
@@ -129,7 +52,7 @@ export namespace MultiValidators {
      * Numerics are evaluated accordingly to their value
      *
      * new FormControl('', [
-     *   NguardValidators.Multi.greaterThan('fieldToCompare')
+     *   NguardValidators.CrossField.greaterThan('fieldToCompare')
      * ])
      * ```
      *
@@ -160,7 +83,7 @@ export namespace MultiValidators {
      * Numerics are evaluated accordingly to their value
      *
      * new FormControl('', [
-     *   NguardValidators.Multi.greaterThan('fieldToCompare')
+     *   NguardValidators.CrossField.greaterThanOrEqual('fieldToCompare')
      * ])
      * ```
      *
@@ -191,7 +114,7 @@ export namespace MultiValidators {
      * Numerics are evaluated accordingly to their value
      *
      * new FormControl('', [
-     *   NguardValidators.Multi.lesserThan('fieldToCompare')
+     *   NguardValidators.CrossField.lesserThan('fieldToCompare')
      * ])
      * ```
      *
@@ -214,7 +137,7 @@ export namespace MultiValidators {
     };
 
     /**
-     * The field under validation must be lesser than the given field name.
+     * The field under validation must be lesser than or equal the given field name.
      * Both fields must be of the same type. In case of a type mismatch, the validator
      * will return a validation error
      *
@@ -222,7 +145,7 @@ export namespace MultiValidators {
      * Numerics are evaluated accordingly to their value
      *
      * new FormControl('', [
-     *   NguardValidators.Multi.lesserThanOrEqual('fieldToCompare')
+     *   NguardValidators.CrossField.lesserThanOrEqual('fieldToCompare')
      * ])
      * ```
      *
@@ -253,7 +176,7 @@ export namespace MultiValidators {
      *
      * ```
      * new FormControl('', [
-     *   NguardValidators.Multi.requiredIf('anotherField', 'another field value', true)
+     *   NguardValidators.CrossField.requiredIf('anotherField', 'another field value', true)
      * ])
      * ```
      *
@@ -279,7 +202,7 @@ export namespace MultiValidators {
      *
      * ```
      * password: new FormControl(''),
-     * passwordConfirm: new FormControl('', [NguardValidators.Multi.same('password')])
+     * passwordConfirm: new FormControl('', [NguardValidators.CrossField.same('password')])
      * ```
      * @return {ValidatorFn}
      */
@@ -291,33 +214,6 @@ export namespace MultiValidators {
 
             return {
                 same: true,
-            };
-        };
-    };
-
-    /**
-     * Validate that an attribute starts with one of the given values.
-     * The performed check is case insensitive
-     *
-     * ```
-     * new FormControl('', [
-     *   NguardValidators.String.startsWith('first', 'second', 'third')
-     * ])
-     * ```
-     *
-     * @param {primitive[]} values A mixed array of primitive values (strings, numbers and boolean)
-     * @return {ValidatorFn}
-     */
-    export const startsWith = (...values: primitive[]): ValidatorFn => {
-        return (control: AbstractControl): ValidationErrors | null => {
-            for (const value of values) {
-                if (`${control.value}`.toLowerCase().startsWith(`${value}`.toLowerCase())) {
-                    return null;
-                }
-            }
-
-            return {
-                startsWith: true,
             };
         };
     };

@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { primitive } from '../utils/validators.utils';
 
 const isString = (value: unknown): boolean => typeof value === 'string';
 
@@ -100,6 +101,56 @@ export namespace StringValidators {
     };
 
     /**
+     * Validate that an attribute doesn't end with one of the given values.
+     * The performed check is case insensitive
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.String.doesntEndWith('first', 'second', 'third')
+     * ])
+     * ```
+     * @return {ValidatorFn}
+     */
+    export const doesntEndWith = (...values: primitive[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            for (const value of values) {
+                if (`${control.value}`.toLowerCase().endsWith(`${value}`.toLowerCase())) {
+                    return {
+                        doesntEndWith: true,
+                    };
+                }
+            }
+
+            return null;
+        };
+    };
+
+    /**
+     * Validate that an attribute doesn't start with one of the given values.
+     * The performed check is case insensitive
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.String.doesntStartWith('first', 'second', 'third')
+     * ])
+     * ```
+     * @return {ValidatorFn}
+     */
+    export const doesntStartWith = (...values: primitive[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            for (const value of values) {
+                if (`${control.value}`.toLowerCase().startsWith(`${value}`.toLowerCase())) {
+                    return {
+                        doesntStartWith: true,
+                    };
+                }
+            }
+
+            return null;
+        };
+    };
+
+    /**
      * The field under validation must be a valid email address (RFC 5322 compliant)
      *
      * ```
@@ -116,6 +167,33 @@ export namespace StringValidators {
         const emailRegex =
             /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
         return emailRegex.test(c.value) ? null : { email: true };
+    };
+
+    /**
+     * Validate that an attribute ends with one of the given values.
+     * The performed check is case insensitive
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.String.endsWith('first', 'second', 'third')
+     * ])
+     * ```
+     *
+     * @param {primitive[]} values A mixed array of primitive values (strings, numbers and boolean)
+     * @return {ValidatorFn}
+     */
+    export const endsWith = (...values: primitive[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            for (const value of values) {
+                if (`${control.value}`.toLowerCase().endsWith(`${value}`.toLowerCase())) {
+                    return null;
+                }
+            }
+
+            return {
+                endsWith: true,
+            };
+        };
     };
 
     /**
@@ -201,6 +279,33 @@ export namespace StringValidators {
                 return { regex: true };
             }
             return pattern.test(c.value) ? null : { regex: true };
+        };
+    };
+
+    /**
+     * Validate that an attribute starts with one of the given values.
+     * The performed check is case insensitive
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.String.startsWith('first', 'second', 'third')
+     * ])
+     * ```
+     *
+     * @param {primitive[]} values A mixed array of primitive values (strings, numbers and boolean)
+     * @return {ValidatorFn}
+     */
+    export const startsWith = (...values: primitive[]): ValidatorFn => {
+        return (control: AbstractControl): ValidationErrors | null => {
+            for (const value of values) {
+                if (`${control.value}`.toLowerCase().startsWith(`${value}`.toLowerCase())) {
+                    return null;
+                }
+            }
+
+            return {
+                startsWith: true,
+            };
         };
     };
 

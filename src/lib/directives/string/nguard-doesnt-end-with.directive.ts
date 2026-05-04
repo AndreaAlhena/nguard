@@ -5,27 +5,27 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
 import { primitive } from '../../utils/validators.utils';
 
 // Validators
-import { MultiValidators } from '../../validators/multi.validators';
+import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
     providers: [
         {
             multi: true,
             provide: NG_VALIDATORS,
-            useExisting: NguardStartsWithDirective,
+            useExisting: NguardDoesntEndWithDirective,
         },
     ],
-    selector: '[nguardStartsWith]',
+    selector: '[nguardDoesntEndWith]',
     standalone: true,
 })
-export class NguardStartsWithDirective implements Validator {
-    public readonly values = input.required<primitive | primitive[]>({ alias: 'nguardStartsWith' });
+export class NguardDoesntEndWithDirective implements Validator {
+    public readonly values = input.required<primitive | primitive[]>({ alias: 'nguardDoesntEndWith' });
 
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
         const raw = this.values();
         const values = Array.isArray(raw) ? raw : [raw];
-        return MultiValidators.startsWith(...values)(control);
+        return StringValidators.doesntEndWith(...values)(control);
     }
 }

@@ -11,19 +11,15 @@ export * from './lib/types/field-condition-config.type';
 export type { primitive } from './lib/utils/validators.utils';
 
 // Directives
-// - multi
-export * from './lib/directives/multi/nguard-confirmed.directive';
-export * from './lib/directives/multi/nguard-different.directive';
-export * from './lib/directives/multi/nguard-doesnt-end-with.directive';
-export * from './lib/directives/multi/nguard-doesnt-start-with.directive';
-export * from './lib/directives/multi/nguard-ends-with.directive';
-export * from './lib/directives/multi/nguard-greater-than.directive';
-export * from './lib/directives/multi/nguard-greater-than-or-equal.directive';
-export * from './lib/directives/multi/nguard-lesser-than.directive';
-export * from './lib/directives/multi/nguard-lesser-than-or-equal.directive';
-export * from './lib/directives/multi/nguard-required-if.directive';
-export * from './lib/directives/multi/nguard-same.directive';
-export * from './lib/directives/multi/nguard-starts-with.directive';
+// - cross-field
+export * from './lib/directives/cross-field/nguard-confirmed.directive';
+export * from './lib/directives/cross-field/nguard-different.directive';
+export * from './lib/directives/cross-field/nguard-greater-than.directive';
+export * from './lib/directives/cross-field/nguard-greater-than-or-equal.directive';
+export * from './lib/directives/cross-field/nguard-lesser-than.directive';
+export * from './lib/directives/cross-field/nguard-lesser-than-or-equal.directive';
+export * from './lib/directives/cross-field/nguard-required-if.directive';
+export * from './lib/directives/cross-field/nguard-same.directive';
 // - number
 export * from './lib/directives/number/nguard-between.directive';
 export * from './lib/directives/number/nguard-integer.directive';
@@ -38,12 +34,16 @@ export * from './lib/directives/string/nguard-alpha-dash.directive';
 export * from './lib/directives/string/nguard-alpha-num.directive';
 export * from './lib/directives/string/nguard-alpha.directive';
 export * from './lib/directives/string/nguard-ascii.directive';
+export * from './lib/directives/string/nguard-doesnt-end-with.directive';
+export * from './lib/directives/string/nguard-doesnt-start-with.directive';
 export * from './lib/directives/string/nguard-email.directive';
+export * from './lib/directives/string/nguard-ends-with.directive';
 export * from './lib/directives/string/nguard-json.directive';
 export * from './lib/directives/string/nguard-lowercase.directive';
 export * from './lib/directives/string/nguard-not-blank.directive';
 export * from './lib/directives/string/nguard-not-regex.directive';
 export * from './lib/directives/string/nguard-regex.directive';
+export * from './lib/directives/string/nguard-starts-with.directive';
 export * from './lib/directives/string/nguard-uppercase.directive';
 export * from './lib/directives/string/nguard-url.directive';
 

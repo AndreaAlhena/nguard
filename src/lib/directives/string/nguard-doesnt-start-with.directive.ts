@@ -5,7 +5,7 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
 import { primitive } from '../../utils/validators.utils';
 
 // Validators
-import { MultiValidators } from '../../validators/multi.validators';
+import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
     providers: [
@@ -26,6 +26,6 @@ export class NguardDoesntStartWithDirective implements Validator {
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
         const raw = this.values();
         const values = Array.isArray(raw) ? raw : [raw];
-        return MultiValidators.doesntStartWith(...values)(control);
+        return StringValidators.doesntStartWith(...values)(control);
     }
 }
