@@ -38,6 +38,7 @@ export * from './lib/directives/string/nguard-doesnt-end-with.directive';
 export * from './lib/directives/string/nguard-doesnt-start-with.directive';
 export * from './lib/directives/string/nguard-email.directive';
 export * from './lib/directives/string/nguard-ends-with.directive';
+export * from './lib/directives/string/nguard-hex-color.directive';
 export * from './lib/directives/string/nguard-json.directive';
 export * from './lib/directives/string/nguard-length.directive';
 export * from './lib/directives/string/nguard-longer-or-equal-to.directive';
@@ -51,9 +52,12 @@ export * from './lib/directives/string/nguard-not-regex.directive';
 export * from './lib/directives/string/nguard-regex.directive';
 export * from './lib/directives/string/nguard-shorter-or-equal-to.directive';
 export * from './lib/directives/string/nguard-shorter-than.directive';
+export * from './lib/directives/string/nguard-slug.directive';
 export * from './lib/directives/string/nguard-starts-with.directive';
+export * from './lib/directives/string/nguard-ulid.directive';
 export * from './lib/directives/string/nguard-uppercase.directive';
 export * from './lib/directives/string/nguard-url.directive';
+export * from './lib/directives/string/nguard-uuid.directive';
 
 // Validators
 export * from './lib/validators/nguard.validators';

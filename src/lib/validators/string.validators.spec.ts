@@ -1424,3 +1424,155 @@ describe('String Validators - Not Contains', () => {
         expect(StringValidators.notContains('1')(control)).toEqual({ notContains: true });
     });
 });
+
+describe('String Validators - UUID', () => {
+    it('Valid UUID v4', () => {
+        control = createAbstractControlSpy('550e8400-e29b-41d4-a716-446655440000');
+
+        expect(StringValidators.uuid(control)).toBeNull();
+    });
+
+    it('Valid UUID v1', () => {
+        control = createAbstractControlSpy('e8b9a8e6-7c92-11ed-a1eb-0242ac120002');
+
+        expect(StringValidators.uuid(control)).toBeNull();
+    });
+
+    it('Invalid for malformed UUID', () => {
+        control = createAbstractControlSpy('not-a-uuid');
+
+        expect(StringValidators.uuid(control)).toEqual({ uuid: true });
+    });
+
+    it('Invalid for empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.uuid(control)).toEqual({ uuid: true });
+    });
+
+    it('Invalid for non-string input', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(StringValidators.uuid(control)).toEqual({ uuid: true });
+    });
+});
+
+describe('String Validators - ULID', () => {
+    it('Valid ULID', () => {
+        control = createAbstractControlSpy('01H8XGJWBWBAQ4N4S6EBT5T6XR');
+
+        expect(StringValidators.ulid(control)).toBeNull();
+    });
+
+    it('Invalid when length is wrong', () => {
+        control = createAbstractControlSpy('01H8XGJWBWBAQ4N4S6EBT5T6X');
+
+        expect(StringValidators.ulid(control)).toEqual({ ulid: true });
+    });
+
+    it('Invalid for non-Crockford characters', () => {
+        control = createAbstractControlSpy('01H8XGJWBWBAQ4N4S6EBT5T6IL');
+
+        expect(StringValidators.ulid(control)).toEqual({ ulid: true });
+    });
+
+    it('Invalid for empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.ulid(control)).toEqual({ ulid: true });
+    });
+});
+
+describe('String Validators - Hex Color', () => {
+    it('Valid 6-digit hex color', () => {
+        control = createAbstractControlSpy('#ffffff');
+
+        expect(StringValidators.hexColor(control)).toBeNull();
+    });
+
+    it('Valid 3-digit hex color', () => {
+        control = createAbstractControlSpy('#fff');
+
+        expect(StringValidators.hexColor(control)).toBeNull();
+    });
+
+    it('Valid 8-digit hex color (with alpha)', () => {
+        control = createAbstractControlSpy('#ffffffff');
+
+        expect(StringValidators.hexColor(control)).toBeNull();
+    });
+
+    it('Valid hex color without leading hash', () => {
+        control = createAbstractControlSpy('ffffff');
+
+        expect(StringValidators.hexColor(control)).toBeNull();
+    });
+
+    it('Invalid color name', () => {
+        control = createAbstractControlSpy('red');
+
+        expect(StringValidators.hexColor(control)).toEqual({ hexColor: true });
+    });
+
+    it('Invalid 5-digit hex', () => {
+        control = createAbstractControlSpy('#fffff');
+
+        expect(StringValidators.hexColor(control)).toEqual({ hexColor: true });
+    });
+
+    it('Invalid for empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(StringValidators.hexColor(control)).toEqual({ hexColor: true });
+    });
+});
+
+describe('String Validators - Slug', () => {
+    it('Valid lowercase slug', () => {
+        control = createAbstractControlSpy('my-blog-post');
+
+        expect(StringValidators.slug(control)).toBeNull();
+    });
+
+    it('Valid alphanumeric slug', () => {
+        control = createAbstractControlSpy('post-2024-update');
+
+        expect(StringValidators.slug(control)).toBeNull();
+    });
+
+    it('Valid single-word slug', () => {
+        control = createAbstractControlSpy('hello');
+
+        expect(StringValidators.slug(control)).toBeNull();
+    });
+
+    it('Invalid with uppercase letters', () => {
+        control = createAbstractControlSpy('My-Post');
+
+        expect(StringValidators.slug(control)).toEqual({ slug: true });
+    });
+
+    it('Invalid with leading dash', () => {
+        control = createAbstractControlSpy('-leading');
+
+        expect(StringValidators.slug(control)).toEqual({ slug: true });
+    });
+
+    it('Invalid with trailing dash', () => {
+        control = createAbstractControlSpy('trailing-');
+
+        expect(StringValidators.slug(control)).toEqual({ slug: true });
+    });
+
+    it('Invalid with consecutive dashes', () => {
+        control = createAbstractControlSpy('double--dash');
+
+        expect(StringValidators.slug(control)).toEqual({ slug: true });
+    });
+
+    it('Invalid with whitespace', () => {
+        control = createAbstractControlSpy('hello world');
+
+        expect(StringValidators.slug(control)).toEqual({ slug: true });
+    });
+});
