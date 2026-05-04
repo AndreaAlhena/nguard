@@ -30,6 +30,7 @@ export * from './lib/directives/number/nguard-max.directive';
 export * from './lib/directives/number/nguard-max-digits.directive';
 export * from './lib/directives/number/nguard-min.directive';
 export * from './lib/directives/number/nguard-min-digits.directive';
+export * from './lib/directives/number/nguard-multiple-of.directive';
 export * from './lib/directives/number/nguard-negative.directive';
 export * from './lib/directives/number/nguard-numeric.directive';
 export * from './lib/directives/number/nguard-positive.directive';

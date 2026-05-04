@@ -268,6 +268,25 @@ export namespace NumberValidators {
     };
 
     /**
+     * The field under validation must be an exact multiple of the given divisor (`value % n === 0`).
+     *
+     * ```
+     * step: new FormControl('', [NumberValidators.multipleOf(5)]),
+     * ```
+     *
+     * @param {number} n The divisor
+     * @returns {ValidatorFn}
+     */
+    export const multipleOf = (n: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!isNumeric(c.value)) {
+                return { multipleOf: true };
+            }
+            return Number(c.value) % n === 0 ? null : { multipleOf: true };
+        };
+    };
+
+    /**
      * The field under validation must be a negative number (less than 0).
      *
      * ```

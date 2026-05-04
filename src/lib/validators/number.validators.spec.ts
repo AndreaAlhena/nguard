@@ -685,3 +685,47 @@ describe('Number Validators - Decimal', () => {
         expect(NumberValidators.decimal(2)(control)).toEqual({ decimal: true });
     });
 });
+
+describe('Number Validators - Multiple Of', () => {
+    it('Valid for an exact multiple', () => {
+        control = createAbstractControlSpy(15);
+
+        expect(NumberValidators.multipleOf(5)(control)).toBeNull();
+    });
+
+    it('Valid for zero', () => {
+        control = createAbstractControlSpy(0);
+
+        expect(NumberValidators.multipleOf(5)(control)).toBeNull();
+    });
+
+    it('Valid for negative multiple', () => {
+        control = createAbstractControlSpy(-10);
+
+        expect(NumberValidators.multipleOf(5)(control)).toBeNull();
+    });
+
+    it('Valid for fractional multiple', () => {
+        control = createAbstractControlSpy(1.5);
+
+        expect(NumberValidators.multipleOf(0.5)(control)).toBeNull();
+    });
+
+    it('Invalid for non-multiple', () => {
+        control = createAbstractControlSpy(7);
+
+        expect(NumberValidators.multipleOf(5)(control)).toEqual({ multipleOf: true });
+    });
+
+    it('Invalid for non-numeric input', () => {
+        control = createAbstractControlSpy('abc');
+
+        expect(NumberValidators.multipleOf(5)(control)).toEqual({ multipleOf: true });
+    });
+
+    it('Invalid for null input', () => {
+        control = createAbstractControlSpy(null);
+
+        expect(NumberValidators.multipleOf(5)(control)).toEqual({ multipleOf: true });
+    });
+});
