@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { MultiValidators } from '../../validators/multi.validators';
 import { FieldComparisonConfig } from '../../types/field-comparison-config.type';
@@ -15,14 +15,15 @@ import { FieldComparisonConfig } from '../../types/field-comparison-config.type'
     standalone: true,
 })
 export class NguardSameDirective implements Validator {
-    @Input('nguardSame') public config!: string | FieldComparisonConfig;
+    public readonly config = input.required<string | FieldComparisonConfig>({ alias: 'nguardSame' });
 
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-        const args: [string] | [string, boolean | undefined] =
-            typeof this.config === 'string' ? [this.config] : [this.config.fieldKey, this.config.isStrict];
+        const cfg = this.config();
+        const [fieldKey, isStrict]: [string, boolean | undefined] =
+            typeof cfg === 'string' ? [cfg, undefined] : [cfg.fieldKey, cfg.isStrict];
 
-        return MultiValidators.same.apply(this, args)(control);
+        return MultiValidators.same(fieldKey, isStrict)(control);
     }
 }

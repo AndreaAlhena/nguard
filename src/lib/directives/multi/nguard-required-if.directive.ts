@@ -1,8 +1,7 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { MultiValidators } from '../../validators/multi.validators';
 import { FieldConditionConfig } from '../../types/field-condition-config.type';
-import { primitive } from '../../utils/validators.utils';
 
 @Directive({
     providers: [
@@ -16,19 +15,15 @@ import { primitive } from '../../utils/validators.utils';
     standalone: true,
 })
 export class NguardRequiredIfDirective implements Validator {
-    @Input('nguardRequiredIf') public config!: string | FieldConditionConfig;
+    public readonly config = input.required<string | FieldConditionConfig>({ alias: 'nguardRequiredIf' });
 
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-        const fieldKey = typeof this.config === 'string' ? this.config : this.config.fieldKey;
-
-        let isStrict: boolean | undefined, value: primitive | undefined;
-
-        if (typeof this.config === 'object') {
-            isStrict = this.config?.isStrict;
-            value = this.config?.value;
-        }
+        const cfg = this.config();
+        const fieldKey = typeof cfg === 'string' ? cfg : cfg.fieldKey;
+        const isStrict = typeof cfg === 'string' ? undefined : cfg.isStrict;
+        const value = typeof cfg === 'string' ? undefined : cfg.value;
 
         return MultiValidators.requiredIf(fieldKey, value, isStrict)(control);
     }

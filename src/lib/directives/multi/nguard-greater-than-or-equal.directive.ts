@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { MultiValidators } from '../../validators/multi.validators';
 
@@ -14,11 +14,11 @@ import { MultiValidators } from '../../validators/multi.validators';
     standalone: true,
 })
 export class NguardGreaterThanOrEqualDirective implements Validator {
-    @Input() public compareFieldKey!: string;
+    public readonly fieldKey = input.required<string>({ alias: 'nguardGreaterThanOrEqual' });
 
     constructor() {}
 
-    public validate(control: AbstractControl): ValidationErrors | null {
-        return MultiValidators.greaterThanOrEqual(this.compareFieldKey)(control);
+    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
+        return MultiValidators.greaterThanOrEqual(this.fieldKey())(control);
     }
 }

@@ -1,7 +1,7 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
-// Interfaces
+// Types
 import { primitive } from '../../utils/validators.utils';
 
 // Validators
@@ -19,12 +19,13 @@ import { MultiValidators } from '../../validators/multi.validators';
     standalone: true,
 })
 export class NguardStartsWithDirective implements Validator {
-    @Input('nguardStartsWith') public values!: primitive | primitive[];
+    public readonly values = input.required<primitive | primitive[]>({ alias: 'nguardStartsWith' });
 
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-        const values = Array.isArray(this.values) ? this.values : [this.values];
+        const raw = this.values();
+        const values = Array.isArray(raw) ? raw : [raw];
         return MultiValidators.startsWith(...values)(control);
     }
 }

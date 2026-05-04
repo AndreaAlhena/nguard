@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 // Types
@@ -19,12 +19,13 @@ import { MultiValidators } from '../../validators/multi.validators';
     standalone: true,
 })
 export class NguardDoesntEndWithDirective implements Validator {
-    @Input('nguardDoesntEndWith') public values!: primitive | primitive[];
+    public readonly values = input.required<primitive | primitive[]>({ alias: 'nguardDoesntEndWith' });
 
     constructor() {}
 
     public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-        const values = Array.isArray(this.values) ? this.values : [this.values];
+        const raw = this.values();
+        const values = Array.isArray(raw) ? raw : [raw];
         return MultiValidators.doesntEndWith(...values)(control);
     }
 }
