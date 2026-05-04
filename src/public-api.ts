@@ -21,6 +21,7 @@ export * from './lib/directives/number/nguard-between.directive';
 export * from './lib/directives/number/nguard-decimal.directive';
 export * from './lib/directives/number/nguard-digits.directive';
 export * from './lib/directives/number/nguard-digits-between.directive';
+export * from './lib/directives/number/nguard-even.directive';
 export * from './lib/directives/number/nguard-greater-than.directive';
 export * from './lib/directives/number/nguard-greater-than-or-equal.directive';
 export * from './lib/directives/number/nguard-integer.directive';
@@ -33,6 +34,7 @@ export * from './lib/directives/number/nguard-min-digits.directive';
 export * from './lib/directives/number/nguard-multiple-of.directive';
 export * from './lib/directives/number/nguard-negative.directive';
 export * from './lib/directives/number/nguard-numeric.directive';
+export * from './lib/directives/number/nguard-odd.directive';
 export * from './lib/directives/number/nguard-positive.directive';
 // - string
 export * from './lib/directives/string/nguard-alpha-dash.directive';

@@ -729,3 +729,79 @@ describe('Number Validators - Multiple Of', () => {
         expect(NumberValidators.multipleOf(5)(control)).toEqual({ multipleOf: true });
     });
 });
+
+describe('Number Validators - Even', () => {
+    it('Valid for an even integer', () => {
+        control = createAbstractControlSpy(4);
+
+        expect(NumberValidators.even(control)).toBeNull();
+    });
+
+    it('Valid for zero', () => {
+        control = createAbstractControlSpy(0);
+
+        expect(NumberValidators.even(control)).toBeNull();
+    });
+
+    it('Valid for negative even', () => {
+        control = createAbstractControlSpy(-6);
+
+        expect(NumberValidators.even(control)).toBeNull();
+    });
+
+    it('Invalid for an odd integer', () => {
+        control = createAbstractControlSpy(3);
+
+        expect(NumberValidators.even(control)).toEqual({ even: true });
+    });
+
+    it('Invalid for a non-integer', () => {
+        control = createAbstractControlSpy(2.5);
+
+        expect(NumberValidators.even(control)).toEqual({ even: true });
+    });
+
+    it('Invalid for non-numeric input', () => {
+        control = createAbstractControlSpy('abc');
+
+        expect(NumberValidators.even(control)).toEqual({ even: true });
+    });
+});
+
+describe('Number Validators - Odd', () => {
+    it('Valid for an odd integer', () => {
+        control = createAbstractControlSpy(3);
+
+        expect(NumberValidators.odd(control)).toBeNull();
+    });
+
+    it('Valid for negative odd', () => {
+        control = createAbstractControlSpy(-7);
+
+        expect(NumberValidators.odd(control)).toBeNull();
+    });
+
+    it('Invalid for zero', () => {
+        control = createAbstractControlSpy(0);
+
+        expect(NumberValidators.odd(control)).toEqual({ odd: true });
+    });
+
+    it('Invalid for an even integer', () => {
+        control = createAbstractControlSpy(4);
+
+        expect(NumberValidators.odd(control)).toEqual({ odd: true });
+    });
+
+    it('Invalid for a non-integer', () => {
+        control = createAbstractControlSpy(3.5);
+
+        expect(NumberValidators.odd(control)).toEqual({ odd: true });
+    });
+
+    it('Invalid for non-numeric input', () => {
+        control = createAbstractControlSpy(null);
+
+        expect(NumberValidators.odd(control)).toEqual({ odd: true });
+    });
+});
