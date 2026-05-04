@@ -1,4 +1,53 @@
+import { Component, Type } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+
+/**
+ * Result of {@link createDirectiveFixture}. Exposes the directive instance, the host
+ * component's fixture (for change detection and DOM access) and the host instance whose
+ * `value` property is bound to the directive's input through the supplied template.
+ */
+export type DirectiveFixture<T, H = TestHostComponent> = {
+    directive: T;
+    fixture: ComponentFixture<H>;
+    host: H;
+};
+
+/**
+ * Generic host component used by {@link createDirectiveFixture}. Exposes a single `value`
+ * property that test templates bind to the directive's input.
+ */
+export class TestHostComponent {
+    public value: unknown = undefined;
+}
+
+/**
+ * Creates a TestBed fixture that hosts the supplied directive on a generic component.
+ * Signal-based inputs (`input()` / `input.required()`) cannot be assigned directly on a
+ * directive instance, so tests must drive them through a host binding. Each spec passes
+ * its own template literal containing the directive's selector bound to `value`.
+ *
+ * @param directiveType The directive class under test.
+ * @param template Inline template applied to the host component, e.g. `<div [nguardAlpha]="value"></div>`.
+ * @returns The directive instance, the host fixture and the host component.
+ */
+export const createDirectiveFixture = <T>(directiveType: Type<T>, template: string): DirectiveFixture<T> => {
+    @Component({
+        imports: [directiveType],
+        standalone: true,
+        template,
+    })
+    class HostComponent extends TestHostComponent {}
+
+    TestBed.configureTestingModule({ imports: [HostComponent] });
+    const fixture = TestBed.createComponent(HostComponent);
+    fixture.detectChanges();
+
+    const directive = fixture.debugElement.query(By.directive(directiveType)).injector.get(directiveType);
+
+    return { directive, fixture, host: fixture.componentInstance };
+};
 
 /**
  * Creates a mock AbstractControl with the specified value
