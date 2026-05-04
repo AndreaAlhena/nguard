@@ -18,13 +18,17 @@ export * from './lib/directives/cross-field/nguard-required-if.directive';
 export * from './lib/directives/cross-field/nguard-same.directive';
 // - number
 export * from './lib/directives/number/nguard-between.directive';
+export * from './lib/directives/number/nguard-digits.directive';
+export * from './lib/directives/number/nguard-digits-between.directive';
 export * from './lib/directives/number/nguard-greater-than.directive';
 export * from './lib/directives/number/nguard-greater-than-or-equal.directive';
 export * from './lib/directives/number/nguard-integer.directive';
 export * from './lib/directives/number/nguard-lesser-than.directive';
 export * from './lib/directives/number/nguard-lesser-than-or-equal.directive';
 export * from './lib/directives/number/nguard-max.directive';
+export * from './lib/directives/number/nguard-max-digits.directive';
 export * from './lib/directives/number/nguard-min.directive';
+export * from './lib/directives/number/nguard-min-digits.directive';
 export * from './lib/directives/number/nguard-negative.directive';
 export * from './lib/directives/number/nguard-numeric.directive';
 export * from './lib/directives/number/nguard-positive.directive';

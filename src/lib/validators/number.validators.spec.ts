@@ -475,3 +475,145 @@ describe('Number Validators - Lesser Than or Equal', () => {
         expect(NumberValidators.lesserThanOrEqual('')(control)).toEqual({ lesserThanOrEqual: true });
     });
 });
+
+describe('Number Validators - Digits', () => {
+    it('Valid for matching digit count', () => {
+        control = createAbstractControlSpy(1234);
+
+        expect(NumberValidators.digits(4)(control)).toBeNull();
+    });
+
+    it('Valid for negative integer with matching digit count', () => {
+        control = createAbstractControlSpy(-1234);
+
+        expect(NumberValidators.digits(4)(control)).toBeNull();
+    });
+
+    it('Valid for numeric string', () => {
+        control = createAbstractControlSpy('12345');
+
+        expect(NumberValidators.digits(5)(control)).toBeNull();
+    });
+
+    it('Invalid for too few digits', () => {
+        control = createAbstractControlSpy(123);
+
+        expect(NumberValidators.digits(4)(control)).toEqual({ digits: true });
+    });
+
+    it('Invalid for too many digits', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(NumberValidators.digits(4)(control)).toEqual({ digits: true });
+    });
+
+    it('Invalid for non-integer', () => {
+        control = createAbstractControlSpy(12.34);
+
+        expect(NumberValidators.digits(4)(control)).toEqual({ digits: true });
+    });
+
+    it('Invalid for non-numeric input', () => {
+        control = createAbstractControlSpy('abc');
+
+        expect(NumberValidators.digits(3)(control)).toEqual({ digits: true });
+    });
+
+    it('Invalid for null input', () => {
+        control = createAbstractControlSpy(null);
+
+        expect(NumberValidators.digits(1)(control)).toEqual({ digits: true });
+    });
+});
+
+describe('Number Validators - Digits Between', () => {
+    it('Valid at lower bound', () => {
+        control = createAbstractControlSpy(123);
+
+        expect(NumberValidators.digitsBetween(3, 5)(control)).toBeNull();
+    });
+
+    it('Valid at upper bound', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(NumberValidators.digitsBetween(3, 5)(control)).toBeNull();
+    });
+
+    it('Invalid below lower bound', () => {
+        control = createAbstractControlSpy(12);
+
+        expect(NumberValidators.digitsBetween(3, 5)(control)).toEqual({ digitsBetween: true });
+    });
+
+    it('Invalid above upper bound', () => {
+        control = createAbstractControlSpy(123456);
+
+        expect(NumberValidators.digitsBetween(3, 5)(control)).toEqual({ digitsBetween: true });
+    });
+
+    it('Throws when min > max', () => {
+        control = createAbstractControlSpy(123);
+
+        expect(() => NumberValidators.digitsBetween(5, 3)(control)).toThrowError(
+            RangeValidatorErrors.MinGreaterThanMax
+        );
+    });
+
+    it('Invalid for non-integer', () => {
+        control = createAbstractControlSpy(12.3);
+
+        expect(NumberValidators.digitsBetween(2, 5)(control)).toEqual({ digitsBetween: true });
+    });
+});
+
+describe('Number Validators - Min Digits', () => {
+    it('Valid when digit count equals minimum', () => {
+        control = createAbstractControlSpy(123);
+
+        expect(NumberValidators.minDigits(3)(control)).toBeNull();
+    });
+
+    it('Valid when digit count exceeds minimum', () => {
+        control = createAbstractControlSpy(123456);
+
+        expect(NumberValidators.minDigits(3)(control)).toBeNull();
+    });
+
+    it('Invalid below minimum', () => {
+        control = createAbstractControlSpy(12);
+
+        expect(NumberValidators.minDigits(3)(control)).toEqual({ minDigits: true });
+    });
+
+    it('Invalid for non-numeric', () => {
+        control = createAbstractControlSpy('abc');
+
+        expect(NumberValidators.minDigits(1)(control)).toEqual({ minDigits: true });
+    });
+});
+
+describe('Number Validators - Max Digits', () => {
+    it('Valid at maximum', () => {
+        control = createAbstractControlSpy(12345);
+
+        expect(NumberValidators.maxDigits(5)(control)).toBeNull();
+    });
+
+    it('Valid below maximum', () => {
+        control = createAbstractControlSpy(12);
+
+        expect(NumberValidators.maxDigits(5)(control)).toBeNull();
+    });
+
+    it('Invalid above maximum', () => {
+        control = createAbstractControlSpy(123456);
+
+        expect(NumberValidators.maxDigits(5)(control)).toEqual({ maxDigits: true });
+    });
+
+    it('Invalid for non-integer', () => {
+        control = createAbstractControlSpy(1.2);
+
+        expect(NumberValidators.maxDigits(5)(control)).toEqual({ maxDigits: true });
+    });
+});

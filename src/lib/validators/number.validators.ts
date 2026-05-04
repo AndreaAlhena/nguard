@@ -9,6 +9,17 @@ const isNumeric = (value: unknown): boolean => {
     return !isNaN(num) && isFinite(num);
 };
 
+const _digitCount = (value: unknown): number | null => {
+    if (!isNumeric(value)) {
+        return null;
+    }
+    const num = Math.abs(Number(value));
+    if (!Number.isInteger(num)) {
+        return null;
+    }
+    return String(num).length;
+};
+
 const _compare = (value: unknown, target: unknown, op: '>' | '>=' | '<' | '<='): boolean => {
     if (!isNumeric(value) || !isNumeric(target)) {
         return false;
@@ -113,6 +124,44 @@ export namespace NumberValidators {
     };
 
     /**
+     * The field under validation must be an integer with exactly `n` digits (sign and decimal point excluded).
+     *
+     * ```
+     * pin: new FormControl('', [NumberValidators.digits(4)]),
+     * ```
+     *
+     * @param {number} n The required digit count
+     * @returns {ValidatorFn}
+     */
+    export const digits = (n: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const count = _digitCount(c.value);
+            return count === n ? null : { digits: true };
+        };
+    };
+
+    /**
+     * The field under validation must be an integer whose digit count falls within `[minVal, maxVal]` (inclusive).
+     *
+     * ```
+     * code: new FormControl('', [NumberValidators.digitsBetween(4, 6)]),
+     * ```
+     *
+     * @param {number} minVal Minimum digit count
+     * @param {number} maxVal Maximum digit count
+     * @returns {ValidatorFn}
+     */
+    export const digitsBetween = (minVal: number, maxVal: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (minVal > maxVal) {
+                throw new RangeValidatorErrors.MinGreaterThanMax();
+            }
+            const count = _digitCount(c.value);
+            return count !== null && count >= minVal && count <= maxVal ? null : { digitsBetween: true };
+        };
+    };
+
+    /**
      * The field under validation must be an integer (whole number).
      *
      * ```
@@ -128,6 +177,23 @@ export namespace NumberValidators {
     };
 
     /**
+     * The field under validation must be an integer with at most `n` digits.
+     *
+     * ```
+     * code: new FormControl('', [NumberValidators.maxDigits(6)]),
+     * ```
+     *
+     * @param {number} n Maximum digit count
+     * @returns {ValidatorFn}
+     */
+    export const maxDigits = (n: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const count = _digitCount(c.value);
+            return count !== null && count <= n ? null : { maxDigits: true };
+        };
+    };
+
+    /**
      * The field under validation must be less than or equal to the given maximum value.
      *
      * ```
@@ -139,6 +205,23 @@ export namespace NumberValidators {
     export const max = (maxVal: number): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null =>
             _compare(c.value, maxVal, '<=') ? null : { max: true };
+    };
+
+    /**
+     * The field under validation must be an integer with at least `n` digits.
+     *
+     * ```
+     * id: new FormControl('', [NumberValidators.minDigits(4)]),
+     * ```
+     *
+     * @param {number} n Minimum digit count
+     * @returns {ValidatorFn}
+     */
+    export const minDigits = (n: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const count = _digitCount(c.value);
+            return count !== null && count >= n ? null : { minDigits: true };
+        };
     };
 
     /**
