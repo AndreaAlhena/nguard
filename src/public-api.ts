@@ -11,6 +11,10 @@ export * from './lib/types/field-condition-config.type';
 export type { primitive } from './lib/utils/validators.utils';
 
 // Directives
+// - boolean
+export * from './lib/directives/boolean/nguard-boolean.directive';
+export * from './lib/directives/boolean/nguard-falsy.directive';
+export * from './lib/directives/boolean/nguard-truthy.directive';
 // - cross-field
 export * from './lib/directives/cross-field/nguard-confirmed.directive';
 export * from './lib/directives/cross-field/nguard-different.directive';

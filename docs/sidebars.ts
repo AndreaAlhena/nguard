@@ -6,6 +6,12 @@ const sidebars: SidebarsConfig = {
         'architecture',
         {
             type: 'category',
+            label: 'Boolean',
+            link: { type: 'generated-index', title: 'Boolean validators' },
+            items: ['validators/boolean/boolean', 'validators/boolean/falsy', 'validators/boolean/truthy'],
+        },
+        {
+            type: 'category',
             label: 'CrossField',
             link: { type: 'generated-index', title: 'CrossField validators' },
             items: [
