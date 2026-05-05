@@ -11,6 +11,8 @@ const sidebars: SidebarsConfig = {
             items: [
                 'validators/cross-field/confirmed',
                 'validators/cross-field/different',
+                'validators/cross-field/present-if',
+                'validators/cross-field/present-unless',
                 'validators/cross-field/required-if',
                 'validators/cross-field/required-unless',
                 'validators/cross-field/required-with',
