@@ -44,3 +44,4 @@ const seatsPerRow = new FormControl('', [NguardValidators.Number.even]);
 
 - [`odd`](./odd) — symmetric counterpart
 - [`integer`](./integer) — without parity constraint
+- [`multipleOf`](./multiple-of) — generalizes parity (`multipleOf(2)` ≡ `even` for integers)
