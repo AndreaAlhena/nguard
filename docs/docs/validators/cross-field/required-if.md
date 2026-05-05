@@ -26,7 +26,7 @@ NguardValidators.CrossField.requiredIf(
 
 ```ts
 import { FormControl, FormGroup } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 // Required whenever 'paymentMethod' is set to anything truthy
 new FormGroup({

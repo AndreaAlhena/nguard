@@ -14,7 +14,7 @@ A parameterless validator — used directly without invocation.
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const email = new FormControl('', [NguardValidators.String.email]);
 ```

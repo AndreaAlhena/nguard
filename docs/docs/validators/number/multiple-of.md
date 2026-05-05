@@ -20,7 +20,7 @@ NguardValidators.Number.multipleOf(n: number): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 // Multiples of 5 — accepts 0, 5, 10, -5, etc.
 const step = new FormControl('', [NguardValidators.Number.multipleOf(5)]);

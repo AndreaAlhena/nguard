@@ -16,7 +16,7 @@ NguardValidators.String.minLength(n: number): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const password = new FormControl('', [NguardValidators.String.minLength(8)]);
 ```

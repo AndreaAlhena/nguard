@@ -16,7 +16,7 @@ NguardValidators.String.notRegex(pattern: RegExp): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 // Reject any digit in the username
 const username = new FormControl('', [

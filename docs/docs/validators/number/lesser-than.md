@@ -20,7 +20,7 @@ NguardValidators.Number.lesserThan(fieldKey: string): ValidatorFn
 
 ```ts
 import { FormControl, FormGroup } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const range = new FormGroup({
     ceiling: new FormControl(0),

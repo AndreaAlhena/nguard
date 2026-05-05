@@ -16,7 +16,7 @@ NguardValidators.String.doesntEndWith(...values: primitive[]): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 // Reject filenames ending in temp extensions
 const filename = new FormControl('', [

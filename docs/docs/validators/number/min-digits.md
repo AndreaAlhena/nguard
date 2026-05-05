@@ -20,7 +20,7 @@ NguardValidators.Number.minDigits(n: number): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const id = new FormControl('', [NguardValidators.Number.minDigits(4)]);
 ```

@@ -24,7 +24,7 @@ NguardValidators.Number.decimal(
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 // Exact: requires '1.23' (two decimal places)
 const price = new FormControl('', [NguardValidators.Number.decimal(2)]);

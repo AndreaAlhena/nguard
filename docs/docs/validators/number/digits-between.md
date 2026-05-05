@@ -21,7 +21,7 @@ NguardValidators.Number.digitsBetween(minVal: number, maxVal: number): Validator
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const code = new FormControl('', [NguardValidators.Number.digitsBetween(4, 6)]);
 ```

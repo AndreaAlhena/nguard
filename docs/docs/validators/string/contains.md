@@ -16,7 +16,7 @@ NguardValidators.String.contains(...values: primitive[]): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const description = new FormControl('', [
     NguardValidators.String.contains('angular', 'nguard'),

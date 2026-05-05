@@ -24,7 +24,7 @@ NguardValidators.CrossField.same(
 
 ```ts
 import { FormControl, FormGroup } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const form = new FormGroup({
     sourceField: new FormControl(''),
