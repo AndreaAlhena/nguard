@@ -1,28 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { equalityCheck, primitive } from '../utils/validators.utils';
-
-/**
- * Evaluate whether the sibling identified by `fieldKey` satisfies the trigger condition.
- * If `value` is omitted the sibling must simply be truthy. If `value` is provided the
- * sibling must equal it (loose equality by default, strict when `isStrict` is true).
- *
- * Used by the conditional family — requiredUnless, presentIf, presentUnless, prohibitedIf,
- * prohibitedUnless — to decide whether the rule applies to the current control.
- */
-const _evaluateCondition = (
-    control: AbstractControl,
-    fieldKey: string,
-    value?: primitive,
-    isStrict: boolean = false
-): boolean => {
-    const siblingValue = control.parent?.get(fieldKey)?.value;
-
-    if (value === undefined) {
-        return Boolean(siblingValue);
-    }
-
-    return equalityCheck(siblingValue, value, isStrict);
-};
+import { equalityCheck, evaluateCondition, primitive } from '../utils/validators.utils';
 
 /**
  * Returns true if the sibling identified by `fieldKey` resolves to a truthy value.
@@ -99,7 +76,7 @@ export namespace CrossFieldValidators {
      */
     export const presentIf = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            if (!_evaluateCondition(c, fieldKey, value, isStrict)) {
+            if (!evaluateCondition(c, fieldKey, value, isStrict)) {
                 return null;
             }
 
@@ -125,7 +102,7 @@ export namespace CrossFieldValidators {
      */
     export const presentUnless = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            if (_evaluateCondition(c, fieldKey, value, isStrict)) {
+            if (evaluateCondition(c, fieldKey, value, isStrict)) {
                 return null;
             }
 
@@ -150,7 +127,7 @@ export namespace CrossFieldValidators {
      */
     export const prohibitedIf = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            if (!_evaluateCondition(c, fieldKey, value, isStrict)) {
+            if (!evaluateCondition(c, fieldKey, value, isStrict)) {
                 return null;
             }
 
@@ -175,7 +152,7 @@ export namespace CrossFieldValidators {
      */
     export const prohibitedUnless = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            if (_evaluateCondition(c, fieldKey, value, isStrict)) {
+            if (evaluateCondition(c, fieldKey, value, isStrict)) {
                 return null;
             }
 
@@ -231,7 +208,7 @@ export namespace CrossFieldValidators {
      */
     export const requiredUnless = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            if (_evaluateCondition(c, fieldKey, value, isStrict)) {
+            if (evaluateCondition(c, fieldKey, value, isStrict)) {
                 return null;
             }
 
