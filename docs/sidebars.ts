@@ -22,7 +22,11 @@ const sidebars: SidebarsConfig = {
             items: [
                 'validators/number/between',
                 'validators/number/even',
+                'validators/number/greater-than',
+                'validators/number/greater-than-or-equal',
                 'validators/number/integer',
+                'validators/number/lesser-than',
+                'validators/number/lesser-than-or-equal',
                 'validators/number/max',
                 'validators/number/min',
                 'validators/number/negative',
