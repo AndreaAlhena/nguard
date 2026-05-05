@@ -36,6 +36,82 @@ describe('CrossField Validators - Different', () => {
     });
 });
 
+describe('CrossField Validators - Present If', () => {
+    it('Present If - Valid when condition not met (sibling empty)', () => {
+        control = createAbstractControlSpyWithSibling(null, '');
+
+        expect(CrossFieldValidators.presentIf('key')(control)).toBeNull();
+    });
+
+    it('Present If - Valid when condition met and field has empty string (present but empty)', () => {
+        control = createAbstractControlSpyWithSibling('', 'sibling');
+
+        expect(CrossFieldValidators.presentIf('key')(control)).toBeNull();
+    });
+
+    it('Present If - Valid when condition met and field is zero (present but falsy)', () => {
+        control = createAbstractControlSpyWithSibling(0, 'sibling');
+
+        expect(CrossFieldValidators.presentIf('key')(control)).toBeNull();
+    });
+
+    it('Present If - Valid when condition met and field is false (present but falsy)', () => {
+        control = createAbstractControlSpyWithSibling(false, 'sibling');
+
+        expect(CrossFieldValidators.presentIf('key')(control)).toBeNull();
+    });
+
+    it('Present If - Invalid when condition met and field is null', () => {
+        control = createAbstractControlSpyWithSibling(null, 'sibling');
+
+        expect(CrossFieldValidators.presentIf('key')(control)).toEqual({ presentIf: true });
+    });
+
+    it('Present If - Invalid when condition met and field is undefined', () => {
+        control = createAbstractControlSpyWithSibling(undefined, 'sibling');
+
+        expect(CrossFieldValidators.presentIf('key')(control)).toEqual({ presentIf: true });
+    });
+
+    it('Present If - Invalid when sibling matches trigger value and field is null', () => {
+        control = createAbstractControlSpyWithSibling(null, 'US');
+
+        expect(CrossFieldValidators.presentIf('key', 'US')(control)).toEqual({ presentIf: true });
+    });
+});
+
+describe('CrossField Validators - Present Unless', () => {
+    it('Present Unless - Valid when sibling is truthy (rule bypassed)', () => {
+        control = createAbstractControlSpyWithSibling(null, 'sibling');
+
+        expect(CrossFieldValidators.presentUnless('key')(control)).toBeNull();
+    });
+
+    it('Present Unless - Invalid when sibling is empty and field is null', () => {
+        control = createAbstractControlSpyWithSibling(null, '');
+
+        expect(CrossFieldValidators.presentUnless('key')(control)).toEqual({ presentUnless: true });
+    });
+
+    it('Present Unless - Valid when sibling is empty and field has empty string (present but empty)', () => {
+        control = createAbstractControlSpyWithSibling('', '');
+
+        expect(CrossFieldValidators.presentUnless('key')(control)).toBeNull();
+    });
+
+    it('Present Unless - Valid when sibling matches trigger value and field is null', () => {
+        control = createAbstractControlSpyWithSibling(null, 'US');
+
+        expect(CrossFieldValidators.presentUnless('key', 'US')(control)).toBeNull();
+    });
+
+    it('Present Unless - Invalid when sibling does not match trigger value and field is undefined', () => {
+        control = createAbstractControlSpyWithSibling(undefined, 'CA');
+
+        expect(CrossFieldValidators.presentUnless('key', 'US')(control)).toEqual({ presentUnless: true });
+    });
+});
+
 describe('CrossField Validators - Required If', () => {
     it('Required If - Valid if both fields are set', () => {
         control = createAbstractControlSpyWithSibling('value', 'value');

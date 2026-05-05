@@ -32,6 +32,13 @@ const _evaluateCondition = (
 const _isFilledSibling = (control: AbstractControl, fieldKey: string): boolean =>
     Boolean(control.parent?.get(fieldKey)?.value);
 
+/**
+ * Returns true if the control's value is set (anything other than null or undefined).
+ * Empty string, zero and false count as present — only null and undefined count as missing.
+ * Used by the present-if / present-unless family.
+ */
+const _isPresent = (control: AbstractControl): boolean => control.value !== null && control.value !== undefined;
+
 export namespace CrossFieldValidators {
     /**
      * The field under validation must match a field named `{field}_confirmation`.
@@ -71,6 +78,58 @@ export namespace CrossFieldValidators {
             }
 
             return null;
+        };
+    };
+
+    /**
+     * The field's value must be present (not null and not undefined) when another sibling
+     * field matches the trigger condition. Unlike `requiredIf` an empty string, zero or
+     * `false` count as present — only `null` / `undefined` fail the rule.
+     *
+     * ```
+     * new FormControl(null, [
+     *   NguardValidators.CrossField.presentIf('hasNotes', true)
+     * ])
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose value triggers the requirement
+     * @param {primitive} [value] If present, the sibling must equal this value to trigger the rule
+     * @param {boolean} [isStrict] If true, the equality check against `value` is performed with the strict equality operator
+     * @returns {ValidatorFn}
+     */
+    export const presentIf = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!_evaluateCondition(c, fieldKey, value, isStrict)) {
+                return null;
+            }
+
+            return _isPresent(c) ? null : { presentIf: true };
+        };
+    };
+
+    /**
+     * The field's value must be present (not null and not undefined) UNLESS another sibling
+     * field matches the trigger condition. Unlike `requiredUnless` an empty string, zero or
+     * `false` count as present — only `null` / `undefined` fail the rule.
+     *
+     * ```
+     * new FormControl(null, [
+     *   NguardValidators.CrossField.presentUnless('hasNotes', false)
+     * ])
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose value bypasses the rule
+     * @param {primitive} [value] If present, the sibling must equal this value to bypass; otherwise any truthy sibling value bypasses
+     * @param {boolean} [isStrict] If true, the equality check against `value` is performed with the strict equality operator
+     * @returns {ValidatorFn}
+     */
+    export const presentUnless = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (_evaluateCondition(c, fieldKey, value, isStrict)) {
+                return null;
+            }
+
+            return _isPresent(c) ? null : { presentUnless: true };
         };
     };
 
