@@ -39,3 +39,4 @@ const title = new FormControl('', [NguardValidators.String.notBlank]);
 ## See also
 
 - Angular's `Validators.required` — fails on empty but not on whitespace-only. Use `notBlank` when whitespace must also be rejected.
+- [`minLength`](./min-length) — stricter character-count constraint
