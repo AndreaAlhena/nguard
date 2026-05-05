@@ -1,137 +1,75 @@
-# nGuard
+<p align="center">
+   <img src="https://i.postimg.cc/523Qws7W/logo.png" alt="ng-nguard logo" width="300">
+</p>
 
-<div style='text-align: center'>
-  <img src='https://i.postimg.cc/523Qws7W/logo.png' border='0' alt='logo' width='300'>
-</div>
+<p align="center">
+   <a href="https://www.npmjs.com/package/ng-nguard"><img src="https://img.shields.io/npm/v/ng-nguard.svg" alt="npm version"></a>
+   <a href="https://github.com/AndreaAlhena/nguard/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/ng-nguard.svg" alt="license"></a>
+   <a href="https://nguard.andreatantimonaco.me"><img src="https://img.shields.io/badge/docs-nguard.andreatantimonaco.me-blue" alt="docs"></a>
+</p>
 
-An Angular validation library inspired by Laravel's validation approach. Provides a comprehensive set of validators for reactive and template-driven forms.
+# ng-nguard
 
-## Installation
+Angular validation library with a Laravel-inspired API. Validators are organized **by data type** across three namespaces (`String`, `Number`, `CrossField`) and ship in two shapes — a function for reactive forms and a matching directive for template-driven forms.
+
+📚 **Full documentation:** [nguard.andreatantimonaco.me](https://nguard.andreatantimonaco.me)
+
+This README is intentionally minimal. The full validator catalog, per-validator examples, edge cases, and architecture notes live on the docs site.
+
+## Requirements
+
+- **Angular** ≥ 17.3 (signal-based directive inputs)
+
+## Install
 
 ```bash
 npm install ng-nguard
 ```
 
-## Requirements
+## Quick start
 
-- Angular 17.1.0 or higher
-- Node.js 18.13.0+ or 20.9.0+
-
-## Quick Start
-
-### Reactive Forms
+### Reactive forms
 
 ```typescript
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NguardValidators } from 'ng-nguard';
-import { FormControl, FormGroup } from '@angular/forms';
 
 const form = new FormGroup({
-  email: new FormControl('', [NguardValidators.String.email]),
-  age: new FormControl('', [NguardValidators.Number.min(18)]),
-  password: new FormControl(''),
-  password_confirmation: new FormControl('', [NguardValidators.Multi.confirmed('password')])
+    email: new FormControl('', [Validators.required, NguardValidators.String.email]),
+    password: new FormControl('', [NguardValidators.String.minLength(8)]),
+    passwordConfirm: new FormControl('', [
+        NguardValidators.CrossField.confirmed('password'),
+    ]),
 });
 ```
 
-### Template-Driven Forms
-
-```html
-<input type="email" name="email" ngModel nguardEmail>
-<input type="number" name="age" ngModel [nguardMin]="18">
-```
-
-## Available Validators
-
-### String Validators
-
-| Validator | Description |
-|-----------|-------------|
-| `alpha` | Only alphabetic characters |
-| `alphaDash` | Alphabetic characters, dashes, underscores |
-| `alphaNum` | Alphanumeric characters |
-| `ascii` | ASCII characters only |
-| `email` | Valid email format |
-| `json` | Valid JSON string |
-| `lowercase` | All lowercase characters |
-| `notBlank` | Not empty or whitespace-only |
-| `notRegex(pattern)` | Does not match regex pattern |
-| `regex(pattern)` | Matches regex pattern |
-| `uppercase` | All uppercase characters |
-| `url` | Valid URL format |
-
-### Number Validators
-
-| Validator | Description |
-|-----------|-------------|
-| `between(min, max)` | Number within range |
-| `integer` | Integer value |
-| `max(value)` | Maximum value |
-| `min(value)` | Minimum value |
-| `negative` | Negative number |
-| `numeric` | Numeric value (int or float) |
-| `positive` | Positive number |
-
-### Multi-Field Validators
-
-| Validator | Description |
-|-----------|-------------|
-| `confirmed(field)` | Matches `{field}_confirmation` |
-| `different(field)` | Different from another field |
-| `same(field)` | Same as another field |
-| `greaterThan(field)` / `gt` | Greater than another field |
-| `greaterThanOrEqual(field)` / `gte` | Greater than or equal |
-| `lesserThan(field)` / `lt` | Less than another field |
-| `lesserThanOrEqual(field)` / `lte` | Less than or equal |
-| `requiredIf(field, value?)` | Required if condition met |
-| `startsWith(...values)` | Starts with one of values |
-| `endsWith(...values)` | Ends with one of values |
-| `doesntStartWith(...values)` | Doesn't start with values |
-| `doesntEndWith(...values)` | Doesn't end with values |
-
-## Usage Examples
-
-### Email Validation
+### Template-driven forms
 
 ```typescript
-// Reactive
-new FormControl('', [NguardValidators.String.email]);
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import {
+    NguardConfirmedDirective,
+    NguardEmailDirective,
+    NguardMinLengthDirective,
+} from 'ng-nguard';
 
-// Template-driven
-<input ngModel nguardEmail>
+@Component({
+    standalone: true,
+    imports: [FormsModule, NguardEmailDirective, NguardMinLengthDirective, NguardConfirmedDirective],
+    template: `
+        <form>
+            <input ngModel name="email" required nguardEmail />
+            <input ngModel name="password" [nguardMinLength]="8" />
+            <input ngModel name="passwordConfirm" [nguardConfirmed]="'password'" />
+        </form>
+    `,
+})
+export class SignupForm {}
 ```
 
-### Number Range
-
-```typescript
-// Reactive
-new FormControl('', [NguardValidators.Number.between(1, 100)]);
-
-// Template-driven
-<input ngModel [nguardBetween]="[1, 100]">
-```
-
-### Password Confirmation
-
-```typescript
-const form = new FormGroup({
-  password: new FormControl(''),
-  password_confirmation: new FormControl('', [
-    NguardValidators.Multi.confirmed('password')
-  ])
-});
-```
-
-### Conditional Required
-
-```typescript
-// Required if 'subscribe' field is true
-new FormControl('', [NguardValidators.Multi.requiredIf('subscribe', true)]);
-```
-
-## Documentation
-
-Full documentation is available in the `/docs` folder.
+→ See the [docs](https://nguard.andreatantimonaco.me) for the full validator catalog and architecture notes.
 
 ## License
 
-MIT
+MIT © [Andrea Alhena Tantimonaco](https://andreatantimonaco.me)
