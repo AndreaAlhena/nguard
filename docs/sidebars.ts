@@ -41,6 +41,17 @@ const sidebars: SidebarsConfig = {
                 'validators/number/positive',
             ],
         },
+        {
+            type: 'category',
+            label: 'String',
+            link: { type: 'generated-index', title: 'String validators' },
+            items: [
+                'validators/string/alpha',
+                'validators/string/alpha-dash',
+                'validators/string/alpha-num',
+                'validators/string/ascii',
+            ],
+        },
     ],
 };
 
