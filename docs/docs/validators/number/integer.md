@@ -43,3 +43,4 @@ const age = new FormControl('', [NguardValidators.Number.integer]);
 
 - [`numeric`](./numeric) — looser: floats also accepted
 - [`even`](./even) / [`odd`](./odd) — additional parity constraints
+- [`digits`](./digits) — exact digit count
