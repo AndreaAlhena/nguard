@@ -16,7 +16,7 @@ NguardValidators.String.longerOrEqualTo(fieldKey: string): ValidatorFn
 
 ```ts
 import { FormControl, FormGroup } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const form = new FormGroup({
     minPassword: new FormControl(''),

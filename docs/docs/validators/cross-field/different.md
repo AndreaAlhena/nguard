@@ -24,7 +24,7 @@ NguardValidators.CrossField.different(
 
 ```ts
 import { FormControl, FormGroup } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const form = new FormGroup({
     oldEmail: new FormControl('user@old.com'),

@@ -20,7 +20,7 @@ NguardValidators.Number.digits(n: number): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const pin = new FormControl('', [NguardValidators.Number.digits(4)]);
 ```

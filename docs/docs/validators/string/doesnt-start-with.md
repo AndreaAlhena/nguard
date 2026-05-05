@@ -16,7 +16,7 @@ NguardValidators.String.doesntStartWith(...values: primitive[]): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 // Reject relative protocol URLs
 const externalUrl = new FormControl('', [

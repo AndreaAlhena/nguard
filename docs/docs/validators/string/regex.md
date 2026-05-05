@@ -16,7 +16,7 @@ NguardValidators.String.regex(pattern: RegExp): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 // Three uppercase letters
 const code = new FormControl('', [

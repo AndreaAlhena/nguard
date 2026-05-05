@@ -20,7 +20,7 @@ NguardValidators.Number.max(maxVal: number): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const quantity = new FormControl('', [NguardValidators.Number.max(100)]);
 ```

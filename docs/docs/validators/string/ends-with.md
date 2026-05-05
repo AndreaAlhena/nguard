@@ -16,7 +16,7 @@ NguardValidators.String.endsWith(...values: primitive[]): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const filename = new FormControl('', [
     NguardValidators.String.endsWith('.png', '.jpg', '.gif'),

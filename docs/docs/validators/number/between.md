@@ -21,7 +21,7 @@ NguardValidators.Number.between(minVal: number, maxVal: number): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const rating = new FormControl('', [NguardValidators.Number.between(1, 5)]);
 ```

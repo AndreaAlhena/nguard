@@ -16,7 +16,7 @@ NguardValidators.String.maxLength(n: number): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const username = new FormControl('', [NguardValidators.String.maxLength(20)]);
 ```

@@ -16,7 +16,7 @@ NguardValidators.String.length(n: number): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const code = new FormControl('', [NguardValidators.String.length(6)]);
 ```

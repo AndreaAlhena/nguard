@@ -20,7 +20,7 @@ NguardValidators.Number.min(minVal: number): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const age = new FormControl('', [NguardValidators.Number.min(18)]);
 ```

@@ -16,7 +16,7 @@ NguardValidators.String.startsWith(...values: primitive[]): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const url = new FormControl('', [
     NguardValidators.String.startsWith('http://', 'https://'),

@@ -16,7 +16,7 @@ NguardValidators.String.notContains(...values: primitive[]): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const message = new FormControl('', [
     NguardValidators.String.notContains('badword', 'forbidden'),

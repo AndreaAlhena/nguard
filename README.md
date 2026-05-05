@@ -9,7 +9,7 @@ An Angular validation library inspired by Laravel's validation approach. Provide
 ## Installation
 
 ```bash
-npm install nguard
+npm install ng-nguard
 ```
 
 ## Requirements
@@ -22,7 +22,7 @@ npm install nguard
 ### Reactive Forms
 
 ```typescript
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 import { FormControl, FormGroup } from '@angular/forms';
 
 const form = new FormGroup({

@@ -16,7 +16,7 @@ NguardValidators.String.alpha(hasAsciiOnly?: boolean): ValidatorFn
 
 ```ts
 import { FormControl } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 // Unicode alphabetic — accepts 'café', '日本'
 const name = new FormControl('', [NguardValidators.String.alpha()]);

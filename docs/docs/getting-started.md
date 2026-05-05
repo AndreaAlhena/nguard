@@ -15,7 +15,7 @@ Both call the same underlying logic; they're never out of sync.
 ## Installation
 
 ```bash
-npm install nguard
+npm install ng-nguard
 ```
 
 **Peer requirements:** Angular `>=17.3`, since validators rely on signal-based directive inputs that became stable in 17.3.
@@ -24,7 +24,7 @@ npm install nguard
 
 ```ts
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NguardValidators } from 'nguard';
+import { NguardValidators } from 'ng-nguard';
 
 const form = new FormGroup({
     email: new FormControl('', [Validators.required, NguardValidators.String.email]),
@@ -47,7 +47,7 @@ import {
     NguardEmailDirective,
     NguardMinLengthDirective,
     NguardSameDirective,
-} from 'nguard';
+} from 'ng-nguard';
 
 @Component({
     standalone: true,
