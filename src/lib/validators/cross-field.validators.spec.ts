@@ -73,6 +73,50 @@ describe('CrossField Validators - Required If', () => {
     });
 });
 
+describe('CrossField Validators - Required Unless', () => {
+    it('Required Unless - Valid when sibling is truthy and bypasses the rule (no trigger value)', () => {
+        control = createAbstractControlSpyWithSibling('', 'sibling');
+
+        expect(CrossFieldValidators.requiredUnless('key')(control)).toBeNull();
+    });
+
+    it('Required Unless - Invalid when sibling is falsy and field is empty (no trigger value)', () => {
+        control = createAbstractControlSpyWithSibling('', '');
+
+        expect(CrossFieldValidators.requiredUnless('key')(control)).toEqual({ requiredUnless: true });
+    });
+
+    it('Required Unless - Valid when sibling is falsy but field is filled (no trigger value)', () => {
+        control = createAbstractControlSpyWithSibling('value', '');
+
+        expect(CrossFieldValidators.requiredUnless('key')(control)).toBeNull();
+    });
+
+    it('Required Unless - Valid when sibling matches trigger value and field is empty', () => {
+        control = createAbstractControlSpyWithSibling('', 'US');
+
+        expect(CrossFieldValidators.requiredUnless('key', 'US')(control)).toBeNull();
+    });
+
+    it('Required Unless - Invalid when sibling does not match trigger value and field is empty', () => {
+        control = createAbstractControlSpyWithSibling('', 'CA');
+
+        expect(CrossFieldValidators.requiredUnless('key', 'US')(control)).toEqual({ requiredUnless: true });
+    });
+
+    it('Required Unless - Valid when trigger matches under non strict comparison', () => {
+        control = createAbstractControlSpyWithSibling('', '1');
+
+        expect(CrossFieldValidators.requiredUnless('key', 1)(control)).toBeNull();
+    });
+
+    it('Required Unless - Invalid when trigger does not match under strict comparison', () => {
+        control = createAbstractControlSpyWithSibling('', '1');
+
+        expect(CrossFieldValidators.requiredUnless('key', 1, true)(control)).toEqual({ requiredUnless: true });
+    });
+});
+
 describe('CrossField Validators - Same', () => {
     it('Same - Valid if both fields have the same value', () => {
         control = createAbstractControlSpyWithSibling('abc', 'abc');
@@ -180,6 +224,18 @@ describe('CrossField Validators - Edge Cases', () => {
 
             expect(CrossFieldValidators.requiredIf('key')(control)).toEqual({ requiredIf: true });
         });
+
+        it('RequiredUnless - Should require the field when sibling is null', () => {
+            control = createControlSpyWithNullSibling('');
+
+            expect(CrossFieldValidators.requiredUnless('key')(control)).toEqual({ requiredUnless: true });
+        });
+
+        it('RequiredUnless - Should require the field when sibling is undefined', () => {
+            control = createControlSpyWithUndefinedSibling('');
+
+            expect(CrossFieldValidators.requiredUnless('key')(control)).toEqual({ requiredUnless: true });
+        });
     });
 
     describe('Empty string handling', () => {
@@ -213,6 +269,18 @@ describe('CrossField Validators - Edge Cases', () => {
             control = createOrphanControlSpy('value');
 
             expect(CrossFieldValidators.requiredIf('key')(control)).toEqual({ requiredIf: true });
+        });
+
+        it('RequiredUnless - Should require the field when control has no parent', () => {
+            control = createOrphanControlSpy('');
+
+            expect(CrossFieldValidators.requiredUnless('key')(control)).toEqual({ requiredUnless: true });
+        });
+
+        it('RequiredUnless - Should pass for orphan when field has a value', () => {
+            control = createOrphanControlSpy('value');
+
+            expect(CrossFieldValidators.requiredUnless('key')(control)).toBeNull();
         });
     });
 });

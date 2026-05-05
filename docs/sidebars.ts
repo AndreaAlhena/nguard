@@ -12,6 +12,7 @@ const sidebars: SidebarsConfig = {
                 'validators/cross-field/confirmed',
                 'validators/cross-field/different',
                 'validators/cross-field/required-if',
+                'validators/cross-field/required-unless',
                 'validators/cross-field/same',
             ],
         },

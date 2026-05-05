@@ -1,6 +1,29 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { equalityCheck, primitive } from '../utils/validators.utils';
 
+/**
+ * Evaluate whether the sibling identified by `fieldKey` satisfies the trigger condition.
+ * If `value` is omitted the sibling must simply be truthy. If `value` is provided the
+ * sibling must equal it (loose equality by default, strict when `isStrict` is true).
+ *
+ * Used by the conditional family — requiredUnless, presentIf, presentUnless, prohibitedIf,
+ * prohibitedUnless — to decide whether the rule applies to the current control.
+ */
+const _evaluateCondition = (
+    control: AbstractControl,
+    fieldKey: string,
+    value?: primitive,
+    isStrict: boolean = false
+): boolean => {
+    const siblingValue = control.parent?.get(fieldKey)?.value;
+
+    if (value === undefined) {
+        return Boolean(siblingValue);
+    }
+
+    return equalityCheck(siblingValue, value, isStrict);
+};
+
 export namespace CrossFieldValidators {
     /**
      * The field under validation must match a field named `{field}_confirmation`.
@@ -69,6 +92,33 @@ export namespace CrossFieldValidators {
                     : c.value && c.parent?.get(fieldKey)?.value;
 
             return check ? null : { requiredIf: true };
+        };
+    };
+
+    /**
+     * The field is required UNLESS another sibling field matches the trigger condition.
+     * When the condition is met (sibling matches `value`, or sibling is truthy when `value`
+     * is omitted) the rule is bypassed and any value — including empty — passes.
+     * When the condition is not met the field's value must be truthy.
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.CrossField.requiredUnless('country', 'US')
+     * ])
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose value bypasses the requirement
+     * @param {primitive} [value] If present, the sibling must equal this value to bypass; otherwise any truthy sibling value bypasses
+     * @param {boolean} [isStrict] If true, the equality check against `value` is performed with the strict equality operator
+     * @returns {ValidatorFn}
+     */
+    export const requiredUnless = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (_evaluateCondition(c, fieldKey, value, isStrict)) {
+                return null;
+            }
+
+            return c.value ? null : { requiredUnless: true };
         };
     };
 
