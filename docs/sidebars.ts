@@ -21,6 +21,7 @@ const sidebars: SidebarsConfig = {
             link: { type: 'generated-index', title: 'Number validators' },
             items: [
                 'validators/number/between',
+                'validators/number/decimal',
                 'validators/number/digits',
                 'validators/number/digits-between',
                 'validators/number/even',
@@ -33,6 +34,7 @@ const sidebars: SidebarsConfig = {
                 'validators/number/max-digits',
                 'validators/number/min',
                 'validators/number/min-digits',
+                'validators/number/multiple-of',
                 'validators/number/negative',
                 'validators/number/numeric',
                 'validators/number/odd',
