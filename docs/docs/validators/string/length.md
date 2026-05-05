@@ -40,3 +40,4 @@ const code = new FormControl('', [NguardValidators.String.length(6)]);
 ## See also
 
 - [`minLength`](./min-length) / [`maxLength`](./max-length) — single-bound variants
+- [`longerThan`](./longer-than) / [`shorterThan`](./shorter-than) — compare against a sibling field's length instead of a literal
