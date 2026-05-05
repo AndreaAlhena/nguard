@@ -24,6 +24,14 @@ const _evaluateCondition = (
     return equalityCheck(siblingValue, value, isStrict);
 };
 
+/**
+ * Returns true if the sibling identified by `fieldKey` resolves to a truthy value.
+ * Returns false when the sibling is missing, the parent form group is absent or the value is falsy.
+ * Used by the variadic required-with / required-without family to inspect each listed sibling.
+ */
+const _isFilledSibling = (control: AbstractControl, fieldKey: string): boolean =>
+    Boolean(control.parent?.get(fieldKey)?.value);
+
 export namespace CrossFieldValidators {
     /**
      * The field under validation must match a field named `{field}_confirmation`.
@@ -119,6 +127,56 @@ export namespace CrossFieldValidators {
             }
 
             return c.value ? null : { requiredUnless: true };
+        };
+    };
+
+    /**
+     * The field is required when ANY of the listed sibling fields is filled (truthy).
+     * If none of the listed siblings are filled the rule is bypassed.
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.CrossField.requiredWith('phone', 'address')
+     * ])
+     * ```
+     *
+     * @param {...string} fieldKeys One or more keys of sibling fields that, when any is filled, force this field to be required
+     * @returns {ValidatorFn}
+     */
+    export const requiredWith = (...fieldKeys: string[]): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const anyFilled = fieldKeys.some(key => _isFilledSibling(c, key));
+
+            if (!anyFilled) {
+                return null;
+            }
+
+            return c.value ? null : { requiredWith: true };
+        };
+    };
+
+    /**
+     * The field is required when ANY of the listed sibling fields is NOT filled.
+     * If every listed sibling is filled the rule is bypassed.
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.CrossField.requiredWithout('email', 'phone')
+     * ])
+     * ```
+     *
+     * @param {...string} fieldKeys One or more keys of sibling fields whose absence forces this field to be required
+     * @returns {ValidatorFn}
+     */
+    export const requiredWithout = (...fieldKeys: string[]): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const anyMissing = fieldKeys.some(key => !_isFilledSibling(c, key));
+
+            if (!anyMissing) {
+                return null;
+            }
+
+            return c.value ? null : { requiredWithout: true };
         };
     };
 
