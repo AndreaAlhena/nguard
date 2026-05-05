@@ -49,9 +49,11 @@ new FormGroup({
 ## Notes
 
 - "Missing" means the sibling's value is falsy (empty string, `0`, `null`, `undefined`).
-- The rule triggers when **any** of the listed siblings is missing.
+- The rule triggers when **any** of the listed siblings is missing — for the all-must-be-missing variant see [`requiredWithoutAll`](./required-without-all).
 - When the control has no parent form group, every sibling is unreachable and treated as missing — the rule fires and the field's value must be truthy.
 
 ## See also
 
 - [`requiredWith`](./required-with) — opposite check
+- [`requiredWithAll`](./required-with-all) — every sibling must be filled
+- [`requiredWithoutAll`](./required-without-all) — every sibling must be missing

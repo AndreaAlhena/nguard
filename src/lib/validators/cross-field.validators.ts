@@ -156,6 +156,31 @@ export namespace CrossFieldValidators {
     };
 
     /**
+     * The field is required when EVERY listed sibling field is filled (truthy).
+     * If any of the listed siblings is empty the rule is bypassed.
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.CrossField.requiredWithAll('firstName', 'lastName')
+     * ])
+     * ```
+     *
+     * @param {...string} fieldKeys One or more keys of sibling fields. The rule applies only when all of them are filled
+     * @returns {ValidatorFn}
+     */
+    export const requiredWithAll = (...fieldKeys: string[]): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const allFilled = fieldKeys.every(key => _isFilledSibling(c, key));
+
+            if (!allFilled) {
+                return null;
+            }
+
+            return c.value ? null : { requiredWithAll: true };
+        };
+    };
+
+    /**
      * The field is required when ANY of the listed sibling fields is NOT filled.
      * If every listed sibling is filled the rule is bypassed.
      *
@@ -177,6 +202,31 @@ export namespace CrossFieldValidators {
             }
 
             return c.value ? null : { requiredWithout: true };
+        };
+    };
+
+    /**
+     * The field is required when EVERY listed sibling field is missing (falsy).
+     * If any of the listed siblings is filled the rule is bypassed.
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.CrossField.requiredWithoutAll('email', 'phone')
+     * ])
+     * ```
+     *
+     * @param {...string} fieldKeys One or more keys of sibling fields. The rule applies only when all of them are empty
+     * @returns {ValidatorFn}
+     */
+    export const requiredWithoutAll = (...fieldKeys: string[]): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const allMissing = fieldKeys.every(key => !_isFilledSibling(c, key));
+
+            if (!allMissing) {
+                return null;
+            }
+
+            return c.value ? null : { requiredWithoutAll: true };
         };
     };
 
