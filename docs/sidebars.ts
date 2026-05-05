@@ -15,6 +15,18 @@ const sidebars: SidebarsConfig = {
                 'validators/cross-field/same',
             ],
         },
+        {
+            type: 'category',
+            label: 'Number',
+            link: { type: 'generated-index', title: 'Number validators' },
+            items: [
+                'validators/number/between',
+                'validators/number/min',
+                'validators/number/max',
+                'validators/number/positive',
+                'validators/number/negative',
+            ],
+        },
     ],
 };
 
