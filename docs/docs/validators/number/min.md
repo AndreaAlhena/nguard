@@ -45,3 +45,4 @@ const age = new FormControl('', [NguardValidators.Number.min(18)]);
 
 - [`max`](./max) — upper-bound counterpart
 - [`between`](./between) — both bounds in one validator
+- [`greaterThanOrEqual`](./greater-than-or-equal) — same operator but compares against a sibling field instead of a literal

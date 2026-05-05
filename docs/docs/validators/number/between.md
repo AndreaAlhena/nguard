@@ -48,3 +48,4 @@ The directive accepts a `[number, number]` tuple.
 ## See also
 
 - [`min`](./min) / [`max`](./max) — single-bound variants
+- [`greaterThanOrEqual`](./greater-than-or-equal) / [`lesserThanOrEqual`](./lesser-than-or-equal) — same operators but compare against a sibling field instead of a literal

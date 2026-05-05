@@ -45,3 +45,4 @@ const quantity = new FormControl('', [NguardValidators.Number.max(100)]);
 
 - [`min`](./min) — lower-bound counterpart
 - [`between`](./between) — both bounds in one validator
+- [`lesserThanOrEqual`](./lesser-than-or-equal) — same operator but compares against a sibling field instead of a literal
