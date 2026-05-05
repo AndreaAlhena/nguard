@@ -134,6 +134,56 @@ export namespace CrossFieldValidators {
     };
 
     /**
+     * The field's value must be empty (falsy) when another sibling field matches the
+     * trigger condition. When the condition is not met any value is accepted.
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.CrossField.prohibitedIf('isAnonymous', true)
+     * ])
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose value triggers the prohibition
+     * @param {primitive} [value] If present, the sibling must equal this value to trigger the rule
+     * @param {boolean} [isStrict] If true, the equality check against `value` is performed with the strict equality operator
+     * @returns {ValidatorFn}
+     */
+    export const prohibitedIf = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!_evaluateCondition(c, fieldKey, value, isStrict)) {
+                return null;
+            }
+
+            return c.value ? { prohibitedIf: true } : null;
+        };
+    };
+
+    /**
+     * The field's value must be empty (falsy) UNLESS another sibling field matches the
+     * trigger condition. When the condition is met any value is accepted.
+     *
+     * ```
+     * new FormControl('', [
+     *   NguardValidators.CrossField.prohibitedUnless('role', 'admin')
+     * ])
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose value bypasses the prohibition
+     * @param {primitive} [value] If present, the sibling must equal this value to bypass; otherwise any truthy sibling value bypasses
+     * @param {boolean} [isStrict] If true, the equality check against `value` is performed with the strict equality operator
+     * @returns {ValidatorFn}
+     */
+    export const prohibitedUnless = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (_evaluateCondition(c, fieldKey, value, isStrict)) {
+                return null;
+            }
+
+            return c.value ? { prohibitedUnless: true } : null;
+        };
+    };
+
+    /**
      * The field is required if another field, for the given fieldKey, is set.
      * If a value is provided, the other field must match that value
      * (the equality check is non strict until true is passed to the isStrict param)

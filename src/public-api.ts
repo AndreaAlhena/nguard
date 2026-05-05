@@ -16,6 +16,8 @@ export * from './lib/directives/cross-field/nguard-confirmed.directive';
 export * from './lib/directives/cross-field/nguard-different.directive';
 export * from './lib/directives/cross-field/nguard-present-if.directive';
 export * from './lib/directives/cross-field/nguard-present-unless.directive';
+export * from './lib/directives/cross-field/nguard-prohibited-if.directive';
+export * from './lib/directives/cross-field/nguard-prohibited-unless.directive';
 export * from './lib/directives/cross-field/nguard-required-if.directive';
 export * from './lib/directives/cross-field/nguard-required-unless.directive';
 export * from './lib/directives/cross-field/nguard-required-with.directive';

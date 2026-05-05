@@ -112,6 +112,76 @@ describe('CrossField Validators - Present Unless', () => {
     });
 });
 
+describe('CrossField Validators - Prohibited If', () => {
+    it('Prohibited If - Valid when condition not met (sibling empty)', () => {
+        control = createAbstractControlSpyWithSibling('value', '');
+
+        expect(CrossFieldValidators.prohibitedIf('key')(control)).toBeNull();
+    });
+
+    it('Prohibited If - Invalid when condition met and field is filled', () => {
+        control = createAbstractControlSpyWithSibling('value', 'sibling');
+
+        expect(CrossFieldValidators.prohibitedIf('key')(control)).toEqual({ prohibitedIf: true });
+    });
+
+    it('Prohibited If - Valid when condition met and field is empty', () => {
+        control = createAbstractControlSpyWithSibling('', 'sibling');
+
+        expect(CrossFieldValidators.prohibitedIf('key')(control)).toBeNull();
+    });
+
+    it('Prohibited If - Valid when sibling matches trigger value but field is empty', () => {
+        control = createAbstractControlSpyWithSibling('', 'admin');
+
+        expect(CrossFieldValidators.prohibitedIf('key', 'admin')(control)).toBeNull();
+    });
+
+    it('Prohibited If - Invalid when sibling matches trigger value and field is filled', () => {
+        control = createAbstractControlSpyWithSibling('value', 'admin');
+
+        expect(CrossFieldValidators.prohibitedIf('key', 'admin')(control)).toEqual({ prohibitedIf: true });
+    });
+
+    it('Prohibited If - Valid when sibling does not match trigger under strict comparison', () => {
+        control = createAbstractControlSpyWithSibling('value', '1');
+
+        expect(CrossFieldValidators.prohibitedIf('key', 1, true)(control)).toBeNull();
+    });
+});
+
+describe('CrossField Validators - Prohibited Unless', () => {
+    it('Prohibited Unless - Valid when sibling is truthy (rule bypassed)', () => {
+        control = createAbstractControlSpyWithSibling('value', 'sibling');
+
+        expect(CrossFieldValidators.prohibitedUnless('key')(control)).toBeNull();
+    });
+
+    it('Prohibited Unless - Invalid when sibling is empty and field is filled', () => {
+        control = createAbstractControlSpyWithSibling('value', '');
+
+        expect(CrossFieldValidators.prohibitedUnless('key')(control)).toEqual({ prohibitedUnless: true });
+    });
+
+    it('Prohibited Unless - Valid when sibling is empty and field is empty', () => {
+        control = createAbstractControlSpyWithSibling('', '');
+
+        expect(CrossFieldValidators.prohibitedUnless('key')(control)).toBeNull();
+    });
+
+    it('Prohibited Unless - Valid when sibling matches trigger value and field is filled', () => {
+        control = createAbstractControlSpyWithSibling('value', 'admin');
+
+        expect(CrossFieldValidators.prohibitedUnless('key', 'admin')(control)).toBeNull();
+    });
+
+    it('Prohibited Unless - Invalid when sibling does not match trigger value and field is filled', () => {
+        control = createAbstractControlSpyWithSibling('value', 'guest');
+
+        expect(CrossFieldValidators.prohibitedUnless('key', 'admin')(control)).toEqual({ prohibitedUnless: true });
+    });
+});
+
 describe('CrossField Validators - Required If', () => {
     it('Required If - Valid if both fields are set', () => {
         control = createAbstractControlSpyWithSibling('value', 'value');
