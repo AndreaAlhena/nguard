@@ -168,6 +168,78 @@ describe('CrossField Validators - Required With', () => {
     });
 });
 
+describe('CrossField Validators - Required With All', () => {
+    it('Required With All - Valid when not all listed siblings are filled', () => {
+        control = createAbstractControlSpyWithSiblings('', { firstName: 'Ada', lastName: '' });
+
+        expect(CrossFieldValidators.requiredWithAll('firstName', 'lastName')(control)).toBeNull();
+    });
+
+    it('Required With All - Invalid when every listed sibling is filled and field is empty', () => {
+        control = createAbstractControlSpyWithSiblings('', { firstName: 'Ada', lastName: 'Lovelace' });
+
+        expect(CrossFieldValidators.requiredWithAll('firstName', 'lastName')(control)).toEqual({
+            requiredWithAll: true,
+        });
+    });
+
+    it('Required With All - Valid when every listed sibling is filled but field is filled', () => {
+        control = createAbstractControlSpyWithSiblings('value', { firstName: 'Ada', lastName: 'Lovelace' });
+
+        expect(CrossFieldValidators.requiredWithAll('firstName', 'lastName')(control)).toBeNull();
+    });
+
+    it('Required With All - Treats null sibling as not filled', () => {
+        control = createAbstractControlSpyWithSiblings('', { firstName: 'Ada', lastName: null });
+
+        expect(CrossFieldValidators.requiredWithAll('firstName', 'lastName')(control)).toBeNull();
+    });
+
+    it('Required With All - Orphan control passes (no triggers reachable)', () => {
+        control = createOrphanControlSpy('');
+
+        expect(CrossFieldValidators.requiredWithAll('firstName', 'lastName')(control)).toBeNull();
+    });
+});
+
+describe('CrossField Validators - Required Without All', () => {
+    it('Required Without All - Valid when at least one listed sibling is filled', () => {
+        control = createAbstractControlSpyWithSiblings('', { email: 'a@b.c', phone: '' });
+
+        expect(CrossFieldValidators.requiredWithoutAll('email', 'phone')(control)).toBeNull();
+    });
+
+    it('Required Without All - Invalid when every listed sibling is empty and field is empty', () => {
+        control = createAbstractControlSpyWithSiblings('', { email: '', phone: '' });
+
+        expect(CrossFieldValidators.requiredWithoutAll('email', 'phone')(control)).toEqual({
+            requiredWithoutAll: true,
+        });
+    });
+
+    it('Required Without All - Valid when every listed sibling is empty but field is filled', () => {
+        control = createAbstractControlSpyWithSiblings('value', { email: '', phone: '' });
+
+        expect(CrossFieldValidators.requiredWithoutAll('email', 'phone')(control)).toBeNull();
+    });
+
+    it('Required Without All - Treats null siblings as missing and triggers the rule', () => {
+        control = createAbstractControlSpyWithSiblings('', { email: null, phone: null });
+
+        expect(CrossFieldValidators.requiredWithoutAll('email', 'phone')(control)).toEqual({
+            requiredWithoutAll: true,
+        });
+    });
+
+    it('Required Without All - Orphan control triggers the rule and fails when field is empty', () => {
+        control = createOrphanControlSpy('');
+
+        expect(CrossFieldValidators.requiredWithoutAll('email', 'phone')(control)).toEqual({
+            requiredWithoutAll: true,
+        });
+    });
+});
+
 describe('CrossField Validators - Required Without', () => {
     it('Required Without - Valid when every listed sibling is filled', () => {
         control = createAbstractControlSpyWithSiblings('', { email: 'a@b.c', phone: 'x' });
