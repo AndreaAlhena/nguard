@@ -1,6 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 import {
     createAbstractControlSpyWithSibling,
+    createAbstractControlSpyWithSiblings,
     createOrphanControlSpy,
     createControlSpyWithNullSibling,
     createControlSpyWithUndefinedSibling,
@@ -114,6 +115,94 @@ describe('CrossField Validators - Required Unless', () => {
         control = createAbstractControlSpyWithSibling('', '1');
 
         expect(CrossFieldValidators.requiredUnless('key', 1, true)(control)).toEqual({ requiredUnless: true });
+    });
+});
+
+describe('CrossField Validators - Required With', () => {
+    it('Required With - Valid when no listed sibling is filled', () => {
+        control = createAbstractControlSpyWithSiblings('', { phone: '', address: '' });
+
+        expect(CrossFieldValidators.requiredWith('phone', 'address')(control)).toBeNull();
+    });
+
+    it('Required With - Invalid when any listed sibling is filled and field is empty', () => {
+        control = createAbstractControlSpyWithSiblings('', { phone: '', address: '123 Main St' });
+
+        expect(CrossFieldValidators.requiredWith('phone', 'address')(control)).toEqual({ requiredWith: true });
+    });
+
+    it('Required With - Valid when any listed sibling is filled but field is filled', () => {
+        control = createAbstractControlSpyWithSiblings('value', { phone: 'x' });
+
+        expect(CrossFieldValidators.requiredWith('phone', 'address')(control)).toBeNull();
+    });
+
+    it('Required With - Single field key behaves like requiredIf without trigger value', () => {
+        control = createAbstractControlSpyWithSiblings('', { phone: 'x' });
+
+        expect(CrossFieldValidators.requiredWith('phone')(control)).toEqual({ requiredWith: true });
+    });
+
+    it('Required With - Treats null sibling as not filled', () => {
+        control = createAbstractControlSpyWithSiblings('', { phone: null });
+
+        expect(CrossFieldValidators.requiredWith('phone')(control)).toBeNull();
+    });
+
+    it('Required With - Treats undefined sibling as not filled', () => {
+        control = createAbstractControlSpyWithSiblings('', { phone: undefined });
+
+        expect(CrossFieldValidators.requiredWith('phone')(control)).toBeNull();
+    });
+
+    it('Required With - Orphan control passes when field is filled', () => {
+        control = createOrphanControlSpy('value');
+
+        expect(CrossFieldValidators.requiredWith('phone')(control)).toBeNull();
+    });
+
+    it('Required With - Orphan control passes regardless when no parent (no triggers reachable)', () => {
+        control = createOrphanControlSpy('');
+
+        expect(CrossFieldValidators.requiredWith('phone')(control)).toBeNull();
+    });
+});
+
+describe('CrossField Validators - Required Without', () => {
+    it('Required Without - Valid when every listed sibling is filled', () => {
+        control = createAbstractControlSpyWithSiblings('', { email: 'a@b.c', phone: 'x' });
+
+        expect(CrossFieldValidators.requiredWithout('email', 'phone')(control)).toBeNull();
+    });
+
+    it('Required Without - Invalid when any listed sibling is empty and field is empty', () => {
+        control = createAbstractControlSpyWithSiblings('', { email: '', phone: 'x' });
+
+        expect(CrossFieldValidators.requiredWithout('email', 'phone')(control)).toEqual({ requiredWithout: true });
+    });
+
+    it('Required Without - Valid when any listed sibling is empty but field is filled', () => {
+        control = createAbstractControlSpyWithSiblings('value', { email: '', phone: 'x' });
+
+        expect(CrossFieldValidators.requiredWithout('email', 'phone')(control)).toBeNull();
+    });
+
+    it('Required Without - Treats null sibling as not filled and triggers the rule', () => {
+        control = createAbstractControlSpyWithSiblings('', { email: null });
+
+        expect(CrossFieldValidators.requiredWithout('email')(control)).toEqual({ requiredWithout: true });
+    });
+
+    it('Required Without - Orphan control triggers the rule and fails when field is empty', () => {
+        control = createOrphanControlSpy('');
+
+        expect(CrossFieldValidators.requiredWithout('email')(control)).toEqual({ requiredWithout: true });
+    });
+
+    it('Required Without - Orphan control passes when field is filled', () => {
+        control = createOrphanControlSpy('value');
+
+        expect(CrossFieldValidators.requiredWithout('email')(control)).toBeNull();
     });
 });
 

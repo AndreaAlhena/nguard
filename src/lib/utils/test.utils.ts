@@ -105,6 +105,26 @@ export const createAbstractControlSpyWithSibling = (
 };
 
 /**
+ * Creates a mock AbstractControl whose parent FormGroup resolves a different sibling
+ * value per key. Used by validators that read several siblings (requiredWith, requiredWithoutAll, ...).
+ *
+ * @param controlValue Value of the control under test
+ * @param siblings Map from sibling field key to that sibling's value
+ * @returns A Jasmine spy object mimicking AbstractControl with a parent that responds per key
+ */
+export const createAbstractControlSpyWithSiblings = (
+    controlValue: unknown,
+    siblings: Record<string, unknown>
+): jasmine.SpyObj<AbstractControl> => {
+    const parent = jasmine.createSpyObj('FormGroup', ['get']);
+    parent.get.and.callFake((key: string) =>
+        key in siblings ? jasmine.createSpyObj('FormControl', [], { value: siblings[key] }) : null
+    );
+
+    return jasmine.createSpyObj('AbstractControl', {}, { value: controlValue, parent });
+};
+
+/**
  * Creates a mock AbstractControl with a sibling that has null value
  * @param field1Value The value of the main control
  * @returns A Jasmine spy object mimicking AbstractControl with null sibling
