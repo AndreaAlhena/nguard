@@ -38,3 +38,4 @@ const note = new FormControl('', [NguardValidators.String.string]);
 ## See also
 
 - [`notBlank`](./not-blank) — string and non-empty after trimming
+- [`minLength`](./min-length) — string and at least N characters
