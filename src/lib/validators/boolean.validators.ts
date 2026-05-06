@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { evaluateCondition, primitive } from '../utils/validators.utils';
 
 const ACCEPTED_VALUES: ReadonlySet<unknown> = new Set([true, 'true', 1, '1', 'yes', 'on']);
 const BOOLEAN_LIKE_VALUES: ReadonlySet<unknown> = new Set([true, false, 1, 0, '1', '0']);
@@ -19,6 +20,33 @@ export namespace BooleanValidators {
         const isAccepted = ACCEPTED_VALUES.has(c.value);
 
         return isAccepted ? null : { accepted: true };
+    };
+
+    /**
+     * The value must be one of the accepted values WHEN a sibling field matches the trigger
+     * condition. When the condition is not met any value is allowed.
+     *
+     * ```
+     * new FormControl(false, [
+     *   NguardValidators.Boolean.acceptedIf('subscriptionTier', 'pro')
+     * ])
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose value triggers the rule
+     * @param {primitive} [value] If present, the sibling must equal this value to trigger the rule
+     * @param {boolean} [isStrict] If true, the equality check against `value` is performed with the strict equality operator
+     * @returns {ValidatorFn}
+     */
+    export const acceptedIf = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const conditionMet = evaluateCondition(c, fieldKey, value, isStrict);
+
+            if (!conditionMet) {
+                return null;
+            }
+
+            return ACCEPTED_VALUES.has(c.value) ? null : { acceptedIf: true };
+        };
     };
 
     /**
@@ -51,6 +79,33 @@ export namespace BooleanValidators {
         const isDeclined = DECLINED_VALUES.has(c.value);
 
         return isDeclined ? null : { declined: true };
+    };
+
+    /**
+     * The value must be one of the declined values WHEN a sibling field matches the trigger
+     * condition. When the condition is not met any value is allowed.
+     *
+     * ```
+     * new FormControl(false, [
+     *   NguardValidators.Boolean.declinedIf('isAdmin', true)
+     * ])
+     * ```
+     *
+     * @param {string} fieldKey The key of the sibling field whose value triggers the rule
+     * @param {primitive} [value] If present, the sibling must equal this value to trigger the rule
+     * @param {boolean} [isStrict] If true, the equality check against `value` is performed with the strict equality operator
+     * @returns {ValidatorFn}
+     */
+    export const declinedIf = (fieldKey: string, value?: primitive, isStrict: boolean = false): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const conditionMet = evaluateCondition(c, fieldKey, value, isStrict);
+
+            if (!conditionMet) {
+                return null;
+            }
+
+            return DECLINED_VALUES.has(c.value) ? null : { declinedIf: true };
+        };
     };
 
     /**

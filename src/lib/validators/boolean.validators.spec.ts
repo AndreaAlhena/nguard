@@ -1,5 +1,10 @@
 import { AbstractControl } from '@angular/forms';
-import { createAbstractControlSpy, createNullControlSpy, createUndefinedControlSpy } from '../utils/test.utils';
+import {
+    createAbstractControlSpy,
+    createAbstractControlSpyWithSibling,
+    createNullControlSpy,
+    createUndefinedControlSpy,
+} from '../utils/test.utils';
 import { BooleanValidators } from './boolean.validators';
 
 let control: jasmine.SpyObj<AbstractControl>;
@@ -63,6 +68,44 @@ describe('Boolean Validators - accepted (Laravel parity)', () => {
         control = createNullControlSpy();
 
         expect(BooleanValidators.accepted(control)).toEqual({ accepted: true });
+    });
+});
+
+describe('Boolean Validators - acceptedIf', () => {
+    it('AcceptedIf - Valid when condition is not met regardless of value', () => {
+        control = createAbstractControlSpyWithSibling(false, '');
+
+        expect(BooleanValidators.acceptedIf('key')(control)).toBeNull();
+    });
+
+    it('AcceptedIf - Valid when sibling is truthy and value is accepted', () => {
+        control = createAbstractControlSpyWithSibling('yes', 'sibling');
+
+        expect(BooleanValidators.acceptedIf('key')(control)).toBeNull();
+    });
+
+    it('AcceptedIf - Invalid when sibling is truthy and value is not accepted', () => {
+        control = createAbstractControlSpyWithSibling(false, 'sibling');
+
+        expect(BooleanValidators.acceptedIf('key')(control)).toEqual({ acceptedIf: true });
+    });
+
+    it('AcceptedIf - Valid when sibling matches trigger value and value is accepted', () => {
+        control = createAbstractControlSpyWithSibling(true, 'pro');
+
+        expect(BooleanValidators.acceptedIf('key', 'pro')(control)).toBeNull();
+    });
+
+    it('AcceptedIf - Invalid when sibling matches trigger value but value is not accepted', () => {
+        control = createAbstractControlSpyWithSibling('Yes', 'pro');
+
+        expect(BooleanValidators.acceptedIf('key', 'pro')(control)).toEqual({ acceptedIf: true });
+    });
+
+    it('AcceptedIf - Valid when sibling does not match trigger under strict comparison', () => {
+        control = createAbstractControlSpyWithSibling(false, '1');
+
+        expect(BooleanValidators.acceptedIf('key', 1, true)(control)).toBeNull();
     });
 });
 
@@ -187,6 +230,44 @@ describe('Boolean Validators - declined (Laravel parity)', () => {
         control = createNullControlSpy();
 
         expect(BooleanValidators.declined(control)).toEqual({ declined: true });
+    });
+});
+
+describe('Boolean Validators - declinedIf', () => {
+    it('DeclinedIf - Valid when condition is not met regardless of value', () => {
+        control = createAbstractControlSpyWithSibling(true, '');
+
+        expect(BooleanValidators.declinedIf('key')(control)).toBeNull();
+    });
+
+    it('DeclinedIf - Valid when sibling is truthy and value is declined', () => {
+        control = createAbstractControlSpyWithSibling('no', 'sibling');
+
+        expect(BooleanValidators.declinedIf('key')(control)).toBeNull();
+    });
+
+    it('DeclinedIf - Invalid when sibling is truthy and value is not declined', () => {
+        control = createAbstractControlSpyWithSibling(true, 'sibling');
+
+        expect(BooleanValidators.declinedIf('key')(control)).toEqual({ declinedIf: true });
+    });
+
+    it('DeclinedIf - Valid when sibling matches trigger value and value is declined', () => {
+        control = createAbstractControlSpyWithSibling(false, 'guest');
+
+        expect(BooleanValidators.declinedIf('key', 'guest')(control)).toBeNull();
+    });
+
+    it('DeclinedIf - Invalid when sibling matches trigger value but value is not declined', () => {
+        control = createAbstractControlSpyWithSibling('No', 'guest');
+
+        expect(BooleanValidators.declinedIf('key', 'guest')(control)).toEqual({ declinedIf: true });
+    });
+
+    it('DeclinedIf - Valid when sibling does not match trigger under strict comparison', () => {
+        control = createAbstractControlSpyWithSibling(true, '1');
+
+        expect(BooleanValidators.declinedIf('key', 1, true)(control)).toBeNull();
     });
 });
 
