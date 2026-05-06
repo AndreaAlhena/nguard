@@ -33,9 +33,10 @@ const form = new FormGroup({
 
 ## Notes
 
-- Strings like `'false'` and `'0'` are **truthy** in JavaScript (they are non-empty strings) and therefore fail this rule.
+- Strings like `'false'` and `'0'` are **truthy** in JavaScript (they are non-empty strings) and therefore fail this rule. If you want Laravel-style decline semantics, use [`declined`](./declined).
 
 ## See also
 
 - [`truthy`](./truthy) — opposite check
+- [`declined`](./declined) — Laravel-style decline set
 - [`boolean`](./boolean) — strict boolean-like type check
