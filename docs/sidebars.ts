@@ -8,7 +8,13 @@ const sidebars: SidebarsConfig = {
             type: 'category',
             label: 'Boolean',
             link: { type: 'generated-index', title: 'Boolean validators' },
-            items: ['validators/boolean/boolean', 'validators/boolean/falsy', 'validators/boolean/truthy'],
+            items: [
+                'validators/boolean/accepted',
+                'validators/boolean/boolean',
+                'validators/boolean/declined',
+                'validators/boolean/falsy',
+                'validators/boolean/truthy',
+            ],
         },
         {
             type: 'category',

@@ -43,10 +43,12 @@ const form = new FormGroup({
 
 ## Notes
 
-- This is a **type/shape** check — for "value evaluates as truthy" use [`truthy`](./truthy).
+- This is a **type/shape** check — for "value evaluates as truthy" use [`truthy`](./truthy); for accepting strings like `'yes'` and `'on'` use [`accepted`](./accepted).
 - `null` and `undefined` are rejected. Pair with another rule (e.g. an explicit nullable check) if you want to allow them.
 
 ## See also
 
+- [`accepted`](./accepted) — Laravel-style acceptance set
+- [`declined`](./declined) — Laravel-style decline set
 - [`truthy`](./truthy) — any truthy value
 - [`falsy`](./falsy) — any falsy value

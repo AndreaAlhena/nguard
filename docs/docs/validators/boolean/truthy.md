@@ -33,9 +33,10 @@ const form = new FormGroup({
 
 ## Notes
 
-- This is purely about JavaScript truthiness. Strings like `'false'` and `'0'` are truthy because they are non-empty strings.
+- This is purely about JavaScript truthiness. Strings like `'false'` and `'0'` are truthy because they are non-empty strings — if you need Laravel-style acceptance, use [`accepted`](./accepted).
 
 ## See also
 
 - [`falsy`](./falsy) — opposite check
+- [`accepted`](./accepted) — Laravel-style acceptance set
 - [`boolean`](./boolean) — strict boolean-like type check

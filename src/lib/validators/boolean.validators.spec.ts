@@ -4,6 +4,68 @@ import { BooleanValidators } from './boolean.validators';
 
 let control: jasmine.SpyObj<AbstractControl>;
 
+describe('Boolean Validators - accepted (Laravel parity)', () => {
+    it('Accepted - Valid for the literal true', () => {
+        control = createAbstractControlSpy(true);
+
+        expect(BooleanValidators.accepted(control)).toBeNull();
+    });
+
+    it('Accepted - Valid for the string "true"', () => {
+        control = createAbstractControlSpy('true');
+
+        expect(BooleanValidators.accepted(control)).toBeNull();
+    });
+
+    it('Accepted - Valid for the number 1', () => {
+        control = createAbstractControlSpy(1);
+
+        expect(BooleanValidators.accepted(control)).toBeNull();
+    });
+
+    it('Accepted - Valid for the string "1"', () => {
+        control = createAbstractControlSpy('1');
+
+        expect(BooleanValidators.accepted(control)).toBeNull();
+    });
+
+    it('Accepted - Valid for the string "yes"', () => {
+        control = createAbstractControlSpy('yes');
+
+        expect(BooleanValidators.accepted(control)).toBeNull();
+    });
+
+    it('Accepted - Valid for the string "on"', () => {
+        control = createAbstractControlSpy('on');
+
+        expect(BooleanValidators.accepted(control)).toBeNull();
+    });
+
+    it('Accepted - Invalid for the literal false', () => {
+        control = createAbstractControlSpy(false);
+
+        expect(BooleanValidators.accepted(control)).toEqual({ accepted: true });
+    });
+
+    it('Accepted - Invalid for the string "Yes" with different case', () => {
+        control = createAbstractControlSpy('Yes');
+
+        expect(BooleanValidators.accepted(control)).toEqual({ accepted: true });
+    });
+
+    it('Accepted - Invalid for the number 2', () => {
+        control = createAbstractControlSpy(2);
+
+        expect(BooleanValidators.accepted(control)).toEqual({ accepted: true });
+    });
+
+    it('Accepted - Invalid for null', () => {
+        control = createNullControlSpy();
+
+        expect(BooleanValidators.accepted(control)).toEqual({ accepted: true });
+    });
+});
+
 describe('Boolean Validators - boolean (Laravel parity)', () => {
     it('Boolean - Valid for the literal true', () => {
         control = createAbstractControlSpy(true);
@@ -63,6 +125,68 @@ describe('Boolean Validators - boolean (Laravel parity)', () => {
         control = createUndefinedControlSpy();
 
         expect(BooleanValidators.boolean(control)).toEqual({ boolean: true });
+    });
+});
+
+describe('Boolean Validators - declined (Laravel parity)', () => {
+    it('Declined - Valid for the literal false', () => {
+        control = createAbstractControlSpy(false);
+
+        expect(BooleanValidators.declined(control)).toBeNull();
+    });
+
+    it('Declined - Valid for the string "false"', () => {
+        control = createAbstractControlSpy('false');
+
+        expect(BooleanValidators.declined(control)).toBeNull();
+    });
+
+    it('Declined - Valid for the number 0', () => {
+        control = createAbstractControlSpy(0);
+
+        expect(BooleanValidators.declined(control)).toBeNull();
+    });
+
+    it('Declined - Valid for the string "0"', () => {
+        control = createAbstractControlSpy('0');
+
+        expect(BooleanValidators.declined(control)).toBeNull();
+    });
+
+    it('Declined - Valid for the string "no"', () => {
+        control = createAbstractControlSpy('no');
+
+        expect(BooleanValidators.declined(control)).toBeNull();
+    });
+
+    it('Declined - Valid for the string "off"', () => {
+        control = createAbstractControlSpy('off');
+
+        expect(BooleanValidators.declined(control)).toBeNull();
+    });
+
+    it('Declined - Invalid for the literal true', () => {
+        control = createAbstractControlSpy(true);
+
+        expect(BooleanValidators.declined(control)).toEqual({ declined: true });
+    });
+
+    it('Declined - Invalid for the string "No" with different case', () => {
+        control = createAbstractControlSpy('No');
+
+        expect(BooleanValidators.declined(control)).toEqual({ declined: true });
+    });
+
+    it('Declined - Invalid for the empty string', () => {
+        control = createAbstractControlSpy('');
+
+        expect(BooleanValidators.declined(control)).toEqual({ declined: true });
+    });
+
+    it('Declined - Invalid for null', () => {
+        control = createNullControlSpy();
+
+        expect(BooleanValidators.declined(control)).toEqual({ declined: true });
     });
 });
 
