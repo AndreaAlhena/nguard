@@ -43,10 +43,11 @@ const form = new FormGroup({
 ## Notes
 
 - Match Laravel's `declined` rule exactly. If you need looser semantics (e.g. accept any falsy JS value), use [`falsy`](./falsy).
-- Pair with `declinedIf` (planned) when the requirement is conditional on a sibling field.
+- Pair with [`declinedIf`](./declined-if) when the requirement is conditional on a sibling field.
 
 ## See also
 
+- [`declinedIf`](./declined-if) — conditional variant
 - [`accepted`](./accepted) — opposite check
 - [`boolean`](./boolean) — strict boolean-like type check
 - [`falsy`](./falsy) — any JS falsy value

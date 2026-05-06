@@ -13,8 +13,10 @@ export type { primitive } from './lib/utils/validators.utils';
 // Directives
 // - boolean
 export * from './lib/directives/boolean/nguard-accepted.directive';
+export * from './lib/directives/boolean/nguard-accepted-if.directive';
 export * from './lib/directives/boolean/nguard-boolean.directive';
 export * from './lib/directives/boolean/nguard-declined.directive';
+export * from './lib/directives/boolean/nguard-declined-if.directive';
 export * from './lib/directives/boolean/nguard-falsy.directive';
 export * from './lib/directives/boolean/nguard-truthy.directive';
 // - cross-field

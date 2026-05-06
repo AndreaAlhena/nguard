@@ -43,10 +43,11 @@ const form = new FormGroup({
 ## Notes
 
 - Match Laravel's `accepted` rule exactly. If you need looser semantics (e.g. accept any truthy JS value), use [`truthy`](./truthy).
-- Pair with `acceptedIf` (planned) when the requirement is conditional on a sibling field.
+- Pair with [`acceptedIf`](./accepted-if) when the requirement is conditional on a sibling field.
 
 ## See also
 
+- [`acceptedIf`](./accepted-if) — conditional variant
 - [`declined`](./declined) — opposite check
 - [`boolean`](./boolean) — strict boolean-like type check
 - [`truthy`](./truthy) — any JS truthy value

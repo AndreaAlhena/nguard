@@ -246,11 +246,11 @@ The architectural refactor (umbrella issue #12, six PRs) reshaped the library be
 
 ### Tasks
 
-- [ ] Create `BooleanValidators` namespace
-- [ ] Implement 7 boolean validators
-- [ ] Create directives for all new validators
-- [ ] Write unit tests
-- [ ] Update documentation site
+- [x] Create `BooleanValidators` namespace
+- [x] Implement 7 boolean validators
+- [x] Create directives for all new validators
+- [x] Write unit tests
+- [x] Update documentation site
 
 **Total new validators: 7**
 
