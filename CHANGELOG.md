@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-05-30
+
+### Added
+
+- **`Boolean` namespace** — new validator namespace for boolean and acceptance validation, alphabetized first across the public API and docs sidebar.
+- `Boolean.boolean` — value is boolean-like (`true`, `false`, `1`, `0`, `'1'`, `'0'`), Laravel parity.
+- `Boolean.accepted` — value indicates acceptance (`true`, `'true'`, `1`, `'1'`, `'yes'`, `'on'`).
+- `Boolean.declined` — value indicates decline (`false`, `'false'`, `0`, `'0'`, `'no'`, `'off'`).
+- `Boolean.acceptedIf` — must be accepted when a sibling field matches a trigger value.
+- `Boolean.declinedIf` — must be declined when a sibling field matches a trigger value.
+- `Boolean.truthy` — `Boolean(value) === true`.
+- `Boolean.falsy` — `Boolean(value) === false`.
+- Matching signal-based directives for all seven validators (`nguardBoolean`, `nguardAccepted`, `nguardDeclined`, `nguardAcceptedIf`, `nguardDeclinedIf`, `nguardTruthy`, `nguardFalsy`), each delegating to its validator (validator/directive parity).
+- Documentation pages and a `Boolean` sidebar category for every new validator.
+
+### Changed
+
+- Extracted the `evaluateCondition` helper into `validators.utils` so the `Boolean` and `CrossField` namespaces share one sibling-condition implementation.
+
 ## [0.1.0] - 2025-12-11
 
 ### Added
