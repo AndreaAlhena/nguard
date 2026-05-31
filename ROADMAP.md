@@ -277,12 +277,12 @@ The architectural refactor (umbrella issue #12, six PRs) reshaped the library be
 
 ### Tasks
 
-- [ ] Create `ArrayValidators` namespace
-- [ ] Implement 10 array validators
-- [ ] Support nested validation with `arrayOf`
-- [ ] Create directives for all new validators
-- [ ] Write unit tests
-- [ ] Update documentation site
+- [x] Create `ArrayValidators` namespace
+- [x] Implement 10 array validators
+- [x] Support nested validation with `arrayOf`
+- [x] Create directives for all new validators
+- [x] Write unit tests
+- [x] Update documentation site
 
 **Total new validators: 10**
 
