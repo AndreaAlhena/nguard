@@ -34,6 +34,12 @@ const config: Config = {
                     sidebarPath: './sidebars.ts',
                     editUrl: `${GITHUB_REPO}/tree/develop/docs/`,
                     routeBasePath: '/',
+                    lastVersion: 'current',
+                    versions: {
+                        current: {
+                            label: '0.6.0',
+                        },
+                    },
                 },
                 blog: false,
                 theme: {
@@ -55,6 +61,10 @@ const config: Config = {
                     sidebarId: 'mainSidebar',
                     position: 'left',
                     label: 'Documentation',
+                },
+                {
+                    type: 'docsVersionDropdown',
+                    position: 'right',
                 },
                 {
                     href: GITHUB_REPO,
