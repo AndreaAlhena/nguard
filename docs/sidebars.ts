@@ -6,6 +6,23 @@ const sidebars: SidebarsConfig = {
         'architecture',
         {
             type: 'category',
+            label: 'Array',
+            link: { type: 'generated-index', title: 'Array validators' },
+            items: [
+                'validators/array/array',
+                'validators/array/array-of',
+                'validators/array/contains',
+                'validators/array/distinct',
+                'validators/array/doesnt-contain',
+                'validators/array/in-array',
+                'validators/array/max-size',
+                'validators/array/min-size',
+                'validators/array/required-array-keys',
+                'validators/array/size-between',
+            ],
+        },
+        {
+            type: 'category',
             label: 'Boolean',
             link: { type: 'generated-index', title: 'Boolean validators' },
             items: [
