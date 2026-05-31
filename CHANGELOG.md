@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-05-31
+
+### Added
+
+- **`Array` namespace** — new validator namespace for arrays and collections, alphabetized first across the public API and docs sidebar.
+- `Array.array` — value is a JavaScript array.
+- `Array.minSize` / `Array.maxSize` / `Array.sizeBetween` — item-count bounds.
+- `Array.distinct` — no duplicate values (Set value-equality for primitives).
+- `Array.contains` / `Array.doesntContain` — required / forbidden members.
+- `Array.inArray` — value is a member of a sibling field's array.
+- `Array.arrayOf` — every item passes a supplied validator.
+- `Array.requiredArrayKeys` — value is an object containing the given keys.
+- Matching signal-based directives for all ten validators (validator/directive parity); `contains`/`doesntContain` use the `nguardArrayContains`/`nguardArrayDoesntContain` selectors to avoid clashing with the String directives.
+- Documentation pages and an `Array` sidebar category for every new validator.
+
+### Changed
+
+- Docs version selector now reads `0.7.0`.
+
 ## [0.6.0] - 2026-05-30
 
 ### Added
