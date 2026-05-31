@@ -11,6 +11,17 @@ export * from './lib/types/field-condition-config.type';
 export type { primitive } from './lib/utils/validators.utils';
 
 // Directives
+// - array
+export * from './lib/directives/array/nguard-array.directive';
+export * from './lib/directives/array/nguard-array-contains.directive';
+export * from './lib/directives/array/nguard-array-doesnt-contain.directive';
+export * from './lib/directives/array/nguard-array-of.directive';
+export * from './lib/directives/array/nguard-distinct.directive';
+export * from './lib/directives/array/nguard-in-array.directive';
+export * from './lib/directives/array/nguard-max-size.directive';
+export * from './lib/directives/array/nguard-min-size.directive';
+export * from './lib/directives/array/nguard-required-array-keys.directive';
+export * from './lib/directives/array/nguard-size-between.directive';
 // - boolean
 export * from './lib/directives/boolean/nguard-accepted.directive';
 export * from './lib/directives/boolean/nguard-accepted-if.directive';
