@@ -1851,3 +1851,125 @@ describe('String Validators - notEqualTo', () => {
         expect(StringValidators.notEqualTo('x')(createAbstractControlSpy('x'))).toEqual({ notEqualTo: true });
     });
 });
+
+describe('String Validators - bic', () => {
+    it('passes for a valid BIC', () => {
+        expect(StringValidators.bic(createAbstractControlSpy('DEUTDEFF500'))).toBeNull();
+    });
+
+    it('fails for a lowercase / malformed BIC', () => {
+        expect(StringValidators.bic(createAbstractControlSpy('deutdeff'))).toEqual({ bic: true });
+    });
+});
+
+describe('String Validators - creditCard', () => {
+    it('passes a Luhn-valid number (dashes allowed)', () => {
+        expect(StringValidators.creditCard(createAbstractControlSpy('4111-1111-1111-1111'))).toBeNull();
+    });
+
+    it('fails a Luhn-invalid number', () => {
+        expect(StringValidators.creditCard(createAbstractControlSpy('4111111111111112'))).toEqual({ creditCard: true });
+    });
+
+    it('fails a non-card string', () => {
+        expect(StringValidators.creditCard(createAbstractControlSpy('hello'))).toEqual({ creditCard: true });
+    });
+});
+
+describe('String Validators - ean', () => {
+    it('passes EAN-13', () => {
+        expect(StringValidators.ean(createAbstractControlSpy('4006381333931'))).toBeNull();
+    });
+
+    it('passes EAN-8', () => {
+        expect(StringValidators.ean(createAbstractControlSpy('73513537'))).toBeNull();
+    });
+
+    it('fails a wrong check digit', () => {
+        expect(StringValidators.ean(createAbstractControlSpy('4006381333930'))).toEqual({ ean: true });
+    });
+});
+
+describe('String Validators - iban', () => {
+    it('passes a valid IBAN', () => {
+        expect(StringValidators.iban(createAbstractControlSpy('GB82WEST12345698765432'))).toBeNull();
+    });
+
+    it('fails a bad checksum', () => {
+        expect(StringValidators.iban(createAbstractControlSpy('GB82WEST12345698765431'))).toEqual({ iban: true });
+    });
+
+    it('fails a wrong length for the country', () => {
+        expect(StringValidators.iban(createAbstractControlSpy('GB82WEST1234569876543'))).toEqual({ iban: true });
+    });
+});
+
+describe('String Validators - isbn', () => {
+    it('passes ISBN-10', () => {
+        expect(StringValidators.isbn(createAbstractControlSpy('0306406152'))).toBeNull();
+    });
+
+    it('passes ISBN-10 with an X check digit', () => {
+        expect(StringValidators.isbn(createAbstractControlSpy('097522980X'))).toBeNull();
+    });
+
+    it('passes ISBN-13', () => {
+        expect(StringValidators.isbn(createAbstractControlSpy('9780306406157'))).toBeNull();
+    });
+
+    it('fails an invalid ISBN', () => {
+        expect(StringValidators.isbn(createAbstractControlSpy('0306406153'))).toEqual({ isbn: true });
+    });
+});
+
+describe('String Validators - phone', () => {
+    it('passes an E.164 number without a country', () => {
+        expect(StringValidators.phone()(createAbstractControlSpy('+14155552671'))).toBeNull();
+    });
+
+    it('passes a national number with a country', () => {
+        expect(StringValidators.phone('US')(createAbstractControlSpy('(415) 555-2671'))).toBeNull();
+    });
+
+    it('fails an invalid number', () => {
+        expect(StringValidators.phone('US')(createAbstractControlSpy('123'))).toEqual({ phone: true });
+    });
+});
+
+describe('String Validators - postalCode', () => {
+    it('passes a US ZIP with a country', () => {
+        expect(StringValidators.postalCode('US')(createAbstractControlSpy('90210'))).toBeNull();
+    });
+
+    it('fails a non-US value with US country', () => {
+        expect(StringValidators.postalCode('US')(createAbstractControlSpy('ABCDE'))).toEqual({ postalCode: true });
+    });
+
+    it('uses a generic check without a country', () => {
+        expect(StringValidators.postalCode()(createAbstractControlSpy('SW1A 1AA'))).toBeNull();
+    });
+});
+
+describe('String Validators - ssn', () => {
+    it('passes a valid SSN', () => {
+        expect(StringValidators.ssn(createAbstractControlSpy('123456789'))).toBeNull();
+    });
+
+    it('fails area 666', () => {
+        expect(StringValidators.ssn(createAbstractControlSpy('666-45-6789'))).toEqual({ ssn: true });
+    });
+});
+
+describe('String Validators - vatNumber', () => {
+    it('passes a known-country VAT', () => {
+        expect(StringValidators.vatNumber('DE')(createAbstractControlSpy('DE123456789'))).toBeNull();
+    });
+
+    it('passes any known EU format without a country', () => {
+        expect(StringValidators.vatNumber()(createAbstractControlSpy('IT12345678901'))).toBeNull();
+    });
+
+    it('fails an unknown format', () => {
+        expect(StringValidators.vatNumber('DE')(createAbstractControlSpy('DE12'))).toEqual({ vatNumber: true });
+    });
+});
