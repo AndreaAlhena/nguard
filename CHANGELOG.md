@@ -14,9 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Async.exists` — value must exist in the backend.
 - `Async.uniqueExcept` — unique except for a given record id (edit forms).
 - `Async.remoteValidation` — generic endpoint-driven validation.
-- `AsyncValidatorConfig` type (`endpoint`, `method`, `paramName`, `debounceTime`, `interpret`).
+- `AsyncValidatorConfig` type (`endpoint`, `method`, `paramName`, `debounceTime`, `resolve`).
 - Matching async directives via `NG_ASYNC_VALIDATORS`: `nguardUnique`, `nguardExists`, `nguardUniqueExcept`, `nguardRemoteValidation`.
-- 300ms default debounce, request cancellation, automatic `pending` state, and graceful handling of empty values / HTTP errors.
+- Verdicts come from the **full HTTP response** via an optional `resolve(response)` callback; the default rule relies on **status codes only** (no assumed body shape). 300ms debounce, request cancellation, automatic `pending` state, empty-value short-circuit and error tolerance.
 - Documentation pages and an `Async` sidebar category.
 
 ### Notes

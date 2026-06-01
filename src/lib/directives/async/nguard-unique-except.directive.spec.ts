@@ -40,14 +40,14 @@ describe('NguardUniqueExceptDirective', () => {
         expect(directive).toBeTruthy();
     });
 
-    it('should send the except id and pass when not taken', fakeAsync(() => {
+    it('should send the except id and pass on 404 (free)', fakeAsync(() => {
         let result: unknown = 'unset';
         (directive.validate(createAbstractControlSpy('eve')) as Observable<unknown>).subscribe(r => (result = r));
         tick(300);
         const req = httpMock.expectOne(r => r.url === '/api/check');
 
         expect(req.request.params.get('except')).toBe('42');
-        req.flush({ exists: false });
+        req.flush(null, { status: 404, statusText: 'Not Found' });
 
         expect(result).toBeNull();
     }));

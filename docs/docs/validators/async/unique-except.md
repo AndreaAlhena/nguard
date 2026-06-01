@@ -15,7 +15,11 @@ NguardValidators.Async.uniqueExcept(exceptId: primitive, config: AsyncValidatorC
 | Parameter | Type | Description |
 |---|---|---|
 | `exceptId` | `primitive` | The id of the record to exclude from the uniqueness check |
-| `config` | `AsyncValidatorConfig` | Same config as [`unique`](./unique) |
+| `config` | `AsyncValidatorConfig` | Same config as [`unique`](./unique), including the `resolve` callback |
+
+## Default rule (no `resolve`)
+
+Same as [`unique`](./unique): `2xx` → taken (**invalid** `{ unique: true }`), `404` → free (valid), anything else → undecided (valid).
 
 ## Reactive forms
 
@@ -47,7 +51,7 @@ email = new FormControl('', {
 
 - Reports the same `unique` error key as [`unique`](./unique).
 - Sends `except={exceptId}` (query param for GET, body key for POST/PUT) so the backend skips that record.
-- Must be created in an injection context; debounced with cancellation.
+- Must be created in an injection context; debounced with cancellation. Override the status-code default with `config.resolve` when needed.
 
 ## See also
 

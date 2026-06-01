@@ -38,11 +38,11 @@ describe('NguardExistsDirective', () => {
         expect(directive).toBeTruthy();
     });
 
-    it('should fail when the value does not exist', fakeAsync(() => {
+    it('should fail when the lookup returns 404 (not found)', fakeAsync(() => {
         let result: unknown = 'unset';
         (directive.validate(createAbstractControlSpy('x')) as Observable<unknown>).subscribe(r => (result = r));
         tick(300);
-        httpMock.expectOne(r => r.url === '/api/exists').flush({ exists: false });
+        httpMock.expectOne(r => r.url === '/api/exists').flush(null, { status: 404, statusText: 'Not Found' });
 
         expect(result).toEqual({ exists: true });
     }));

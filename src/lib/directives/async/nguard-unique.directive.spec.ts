@@ -38,11 +38,11 @@ describe('NguardUniqueDirective', () => {
         expect(directive).toBeTruthy();
     });
 
-    it('should fail when the value exists', fakeAsync(() => {
+    it('should fail when the lookup returns 2xx (taken)', fakeAsync(() => {
         let result: unknown = 'unset';
         (directive.validate(createAbstractControlSpy('bob')) as Observable<unknown>).subscribe(r => (result = r));
         tick(300);
-        httpMock.expectOne(r => r.url === '/api/check').flush({ exists: true });
+        httpMock.expectOne(r => r.url === '/api/check').flush({}, { status: 200, statusText: 'OK' });
 
         expect(result).toEqual({ unique: true });
     }));

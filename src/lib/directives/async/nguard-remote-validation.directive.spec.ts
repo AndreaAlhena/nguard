@@ -40,11 +40,11 @@ describe('NguardRemoteValidationDirective', () => {
         expect(directive).toBeTruthy();
     });
 
-    it('should fail when the response is not valid', fakeAsync(() => {
+    it('should fail when the endpoint returns a 4xx', fakeAsync(() => {
         let result: unknown = 'unset';
         (directive.validate(createAbstractControlSpy('z')) as Observable<unknown>).subscribe(r => (result = r));
         tick(300);
-        httpMock.expectOne(r => r.url === '/api/v').flush({ valid: false });
+        httpMock.expectOne(r => r.url === '/api/v').flush(null, { status: 422, statusText: 'Unprocessable Entity' });
 
         expect(result).toEqual({ remoteValidation: true });
     }));
