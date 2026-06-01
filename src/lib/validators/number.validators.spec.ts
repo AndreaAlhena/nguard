@@ -805,3 +805,74 @@ describe('Number Validators - Odd', () => {
         expect(NumberValidators.odd(control)).toEqual({ odd: true });
     });
 });
+
+enum NumberInclusionPriority {
+    Low = 1,
+    High = 5,
+}
+
+describe('Number Validators - inList', () => {
+    it('passes when the value is in the list', () => {
+        expect(NumberValidators.inList(1, 2, 3)(createAbstractControlSpy(2))).toBeNull();
+    });
+
+    it('coerces string-numbers', () => {
+        expect(NumberValidators.inList(1, 2, 3)(createAbstractControlSpy('3'))).toBeNull();
+    });
+
+    it('fails when not in the list', () => {
+        expect(NumberValidators.inList(1, 2, 3)(createAbstractControlSpy(9))).toEqual({ inList: true });
+    });
+
+    it('fails for non-numeric', () => {
+        expect(NumberValidators.inList(1)(createAbstractControlSpy('x'))).toEqual({ inList: true });
+    });
+});
+
+describe('Number Validators - notInList', () => {
+    it('passes when not in the list', () => {
+        expect(NumberValidators.notInList(0, 13)(createAbstractControlSpy(7))).toBeNull();
+    });
+
+    it('fails when in the list', () => {
+        expect(NumberValidators.notInList(0, 13)(createAbstractControlSpy(13))).toEqual({ notInList: true });
+    });
+
+    it('passes for non-numeric', () => {
+        expect(NumberValidators.notInList(0)(createAbstractControlSpy('x'))).toBeNull();
+    });
+});
+
+describe('Number Validators - inEnum', () => {
+    it('passes for a numeric enum value', () => {
+        expect(NumberValidators.inEnum(NumberInclusionPriority)(createAbstractControlSpy(5))).toBeNull();
+    });
+
+    it('fails for a non-enum number', () => {
+        expect(NumberValidators.inEnum(NumberInclusionPriority)(createAbstractControlSpy(3))).toEqual({ inEnum: true });
+    });
+});
+
+describe('Number Validators - equalTo', () => {
+    it('passes when equal (coerced)', () => {
+        expect(NumberValidators.equalTo(42)(createAbstractControlSpy('42'))).toBeNull();
+    });
+
+    it('fails when not equal', () => {
+        expect(NumberValidators.equalTo(42)(createAbstractControlSpy(7))).toEqual({ equalTo: true });
+    });
+});
+
+describe('Number Validators - notEqualTo', () => {
+    it('passes when not equal', () => {
+        expect(NumberValidators.notEqualTo(0)(createAbstractControlSpy(5))).toBeNull();
+    });
+
+    it('fails when equal', () => {
+        expect(NumberValidators.notEqualTo(0)(createAbstractControlSpy(0))).toEqual({ notEqualTo: true });
+    });
+
+    it('passes for non-numeric', () => {
+        expect(NumberValidators.notEqualTo(0)(createAbstractControlSpy('x'))).toBeNull();
+    });
+});

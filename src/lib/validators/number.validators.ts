@@ -358,4 +358,91 @@ export namespace NumberValidators {
      */
     export const positive = (c: AbstractControl): ValidationErrors | null =>
         _compare(c.value, 0, '>') ? null : { positive: true };
+
+    /**
+     * The field under validation must equal the given number. The control value is coerced
+     * numerically (so `'5'` matches `5`); non-numeric values fail.
+     *
+     * ```
+     * answer: new FormControl('', [NumberValidators.equalTo(42)]),
+     * ```
+     *
+     * @param {number} value The value the field must equal
+     * @returns {ValidatorFn}
+     */
+    export const equalTo = (value: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null =>
+            isNumeric(c.value) && Number(c.value) === value ? null : { equalTo: true };
+    };
+
+    /**
+     * The field under validation must be one of the given TypeScript enum's numeric values.
+     * The control value is coerced numerically; non-numeric values fail.
+     *
+     * ```
+     * level: new FormControl('', [NumberValidators.inEnum(Priority)]),
+     * ```
+     *
+     * @param {Record<string, string | number>} enumObject The enum to check membership against
+     * @returns {ValidatorFn}
+     */
+    export const inEnum = (enumObject: Record<string, string | number>): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!isNumeric(c.value)) {
+                return { inEnum: true };
+            }
+            const values = Object.keys(enumObject)
+                .filter(key => isNaN(Number(key)))
+                .map(key => enumObject[key]);
+
+            return values.includes(Number(c.value)) ? null : { inEnum: true };
+        };
+    };
+
+    /**
+     * The field under validation must be one of the given numbers. The control value is coerced
+     * numerically; non-numeric values fail.
+     *
+     * ```
+     * size: new FormControl('', [NumberValidators.inList(1, 2, 3)]),
+     * ```
+     *
+     * @param {...number} values The allowed values
+     * @returns {ValidatorFn}
+     */
+    export const inList = (...values: number[]): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null =>
+            isNumeric(c.value) && values.includes(Number(c.value)) ? null : { inList: true };
+    };
+
+    /**
+     * The field under validation must NOT equal the given number. Non-numeric values pass
+     * (they are not equal to the target).
+     *
+     * ```
+     * value: new FormControl('', [NumberValidators.notEqualTo(0)]),
+     * ```
+     *
+     * @param {number} value The value the field must not equal
+     * @returns {ValidatorFn}
+     */
+    export const notEqualTo = (value: number): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null =>
+            isNumeric(c.value) && Number(c.value) === value ? { notEqualTo: true } : null;
+    };
+
+    /**
+     * The field under validation must NOT be one of the given numbers. Non-numeric values pass.
+     *
+     * ```
+     * size: new FormControl('', [NumberValidators.notInList(0, 13)]),
+     * ```
+     *
+     * @param {...number} values The disallowed values
+     * @returns {ValidatorFn}
+     */
+    export const notInList = (...values: number[]): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null =>
+            isNumeric(c.value) && values.includes(Number(c.value)) ? { notInList: true } : null;
+    };
 }

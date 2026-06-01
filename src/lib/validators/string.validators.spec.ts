@@ -1790,3 +1790,64 @@ describe('String Validators - MAC Address', () => {
         expect(StringValidators.macAddress(control)).toEqual({ macAddress: true });
     });
 });
+
+enum StringInclusionStatus {
+    Draft = 'draft',
+    Published = 'published',
+}
+
+describe('String Validators - inList', () => {
+    it('passes when the value is in the list', () => {
+        expect(StringValidators.inList('a', 'b')(createAbstractControlSpy('a'))).toBeNull();
+    });
+
+    it('fails when the value is not in the list', () => {
+        expect(StringValidators.inList('a', 'b')(createAbstractControlSpy('c'))).toEqual({ inList: true });
+    });
+
+    it('uses strict equality (number 5 is not "5")', () => {
+        expect(StringValidators.inList('5')(createAbstractControlSpy(5))).toEqual({ inList: true });
+    });
+});
+
+describe('String Validators - notInList', () => {
+    it('passes when the value is not in the list', () => {
+        expect(StringValidators.notInList('a', 'b')(createAbstractControlSpy('c'))).toBeNull();
+    });
+
+    it('fails when the value is in the list', () => {
+        expect(StringValidators.notInList('a', 'b')(createAbstractControlSpy('a'))).toEqual({ notInList: true });
+    });
+});
+
+describe('String Validators - inEnum', () => {
+    it('passes for an enum value', () => {
+        expect(StringValidators.inEnum(StringInclusionStatus)(createAbstractControlSpy('draft'))).toBeNull();
+    });
+
+    it('fails for a non-enum value', () => {
+        expect(StringValidators.inEnum(StringInclusionStatus)(createAbstractControlSpy('archived'))).toEqual({
+            inEnum: true,
+        });
+    });
+});
+
+describe('String Validators - equalTo', () => {
+    it('passes when equal', () => {
+        expect(StringValidators.equalTo('x')(createAbstractControlSpy('x'))).toBeNull();
+    });
+
+    it('fails when not equal', () => {
+        expect(StringValidators.equalTo('x')(createAbstractControlSpy('y'))).toEqual({ equalTo: true });
+    });
+});
+
+describe('String Validators - notEqualTo', () => {
+    it('passes when not equal', () => {
+        expect(StringValidators.notEqualTo('x')(createAbstractControlSpy('y'))).toBeNull();
+    });
+
+    it('fails when equal', () => {
+        expect(StringValidators.notEqualTo('x')(createAbstractControlSpy('x'))).toEqual({ notEqualTo: true });
+    });
+});
