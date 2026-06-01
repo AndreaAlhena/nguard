@@ -1,0 +1,149 @@
+{
+  "mainSidebar": [
+    "getting-started",
+    "architecture",
+    {
+      "type": "category",
+      "label": "Array",
+      "link": {
+        "type": "generated-index",
+        "title": "Array validators"
+      },
+      "items": [
+        "validators/array/array",
+        "validators/array/array-of",
+        "validators/array/contains",
+        "validators/array/distinct",
+        "validators/array/doesnt-contain",
+        "validators/array/in-array",
+        "validators/array/max-size",
+        "validators/array/min-size",
+        "validators/array/required-array-keys",
+        "validators/array/size-between"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Boolean",
+      "link": {
+        "type": "generated-index",
+        "title": "Boolean validators"
+      },
+      "items": [
+        "validators/boolean/accepted",
+        "validators/boolean/accepted-if",
+        "validators/boolean/boolean",
+        "validators/boolean/declined",
+        "validators/boolean/declined-if",
+        "validators/boolean/falsy",
+        "validators/boolean/truthy"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "CrossField",
+      "link": {
+        "type": "generated-index",
+        "title": "CrossField validators"
+      },
+      "items": [
+        "validators/cross-field/confirmed",
+        "validators/cross-field/different",
+        "validators/cross-field/present-if",
+        "validators/cross-field/present-unless",
+        "validators/cross-field/prohibited-if",
+        "validators/cross-field/prohibited-unless",
+        "validators/cross-field/required-if",
+        "validators/cross-field/required-unless",
+        "validators/cross-field/required-with",
+        "validators/cross-field/required-with-all",
+        "validators/cross-field/required-without",
+        "validators/cross-field/required-without-all",
+        "validators/cross-field/same"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Number",
+      "link": {
+        "type": "generated-index",
+        "title": "Number validators"
+      },
+      "items": [
+        "validators/number/between",
+        "validators/number/decimal",
+        "validators/number/digits",
+        "validators/number/digits-between",
+        "validators/number/equal-to",
+        "validators/number/even",
+        "validators/number/greater-than",
+        "validators/number/greater-than-or-equal",
+        "validators/number/in-enum",
+        "validators/number/in-list",
+        "validators/number/integer",
+        "validators/number/lesser-than",
+        "validators/number/lesser-than-or-equal",
+        "validators/number/max",
+        "validators/number/max-digits",
+        "validators/number/min",
+        "validators/number/min-digits",
+        "validators/number/multiple-of",
+        "validators/number/negative",
+        "validators/number/not-equal-to",
+        "validators/number/not-in-list",
+        "validators/number/numeric",
+        "validators/number/odd",
+        "validators/number/positive"
+      ]
+    },
+    {
+      "type": "category",
+      "label": "String",
+      "link": {
+        "type": "generated-index",
+        "title": "String validators"
+      },
+      "items": [
+        "validators/string/alpha",
+        "validators/string/alpha-dash",
+        "validators/string/alpha-num",
+        "validators/string/ascii",
+        "validators/string/contains",
+        "validators/string/doesnt-end-with",
+        "validators/string/doesnt-start-with",
+        "validators/string/email",
+        "validators/string/ends-with",
+        "validators/string/equal-to",
+        "validators/string/hex-color",
+        "validators/string/in-enum",
+        "validators/string/in-list",
+        "validators/string/ip",
+        "validators/string/ipv4",
+        "validators/string/ipv6",
+        "validators/string/json",
+        "validators/string/length",
+        "validators/string/longer-or-equal-to",
+        "validators/string/longer-than",
+        "validators/string/lowercase",
+        "validators/string/mac-address",
+        "validators/string/max-length",
+        "validators/string/min-length",
+        "validators/string/not-blank",
+        "validators/string/not-contains",
+        "validators/string/not-equal-to",
+        "validators/string/not-in-list",
+        "validators/string/not-regex",
+        "validators/string/regex",
+        "validators/string/shorter-or-equal-to",
+        "validators/string/shorter-than",
+        "validators/string/slug",
+        "validators/string/starts-with",
+        "validators/string/string",
+        "validators/string/ulid",
+        "validators/string/uppercase",
+        "validators/string/url",
+        "validators/string/uuid"
+      ]
+    }
+  ]
+}

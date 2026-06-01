@@ -336,12 +336,12 @@ These attach to the data-type namespace they validate against. `String.in('a', '
 
 ### Tasks
 
-- [ ] Implement 9 format validators in `String`
-- [ ] Support country-specific formats where applicable
-- [ ] Consider `libphonenumber-js` as optional peer dependency
-- [ ] Create directives for all new validators
-- [ ] Write unit tests
-- [ ] Update documentation site
+- [x] Implement 9 format validators in `String`
+- [x] Support country-specific formats where applicable
+- [x] Consider `libphonenumber-js` as optional peer dependency
+- [x] Create directives for all new validators
+- [x] Write unit tests
+- [x] Update documentation site
 
 **Total new validators: 9**
 

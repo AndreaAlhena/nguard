@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { type CountryCode, isValidPhoneNumber } from 'libphonenumber-js';
 import { primitive } from '../utils/validators.utils';
 
 const isString = (value: unknown): value is string => typeof value === 'string';
@@ -38,6 +39,80 @@ const _compareLengthLiteral = (value: unknown, target: number, op: '>' | '>=' | 
         case '===':
             return a === target;
     }
+};
+
+const _luhnValid = (digits: string): boolean => {
+    let sum = 0;
+    let double = false;
+    for (let i = digits.length - 1; i >= 0; i--) {
+        let d = digits.charCodeAt(i) - 48;
+        if (double) {
+            d *= 2;
+            if (d > 9) {
+                d -= 9;
+            }
+        }
+        sum += d;
+        double = !double;
+    }
+    return sum % 10 === 0;
+};
+
+const _IBAN_LENGTHS: Record<string, number> = {
+    AD: 24,
+    AT: 20,
+    BE: 16,
+    CH: 21,
+    CZ: 24,
+    DE: 22,
+    DK: 18,
+    ES: 24,
+    FI: 18,
+    FR: 27,
+    GB: 22,
+    IE: 22,
+    IT: 27,
+    NL: 18,
+    NO: 15,
+    PL: 28,
+    PT: 25,
+    SE: 24,
+};
+
+const _ibanMod97 = (iban: string): number => {
+    const rearranged = iban.slice(4) + iban.slice(0, 4);
+    const numeric = rearranged.replace(/[A-Z]/g, (ch: string) => String(ch.charCodeAt(0) - 55));
+    let remainder = 0;
+    for (let i = 0; i < numeric.length; i++) {
+        remainder = (remainder * 10 + (numeric.charCodeAt(i) - 48)) % 97;
+    }
+    return remainder;
+};
+
+const _POSTAL_PATTERNS: Record<string, RegExp> = {
+    AU: /^\d{4}$/,
+    CA: /^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/,
+    DE: /^\d{5}$/,
+    ES: /^\d{5}$/,
+    FR: /^\d{5}$/,
+    GB: /^[A-Za-z]{1,2}\d[A-Za-z\d]? ?\d[A-Za-z]{2}$/,
+    IT: /^\d{5}$/,
+    JP: /^\d{3}-?\d{4}$/,
+    NL: /^\d{4} ?[A-Za-z]{2}$/,
+    US: /^\d{5}(-\d{4})?$/,
+};
+
+const _VAT_PATTERNS: Record<string, RegExp> = {
+    AT: /^ATU\d{8}$/,
+    BE: /^BE0\d{9}$/,
+    DE: /^DE\d{9}$/,
+    DK: /^DK\d{8}$/,
+    ES: /^ES[A-Z0-9]\d{7}[A-Z0-9]$/,
+    FR: /^FR[A-Z0-9]{2}\d{9}$/,
+    GB: /^GB(\d{9}|\d{12}|GD\d{3}|HA\d{3})$/,
+    IT: /^IT\d{11}$/,
+    NL: /^NL\d{9}B\d{2}$/,
+    PL: /^PL\d{10}$/,
 };
 
 export namespace StringValidators {
@@ -775,5 +850,230 @@ export namespace StringValidators {
     export const notInList = (...values: string[]): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null =>
             !values.includes(c.value) ? null : { notInList: true };
+    };
+
+    /**
+     * The field under validation must be a valid BIC / SWIFT code (8 or 11 characters).
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.bic]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const bic = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || c.value.length === 0) {
+            return { bic: true };
+        }
+        return /^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/.test(c.value) ? null : { bic: true };
+    };
+
+    /**
+     * The field under validation must be a valid credit card number — 13 to 19 digits
+     * (spaces and dashes allowed) passing the Luhn checksum.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.creditCard]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const creditCard = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value)) {
+            return { creditCard: true };
+        }
+        const digits = c.value.replace(/[ -]/g, '');
+        if (!/^\d{13,19}$/.test(digits)) {
+            return { creditCard: true };
+        }
+        return _luhnValid(digits) ? null : { creditCard: true };
+    };
+
+    /**
+     * The field under validation must be a valid EAN-8 or EAN-13 barcode (check digit verified).
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.ean]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const ean = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value) || !/^(\d{8}|\d{13})$/.test(c.value)) {
+            return { ean: true };
+        }
+        const len = c.value.length;
+        let sum = 0;
+        for (let i = 0; i < len - 1; i++) {
+            const d = c.value.charCodeAt(i) - 48;
+            // Weight 3 on the rightmost data digit, then alternate 1, 3, 1 ... (works for EAN-8 and EAN-13).
+            sum += (len - 1 - i) % 2 === 1 ? d * 3 : d;
+        }
+        const check = (10 - (sum % 10)) % 10;
+        return check === c.value.charCodeAt(len - 1) - 48 ? null : { ean: true };
+    };
+
+    /**
+     * The field under validation must be a valid IBAN: country prefix, expected length
+     * (for known countries) and the ISO 7064 mod-97 checksum. Spaces are ignored.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.iban]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const iban = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value)) {
+            return { iban: true };
+        }
+        const v = c.value.replace(/\s/g, '').toUpperCase();
+        if (!/^[A-Z]{2}\d{2}[A-Z0-9]+$/.test(v)) {
+            return { iban: true };
+        }
+        const expectedLength = _IBAN_LENGTHS[v.slice(0, 2)];
+        if (expectedLength !== undefined && v.length !== expectedLength) {
+            return { iban: true };
+        }
+        return _ibanMod97(v) === 1 ? null : { iban: true };
+    };
+
+    /**
+     * The field under validation must be a valid ISBN-10 or ISBN-13 (check digit verified).
+     * Spaces and dashes are ignored.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.isbn]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const isbn = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value)) {
+            return { isbn: true };
+        }
+        const v = c.value.replace(/[ -]/g, '').toUpperCase();
+        if (/^\d{9}[\dX]$/.test(v)) {
+            let sum = 0;
+            for (let i = 0; i < 9; i++) {
+                sum += (10 - i) * (v.charCodeAt(i) - 48);
+            }
+            sum += v[9] === 'X' ? 10 : v.charCodeAt(9) - 48;
+            return sum % 11 === 0 ? null : { isbn: true };
+        }
+        if (/^\d{13}$/.test(v)) {
+            let sum = 0;
+            for (let i = 0; i < 12; i++) {
+                const d = v.charCodeAt(i) - 48;
+                sum += i % 2 === 0 ? d : d * 3;
+            }
+            const check = (10 - (sum % 10)) % 10;
+            return check === v.charCodeAt(12) - 48 ? null : { isbn: true };
+        }
+        return { isbn: true };
+    };
+
+    /**
+     * The field under validation must be a valid phone number, delegated to `libphonenumber-js`.
+     * Without `defaultCountry` the value must be in E.164 format (e.g. `+14155552671`); with a
+     * country (e.g. `'US'`) national formats are accepted.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.phone('US')]),
+     * ```
+     *
+     * @param {string} [defaultCountry] ISO 3166-1 alpha-2 country code for national-format numbers
+     * @returns {ValidatorFn}
+     */
+    export const phone = (defaultCountry?: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!isString(c.value) || c.value.length === 0) {
+                return { phone: true };
+            }
+            try {
+                const valid = defaultCountry
+                    ? isValidPhoneNumber(c.value, defaultCountry as CountryCode)
+                    : isValidPhoneNumber(c.value);
+                return valid ? null : { phone: true };
+            } catch {
+                return { phone: true };
+            }
+        };
+    };
+
+    /**
+     * The field under validation must be a valid postal code. Pass an ISO 3166-1 alpha-2
+     * country code for a country-specific format; otherwise a generic alphanumeric check applies.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.postalCode('US')]),
+     * ```
+     *
+     * @param {string} [country] ISO 3166-1 alpha-2 country code
+     * @returns {ValidatorFn}
+     */
+    export const postalCode = (country?: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!isString(c.value) || c.value.length === 0) {
+                return { postalCode: true };
+            }
+            const pattern = country ? _POSTAL_PATTERNS[country.toUpperCase()] : undefined;
+            const regex = pattern ?? /^[A-Za-z0-9][A-Za-z0-9 -]{1,10}[A-Za-z0-9]$/;
+            return regex.test(c.value) ? null : { postalCode: true };
+        };
+    };
+
+    /**
+     * The field under validation must be a valid US Social Security Number (`AAA-GG-SSSS`,
+     * dashes optional), excluding the ranges the SSA never issues.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.ssn]),
+     * ```
+     *
+     * @returns {ValidationErrors | null}
+     */
+    export const ssn = (c: AbstractControl): ValidationErrors | null => {
+        if (!isString(c.value)) {
+            return { ssn: true };
+        }
+        const match = /^(\d{3})-?(\d{2})-?(\d{4})$/.exec(c.value);
+        if (!match) {
+            return { ssn: true };
+        }
+        const [, area, group, serial] = match;
+        if (area === '000' || area === '666' || Number(area) >= 900) {
+            return { ssn: true };
+        }
+        if (group === '00' || serial === '0000') {
+            return { ssn: true };
+        }
+        return null;
+    };
+
+    /**
+     * The field under validation must be a valid EU VAT number. Pass an ISO 3166-1 alpha-2
+     * country code to check a specific country's format; otherwise any known EU format is accepted.
+     * Spaces are ignored.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.vatNumber('DE')]),
+     * ```
+     *
+     * @param {string} [country] ISO 3166-1 alpha-2 country code
+     * @returns {ValidatorFn}
+     */
+    export const vatNumber = (country?: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            if (!isString(c.value) || c.value.length === 0) {
+                return { vatNumber: true };
+            }
+            const v = c.value.replace(/\s/g, '').toUpperCase();
+            if (country) {
+                const pattern = _VAT_PATTERNS[country.toUpperCase()];
+                return pattern && pattern.test(v) ? null : { vatNumber: true };
+            }
+            return Object.values(_VAT_PATTERNS).some(p => p.test(v)) ? null : { vatNumber: true };
+        };
     };
 }
