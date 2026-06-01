@@ -23,6 +23,17 @@ const sidebars: SidebarsConfig = {
         },
         {
             type: 'category',
+            label: 'Async',
+            link: { type: 'generated-index', title: 'Async validators' },
+            items: [
+                'validators/async/exists',
+                'validators/async/remote-validation',
+                'validators/async/unique',
+                'validators/async/unique-except',
+            ],
+        },
+        {
+            type: 'category',
             label: 'Boolean',
             link: { type: 'generated-index', title: 'Boolean validators' },
             items: [

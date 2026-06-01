@@ -3,6 +3,7 @@
  */
 
 // Types (config shapes for directives)
+export * from './lib/types/async-validator-config.type';
 export * from './lib/types/charset-config.type';
 export * from './lib/types/field-comparison-config.type';
 export * from './lib/types/field-condition-config.type';
@@ -11,6 +12,11 @@ export * from './lib/types/field-condition-config.type';
 export type { primitive } from './lib/utils/validators.utils';
 
 // Directives
+// - async
+export * from './lib/directives/async/nguard-exists.directive';
+export * from './lib/directives/async/nguard-remote-validation.directive';
+export * from './lib/directives/async/nguard-unique.directive';
+export * from './lib/directives/async/nguard-unique-except.directive';
 // - array
 export * from './lib/directives/array/nguard-array.directive';
 export * from './lib/directives/array/nguard-array-contains.directive';
