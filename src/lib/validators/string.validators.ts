@@ -698,4 +698,82 @@ export namespace StringValidators {
         )
             ? null
             : { url: true };
+
+    /**
+     * The field under validation must be exactly equal to the given string (strict equality).
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.equalTo('expected')]),
+     * ```
+     *
+     * @param {string} value The value the field must equal
+     * @returns {ValidatorFn}
+     */
+    export const equalTo = (value: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => (c.value === value ? null : { equalTo: true });
+    };
+
+    /**
+     * The field under validation must be one of the given TypeScript enum's values.
+     * Reverse-mapping keys of numeric enums are ignored, so both string and numeric enums work.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.inEnum(Status)]),
+     * ```
+     *
+     * @param {Record<string, string | number>} enumObject The enum to check membership against
+     * @returns {ValidatorFn}
+     */
+    export const inEnum = (enumObject: Record<string, string | number>): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => {
+            const values = Object.keys(enumObject)
+                .filter(key => isNaN(Number(key)))
+                .map(key => enumObject[key]);
+
+            return values.includes(c.value) ? null : { inEnum: true };
+        };
+    };
+
+    /**
+     * The field under validation must be one of the given values (strict membership via Array.includes).
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.inList('draft', 'published')]),
+     * ```
+     *
+     * @param {...string} values The allowed values
+     * @returns {ValidatorFn}
+     */
+    export const inList = (...values: string[]): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => (values.includes(c.value) ? null : { inList: true });
+    };
+
+    /**
+     * The field under validation must NOT be exactly equal to the given string (strict equality).
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.notEqualTo('forbidden')]),
+     * ```
+     *
+     * @param {string} value The value the field must not equal
+     * @returns {ValidatorFn}
+     */
+    export const notEqualTo = (value: string): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null => (c.value !== value ? null : { notEqualTo: true });
+    };
+
+    /**
+     * The field under validation must NOT be one of the given values.
+     *
+     * ```
+     * new FormControl('', [NguardValidators.String.notInList('admin', 'root')]),
+     * ```
+     *
+     * @param {...string} values The disallowed values
+     * @returns {ValidatorFn}
+     */
+    export const notInList = (...values: string[]): ValidatorFn => {
+        return (c: AbstractControl): ValidationErrors | null =>
+            !values.includes(c.value) ? null : { notInList: true };
+    };
 }

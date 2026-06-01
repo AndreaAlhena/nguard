@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-06-01
+
+### Added
+
+- **Inclusion & Enumeration validators** across the `String` and `Number` namespaces (5 concepts × 2 = 10 validators).
+- `String.inList` / `Number.inList` — value is one of a list.
+- `String.notInList` / `Number.notInList` — value is not in a list.
+- `String.inEnum` / `Number.inEnum` — value is a member of a TypeScript enum (numeric reverse-mapping keys ignored).
+- `String.equalTo` / `Number.equalTo` — value equals a literal.
+- `String.notEqualTo` / `Number.notEqualTo` — value does not equal a literal.
+- Matching signal-based directives for all ten, prefixed by data type (`nguardStringInList`, `nguardNumberInList`, …) to avoid cross-namespace selector clashes.
+- Documentation pages and sidebar entries for every new validator.
+
+### Notes
+
+- `String.*` validators use strict comparison; `Number.*` validators coerce numerically (matching each namespace's existing convention). `in`/`enum` were renamed to `inList`/`inEnum` (reserved words).
+
+### Changed
+
+- Docs: cut a `0.7.0` version snapshot and advanced the current docs selector to `0.8.0` (selector now offers 0.6.0, 0.7.0, 0.8.0).
+
 ## [0.7.0] - 2026-05-31
 
 ### Added
