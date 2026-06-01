@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0] - 2026-06-01
+
+### Added
+
+- **`Async` namespace** — the library's first asynchronous, HTTP-backed validators.
+- `Async.unique` — value must not already exist in the backend.
+- `Async.exists` — value must exist in the backend.
+- `Async.uniqueExcept` — unique except for a given record id (edit forms).
+- `Async.remoteValidation` — generic endpoint-driven validation.
+- `AsyncValidatorConfig` type (`endpoint`, `method`, `paramName`, `debounceTime`, `interpret`).
+- Matching async directives via `NG_ASYNC_VALIDATORS`: `nguardUnique`, `nguardExists`, `nguardUniqueExcept`, `nguardRemoteValidation`.
+- 300ms default debounce, request cancellation, automatic `pending` state, and graceful handling of empty values / HTTP errors.
+- Documentation pages and an `Async` sidebar category.
+
+### Notes
+
+- Factories call `inject(HttpClient)` and must be created in an injection context (component field/constructor); directives bridge this via `runInInjectionContext`.
+- `recaptcha` / `hCaptcha` / `turnstile` (widget integrations) and a caching layer remain deferred to a future release.
+
+### Changed
+
+- Docs: cut a `0.9.0` version snapshot and advanced the current docs selector to `0.10.0` (now offers 0.6.0 through 0.10.0).
+
 ## [0.9.0] - 2026-06-01
 
 ### Added

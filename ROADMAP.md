@@ -389,15 +389,15 @@ username: new FormControl('', [], [
 
 ### Tasks
 
-- [ ] Create `AsyncValidators` namespace
-- [ ] Implement HTTP-based validation infrastructure
-- [ ] Implement 7 async validators
-- [ ] Add debouncing and request cancellation with RxJS
-- [ ] Add caching layer for repeated validations
-- [ ] Create async directive wrappers
-- [ ] Write unit tests with `HttpClientTestingModule`
-- [ ] Document integration patterns
-- [ ] Update documentation site
+- [x] Create `AsyncValidators` namespace
+- [x] Implement HTTP-based validation infrastructure
+- [x] Implement 4 HTTP async validators (unique, exists, uniqueExcept, remoteValidation); recaptcha/hCaptcha/turnstile deferred
+- [x] Add debouncing and request cancellation with RxJS
+- [ ] Add caching layer for repeated validations (deferred)
+- [x] Create async directive wrappers
+- [x] Write unit tests with `HttpClientTestingModule`
+- [x] Document integration patterns
+- [x] Update documentation site
 
 **Total new validators: 7**
 
