@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2026-06-01
+
+### Added
+
+- **Real-world format validators** in the `String` namespace (9 validators).
+- `String.creditCard` — card number with Luhn checksum.
+- `String.iban` — IBAN with ISO 7064 mod-97 checksum and per-country length.
+- `String.bic` — BIC / SWIFT code.
+- `String.isbn` — ISBN-10 or ISBN-13.
+- `String.ean` — EAN-8 / EAN-13 barcode.
+- `String.ssn` — US Social Security Number (excludes never-issued ranges).
+- `String.phone` — phone number via libphonenumber-js (E.164, or national with a country).
+- `String.postalCode` / `String.vatNumber` — country-aware (built-in table + generic/EU fallback).
+- Matching directives for all nine; the three country-aware validators accept an optional country input.
+- Documentation pages and sidebar entries for every new validator.
+
+### Dependencies
+
+- Added `libphonenumber-js` as an **optional** `peerDependency`, used only by `String.phone` and tree-shaken away otherwise.
+
+### Changed
+
+- Docs: cut a `0.8.0` version snapshot and advanced the current docs selector to `0.9.0` (now offers 0.6.0, 0.7.0, 0.8.0, 0.9.0).
+
 ## [0.8.0] - 2026-06-01
 
 ### Added
