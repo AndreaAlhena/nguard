@@ -306,11 +306,11 @@ These attach to the data-type namespace they validate against. `String.in('a', '
 
 ### Tasks
 
-- [ ] Implement 5 inclusion validators × 2 namespaces = 10 entries
-- [ ] Support TypeScript enums in `enum` validator
-- [ ] Create directives for all new validators
-- [ ] Write unit tests
-- [ ] Update documentation site
+- [x] Implement 5 inclusion validators × 2 namespaces = 10 entries
+- [x] Support TypeScript enums in `enum` validator
+- [x] Create directives for all new validators
+- [x] Write unit tests
+- [x] Update documentation site
 
 **Total new validators: 10 (5 concepts × 2 namespaces)**
 
