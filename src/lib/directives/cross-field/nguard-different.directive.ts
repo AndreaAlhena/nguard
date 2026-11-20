@@ -5,11 +5,7 @@ import {
   type ValidationErrors,
   type Validator,
 } from '@angular/forms';
-
-// Types
 import type { FieldComparisonConfig } from '../../types/field-comparison-config.type';
-
-// Validators
 import { CrossFieldValidators } from '../../validators/cross-field.validators';
 
 @Directive({

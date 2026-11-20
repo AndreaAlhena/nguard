@@ -88,7 +88,7 @@ const _request = (
     });
   }
 
-  // Turn HTTP errors (404, 409, 422, 5xx, network) into values so the resolver can inspect them.
+  /** Turn HTTP errors (404, 409, 422, 5xx, network) into values so the resolver can inspect them. */
   return request$.pipe(catchError((error: HttpErrorResponse) => of(error)));
 };
 

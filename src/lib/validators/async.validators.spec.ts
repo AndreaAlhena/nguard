@@ -192,7 +192,7 @@ describe('Async Validators', () => {
     );
     const out = validate(fn, createAbstractControlSpy('alice'));
     tick(300);
-    // Backend always returns 200 with a nested flag; default status rule would say "taken", custom says free.
+    /** Backend always returns 200 with a nested flag; the default status rule would say "taken", the custom one says free. */
     httpMock
       .expectOne((r) => r.url === '/api/check')
       .flush({ data: { taken: false } }, ok);

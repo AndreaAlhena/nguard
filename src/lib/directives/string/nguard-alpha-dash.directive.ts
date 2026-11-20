@@ -5,11 +5,7 @@ import {
   type ValidationErrors,
   type Validator,
 } from '@angular/forms';
-
-// Types
 import type { CharsetConfig } from '../../types/charset-config.type';
-
-// Validators
 import { StringValidators } from '../../validators/string.validators';
 
 @Directive({

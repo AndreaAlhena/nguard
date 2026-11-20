@@ -5,11 +5,7 @@ import {
   type ValidationErrors,
   type Validator,
 } from '@angular/forms';
-
-// Types
 import type { primitive } from '../../types/primitive.type';
-
-// Validators
 import { StringValidators } from '../../validators/string.validators';
 
 @Directive({

@@ -226,7 +226,7 @@ export namespace StringValidators {
     if (!isString(c.value) || c.value.length === 0) {
       return { ascii: true };
     }
-    // eslint-disable-next-line no-control-regex
+    // eslint-disable-next-line no-control-regex -- tab, LF and CR are part of the accepted set
     return /^[\x09\x0A\x0D\x20-\x7E]+$/.test(c.value) ? null : { ascii: true };
   };
 
@@ -325,7 +325,7 @@ export namespace StringValidators {
     if (!isString(c.value) || c.value.length === 0) {
       return { email: true };
     }
-    // RFC 5322 compliant email regex
+    /** RFC 5322 compliant. */
     const emailRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     return emailRegex.test(c.value) ? null : { email: true };
@@ -542,7 +542,7 @@ export namespace StringValidators {
     if (!isString(c.value) || c.value.length === 0) {
       return { macAddress: true };
     }
-    // Backreference \1 forces the same separator (`:` or `-`) across every octet.
+    /** Backreference \1 forces the same separator (`:` or `-`) across every octet. */
     return /^[0-9A-Fa-f]{2}([:-])(?:[0-9A-Fa-f]{2}\1){4}[0-9A-Fa-f]{2}$|^([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}$/.test(
       c.value,
     )
@@ -959,7 +959,7 @@ export namespace StringValidators {
     let sum = 0;
     for (let i = 0; i < len - 1; i++) {
       const d = c.value.charCodeAt(i) - 48;
-      // Weight 3 on the rightmost data digit, then alternate 1, 3, 1 ... (works for EAN-8 and EAN-13).
+      /** Weight 3 on the rightmost data digit, then alternate 1, 3, 1 ... (works for EAN-8 and EAN-13). */
       sum += (len - 1 - i) % 2 === 1 ? d * 3 : d;
     }
     const check = (10 - (sum % 10)) % 10;

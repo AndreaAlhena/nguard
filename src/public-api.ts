@@ -1,21 +1,13 @@
-/*
- * Public API Surface of nguard
- */
-
-// Types (config shapes for directives)
 export * from './lib/types/async-validator-config.type';
 export * from './lib/types/charset-config.type';
 export * from './lib/types/field-comparison-config.type';
 export * from './lib/types/field-condition-config.type';
 export * from './lib/types/primitive.type';
 
-// Directives
-// - async
 export * from './lib/directives/async/nguard-exists.directive';
 export * from './lib/directives/async/nguard-remote-validation.directive';
 export * from './lib/directives/async/nguard-unique.directive';
 export * from './lib/directives/async/nguard-unique-except.directive';
-// - array
 export * from './lib/directives/array/nguard-array.directive';
 export * from './lib/directives/array/nguard-array-contains.directive';
 export * from './lib/directives/array/nguard-array-doesnt-contain.directive';
@@ -26,7 +18,6 @@ export * from './lib/directives/array/nguard-max-size.directive';
 export * from './lib/directives/array/nguard-min-size.directive';
 export * from './lib/directives/array/nguard-required-array-keys.directive';
 export * from './lib/directives/array/nguard-size-between.directive';
-// - boolean
 export * from './lib/directives/boolean/nguard-accepted.directive';
 export * from './lib/directives/boolean/nguard-accepted-if.directive';
 export * from './lib/directives/boolean/nguard-boolean.directive';
@@ -34,7 +25,6 @@ export * from './lib/directives/boolean/nguard-declined.directive';
 export * from './lib/directives/boolean/nguard-declined-if.directive';
 export * from './lib/directives/boolean/nguard-falsy.directive';
 export * from './lib/directives/boolean/nguard-truthy.directive';
-// - cross-field
 export * from './lib/directives/cross-field/nguard-confirmed.directive';
 export * from './lib/directives/cross-field/nguard-different.directive';
 export * from './lib/directives/cross-field/nguard-present-if.directive';
@@ -48,7 +38,6 @@ export * from './lib/directives/cross-field/nguard-required-with-all.directive';
 export * from './lib/directives/cross-field/nguard-required-without.directive';
 export * from './lib/directives/cross-field/nguard-required-without-all.directive';
 export * from './lib/directives/cross-field/nguard-same.directive';
-// - number
 export * from './lib/directives/number/nguard-between.directive';
 export * from './lib/directives/number/nguard-decimal.directive';
 export * from './lib/directives/number/nguard-digits.directive';
@@ -73,7 +62,6 @@ export * from './lib/directives/number/nguard-number-not-in-list.directive';
 export * from './lib/directives/number/nguard-numeric.directive';
 export * from './lib/directives/number/nguard-odd.directive';
 export * from './lib/directives/number/nguard-positive.directive';
-// - string
 export * from './lib/directives/string/nguard-alpha-dash.directive';
 export * from './lib/directives/string/nguard-alpha-num.directive';
 export * from './lib/directives/string/nguard-alpha.directive';
@@ -123,5 +111,4 @@ export * from './lib/directives/string/nguard-url.directive';
 export * from './lib/directives/string/nguard-uuid.directive';
 export * from './lib/directives/string/nguard-vat-number.directive';
 
-// Validators
 export * from './lib/validators/nguard.validators';
