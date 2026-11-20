@@ -1,5 +1,10 @@
 import { Directive, input } from '@angular/core';
-import { type AbstractControl, NG_VALIDATORS, type ValidationErrors, type Validator } from '@angular/forms';
+import {
+  type AbstractControl,
+  NG_VALIDATORS,
+  type ValidationErrors,
+  type Validator,
+} from '@angular/forms';
 
 // Types
 import type { primitive } from '../../utils/validators.utils';
@@ -8,22 +13,24 @@ import type { primitive } from '../../utils/validators.utils';
 import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
-    providers: [
-        {
-            multi: true,
-            provide: NG_VALIDATORS,
-            useExisting: NguardContainsDirective,
-        },
-    ],
-    selector: '[nguardContains]',
-    standalone: true,
+  providers: [
+    {
+      multi: true,
+      provide: NG_VALIDATORS,
+      useExisting: NguardContainsDirective,
+    },
+  ],
+  selector: '[nguardContains]',
+  standalone: true,
 })
 export class NguardContainsDirective implements Validator {
-    public readonly values = input.required<primitive | primitive[]>({ alias: 'nguardContains' });
+  public readonly values = input.required<primitive | primitive[]>({
+    alias: 'nguardContains',
+  });
 
-    public validate(control: AbstractControl): ValidationErrors | null {
-        const raw = this.values();
-        const values = Array.isArray(raw) ? raw : [raw];
-        return StringValidators.contains(...values)(control);
-    }
+  public validate(control: AbstractControl): ValidationErrors | null {
+    const raw = this.values();
+    const values = Array.isArray(raw) ? raw : [raw];
+    return StringValidators.contains(...values)(control);
+  }
 }

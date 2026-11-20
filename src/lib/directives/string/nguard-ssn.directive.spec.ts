@@ -1,28 +1,34 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardSsnDirective } from './nguard-ssn.directive';
-import { createAbstractControlSpy, createDirectiveFixture } from '../../utils/test.utils';
+import {
+  createAbstractControlSpy,
+  createDirectiveFixture,
+} from '../../utils/test.utils';
 
 describe('NguardSsnDirective', () => {
-    let control: AbstractControl;
-    let directive: NguardSsnDirective;
+  let control: AbstractControl;
+  let directive: NguardSsnDirective;
 
-    beforeEach(() => {
-        ({ directive } = createDirectiveFixture(NguardSsnDirective, '<div nguardSsn></div>'));
-    });
+  beforeEach(() => {
+    ({ directive } = createDirectiveFixture(
+      NguardSsnDirective,
+      '<div nguardSsn></div>',
+    ));
+  });
 
-    it('should create an instance', () => {
-        expect(directive).toBeTruthy();
-    });
+  it('should create an instance', () => {
+    expect(directive).toBeTruthy();
+  });
 
-    it('should validate an SSN', () => {
-        control = createAbstractControlSpy('123-45-6789');
+  it('should validate an SSN', () => {
+    control = createAbstractControlSpy('123-45-6789');
 
-        expect(directive.validate(control)).toBeNull();
-    });
+    expect(directive.validate(control)).toBeNull();
+  });
 
-    it('should fail an invalid area number', () => {
-        control = createAbstractControlSpy('000-45-6789');
+  it('should fail an invalid area number', () => {
+    control = createAbstractControlSpy('000-45-6789');
 
-        expect(directive.validate(control)).toEqual({ ssn: true });
-    });
+    expect(directive.validate(control)).toEqual({ ssn: true });
+  });
 });

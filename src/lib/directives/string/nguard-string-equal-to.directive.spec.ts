@@ -1,32 +1,35 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardStringEqualToDirective } from './nguard-string-equal-to.directive';
-import { createAbstractControlSpy, createDirectiveFixture } from '../../utils/test.utils';
+import {
+  createAbstractControlSpy,
+  createDirectiveFixture,
+} from '../../utils/test.utils';
 
 describe('NguardStringEqualToDirective', () => {
-    let control: AbstractControl;
-    let directive: NguardStringEqualToDirective;
+  let control: AbstractControl;
+  let directive: NguardStringEqualToDirective;
 
-    beforeEach(() => {
-        ({ directive } = createDirectiveFixture(
-            NguardStringEqualToDirective,
-            '<div [nguardStringEqualTo]="$any(value)"></div>',
-            'expected'
-        ));
-    });
+  beforeEach(() => {
+    ({ directive } = createDirectiveFixture(
+      NguardStringEqualToDirective,
+      '<div [nguardStringEqualTo]="$any(value)"></div>',
+      'expected',
+    ));
+  });
 
-    it('should create an instance', () => {
-        expect(directive).toBeTruthy();
-    });
+  it('should create an instance', () => {
+    expect(directive).toBeTruthy();
+  });
 
-    it('should pass when equal', () => {
-        control = createAbstractControlSpy('expected');
+  it('should pass when equal', () => {
+    control = createAbstractControlSpy('expected');
 
-        expect(directive.validate(control)).toBeNull();
-    });
+    expect(directive.validate(control)).toBeNull();
+  });
 
-    it('should fail when not equal', () => {
-        control = createAbstractControlSpy('other');
+  it('should fail when not equal', () => {
+    control = createAbstractControlSpy('other');
 
-        expect(directive.validate(control)).toEqual({ equalTo: true });
-    });
+    expect(directive.validate(control)).toEqual({ equalTo: true });
+  });
 });

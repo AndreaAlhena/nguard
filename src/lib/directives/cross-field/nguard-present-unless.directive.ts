@@ -1,28 +1,39 @@
 import { Directive, input } from '@angular/core';
-import { type AbstractControl, NG_VALIDATORS, type ValidationErrors, type Validator } from '@angular/forms';
+import {
+  type AbstractControl,
+  NG_VALIDATORS,
+  type ValidationErrors,
+  type Validator,
+} from '@angular/forms';
 import { CrossFieldValidators } from '../../validators/cross-field.validators';
 import type { FieldConditionConfig } from '../../types/field-condition-config.type';
 
 @Directive({
-    providers: [
-        {
-            multi: true,
-            provide: NG_VALIDATORS,
-            useExisting: NguardPresentUnlessDirective,
-        },
-    ],
-    selector: '[nguardPresentUnless]',
-    standalone: true,
+  providers: [
+    {
+      multi: true,
+      provide: NG_VALIDATORS,
+      useExisting: NguardPresentUnlessDirective,
+    },
+  ],
+  selector: '[nguardPresentUnless]',
+  standalone: true,
 })
 export class NguardPresentUnlessDirective implements Validator {
-    public readonly config = input.required<string | FieldConditionConfig>({ alias: 'nguardPresentUnless' });
+  public readonly config = input.required<string | FieldConditionConfig>({
+    alias: 'nguardPresentUnless',
+  });
 
-    public validate(control: AbstractControl): ValidationErrors | null {
-        const cfg = this.config();
-        const fieldKey = typeof cfg === 'string' ? cfg : cfg.fieldKey;
-        const isStrict = typeof cfg === 'string' ? undefined : cfg.isStrict;
-        const value = typeof cfg === 'string' ? undefined : cfg.value;
+  public validate(control: AbstractControl): ValidationErrors | null {
+    const cfg = this.config();
+    const fieldKey = typeof cfg === 'string' ? cfg : cfg.fieldKey;
+    const isStrict = typeof cfg === 'string' ? undefined : cfg.isStrict;
+    const value = typeof cfg === 'string' ? undefined : cfg.value;
 
-        return CrossFieldValidators.presentUnless(fieldKey, value, isStrict)(control);
-    }
+    return CrossFieldValidators.presentUnless(
+      fieldKey,
+      value,
+      isStrict,
+    )(control);
+  }
 }

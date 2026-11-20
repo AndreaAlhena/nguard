@@ -1,20 +1,25 @@
 import { Directive } from '@angular/core';
-import { type AbstractControl, NG_VALIDATORS, type ValidationErrors, type Validator } from '@angular/forms';
+import {
+  type AbstractControl,
+  NG_VALIDATORS,
+  type ValidationErrors,
+  type Validator,
+} from '@angular/forms';
 import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
-    providers: [
-        {
-            multi: true,
-            provide: NG_VALIDATORS,
-            useExisting: NguardUrlDirective,
-        },
-    ],
-    selector: '[nguardUrl]',
-    standalone: true,
+  providers: [
+    {
+      multi: true,
+      provide: NG_VALIDATORS,
+      useExisting: NguardUrlDirective,
+    },
+  ],
+  selector: '[nguardUrl]',
+  standalone: true,
 })
 export class NguardUrlDirective implements Validator {
-    public validate(control: AbstractControl): ValidationErrors | null {
-        return StringValidators.url(control);
-    }
+  public validate(control: AbstractControl): ValidationErrors | null {
+    return StringValidators.url(control);
+  }
 }

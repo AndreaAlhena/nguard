@@ -1,22 +1,29 @@
 import { Directive, input } from '@angular/core';
-import { type AbstractControl, NG_VALIDATORS, type ValidationErrors, type Validator } from '@angular/forms';
+import {
+  type AbstractControl,
+  NG_VALIDATORS,
+  type ValidationErrors,
+  type Validator,
+} from '@angular/forms';
 import { NumberValidators } from '../../validators/number.validators';
 
 @Directive({
-    providers: [
-        {
-            multi: true,
-            provide: NG_VALIDATORS,
-            useExisting: NguardBetweenDirective,
-        },
-    ],
-    selector: '[nguardBetween]',
-    standalone: true,
+  providers: [
+    {
+      multi: true,
+      provide: NG_VALIDATORS,
+      useExisting: NguardBetweenDirective,
+    },
+  ],
+  selector: '[nguardBetween]',
+  standalone: true,
 })
 export class NguardBetweenDirective implements Validator {
-    public readonly values = input.required<[number, number]>({ alias: 'nguardBetween' });
+  public readonly values = input.required<[number, number]>({
+    alias: 'nguardBetween',
+  });
 
-    public validate(control: AbstractControl): ValidationErrors | null {
-        return NumberValidators.between(...this.values())(control);
-    }
+  public validate(control: AbstractControl): ValidationErrors | null {
+    return NumberValidators.between(...this.values())(control);
+  }
 }

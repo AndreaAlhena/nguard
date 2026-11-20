@@ -9,9 +9,9 @@ import { By } from '@angular/platform-browser';
  * `value` property is bound to the directive's input through the supplied template.
  */
 export type DirectiveFixture<T, H = TestHostComponent> = {
-    directive: T;
-    fixture: ComponentFixture<H>;
-    host: H;
+  directive: T;
+  fixture: ComponentFixture<H>;
+  host: H;
 };
 
 /**
@@ -19,7 +19,7 @@ export type DirectiveFixture<T, H = TestHostComponent> = {
  * property that test templates bind to the directive's input.
  */
 export class TestHostComponent {
-    public value: unknown = undefined;
+  public value: unknown = undefined;
 }
 
 /**
@@ -38,25 +38,27 @@ export class TestHostComponent {
  * @returns The directive instance, the host fixture and the host component.
  */
 export const createDirectiveFixture = <T>(
-    directiveType: Type<T>,
-    template: string,
-    initialValue: unknown = undefined
+  directiveType: Type<T>,
+  template: string,
+  initialValue: unknown = undefined,
 ): DirectiveFixture<T> => {
-    @Component({
-        imports: [directiveType],
-        standalone: true,
-        template,
-    })
-    class HostComponent extends TestHostComponent {}
+  @Component({
+    imports: [directiveType],
+    standalone: true,
+    template,
+  })
+  class HostComponent extends TestHostComponent {}
 
-    TestBed.configureTestingModule({ imports: [HostComponent] });
-    const fixture = TestBed.createComponent(HostComponent);
-    fixture.componentInstance.value = initialValue;
-    fixture.detectChanges();
+  TestBed.configureTestingModule({ imports: [HostComponent] });
+  const fixture = TestBed.createComponent(HostComponent);
+  fixture.componentInstance.value = initialValue;
+  fixture.detectChanges();
 
-    const directive = fixture.debugElement.query(By.directive(directiveType)).injector.get(directiveType);
+  const directive = fixture.debugElement
+    .query(By.directive(directiveType))
+    .injector.get(directiveType);
 
-    return { directive, fixture, host: fixture.componentInstance };
+  return { directive, fixture, host: fixture.componentInstance };
 };
 
 /**
@@ -64,26 +66,31 @@ export const createDirectiveFixture = <T>(
  * @param value The value to set on the control
  * @returns A Jasmine spy object mimicking AbstractControl
  */
-export const createAbstractControlSpy = <T>(value: T): jasmine.SpyObj<AbstractControl> =>
-    jasmine.createSpyObj<AbstractControl>('AbstractControl', {}, { value });
+export const createAbstractControlSpy = <T>(
+  value: T,
+): jasmine.SpyObj<AbstractControl> =>
+  jasmine.createSpyObj<AbstractControl>('AbstractControl', {}, { value });
 
 /**
  * Creates a mock AbstractControl with null value
  * @returns A Jasmine spy object mimicking AbstractControl with null value
  */
-export const createNullControlSpy = (): jasmine.SpyObj<AbstractControl> => createAbstractControlSpy(null);
+export const createNullControlSpy = (): jasmine.SpyObj<AbstractControl> =>
+  createAbstractControlSpy(null);
 
 /**
  * Creates a mock AbstractControl with undefined value
  * @returns A Jasmine spy object mimicking AbstractControl with undefined value
  */
-export const createUndefinedControlSpy = (): jasmine.SpyObj<AbstractControl> => createAbstractControlSpy(undefined);
+export const createUndefinedControlSpy = (): jasmine.SpyObj<AbstractControl> =>
+  createAbstractControlSpy(undefined);
 
 /**
  * Creates a mock AbstractControl with empty string value
  * @returns A Jasmine spy object mimicking AbstractControl with empty string value
  */
-export const createEmptyStringControlSpy = (): jasmine.SpyObj<AbstractControl> => createAbstractControlSpy('');
+export const createEmptyStringControlSpy =
+  (): jasmine.SpyObj<AbstractControl> => createAbstractControlSpy('');
 
 /**
  * Creates a mock AbstractControl with a sibling control in the parent FormGroup
@@ -93,16 +100,21 @@ export const createEmptyStringControlSpy = (): jasmine.SpyObj<AbstractControl> =
  * @returns A Jasmine spy object mimicking AbstractControl with parent FormGroup
  */
 export const createAbstractControlSpyWithSibling = (
-    field1Value: unknown,
-    field2Value: unknown
+  field1Value: unknown,
+  field2Value: unknown,
 ): jasmine.SpyObj<AbstractControl> => {
-    const parent = jasmine.createSpyObj<FormGroup>('FormGroup', ['get']);
-    const control1 = jasmine.createSpyObj<AbstractControl>('FormControl', [], { value: field1Value, parent });
-    const control2 = jasmine.createSpyObj<AbstractControl>('FormControl', [], { value: field2Value });
+  const parent = jasmine.createSpyObj<FormGroup>('FormGroup', ['get']);
+  const control1 = jasmine.createSpyObj<AbstractControl>('FormControl', [], {
+    value: field1Value,
+    parent,
+  });
+  const control2 = jasmine.createSpyObj<AbstractControl>('FormControl', [], {
+    value: field2Value,
+  });
 
-    parent.get.and.returnValue(control2);
+  parent.get.and.returnValue(control2);
 
-    return control1;
+  return control1;
 };
 
 /**
@@ -114,15 +126,23 @@ export const createAbstractControlSpyWithSibling = (
  * @returns A Jasmine spy object mimicking AbstractControl with a parent that responds per key
  */
 export const createAbstractControlSpyWithSiblings = (
-    controlValue: unknown,
-    siblings: Record<string, unknown>
+  controlValue: unknown,
+  siblings: Record<string, unknown>,
 ): jasmine.SpyObj<AbstractControl> => {
-    const parent = jasmine.createSpyObj<FormGroup>('FormGroup', ['get']);
-    parent.get.and.callFake((key: string) =>
-        key in siblings ? jasmine.createSpyObj<AbstractControl>('FormControl', [], { value: siblings[key] }) : null
-    );
+  const parent = jasmine.createSpyObj<FormGroup>('FormGroup', ['get']);
+  parent.get.and.callFake((key: string) =>
+    key in siblings
+      ? jasmine.createSpyObj<AbstractControl>('FormControl', [], {
+          value: siblings[key],
+        })
+      : null,
+  );
 
-    return jasmine.createSpyObj<AbstractControl>('AbstractControl', {}, { value: controlValue, parent });
+  return jasmine.createSpyObj<AbstractControl>(
+    'AbstractControl',
+    {},
+    { value: controlValue, parent },
+  );
 };
 
 /**
@@ -130,16 +150,20 @@ export const createAbstractControlSpyWithSiblings = (
  * @param field1Value The value of the main control
  * @returns A Jasmine spy object mimicking AbstractControl with null sibling
  */
-export const createControlSpyWithNullSibling = (field1Value: unknown): jasmine.SpyObj<AbstractControl> =>
-    createAbstractControlSpyWithSibling(field1Value, null);
+export const createControlSpyWithNullSibling = (
+  field1Value: unknown,
+): jasmine.SpyObj<AbstractControl> =>
+  createAbstractControlSpyWithSibling(field1Value, null);
 
 /**
  * Creates a mock AbstractControl with a sibling that has undefined value
  * @param field1Value The value of the main control
  * @returns A Jasmine spy object mimicking AbstractControl with undefined sibling
  */
-export const createControlSpyWithUndefinedSibling = (field1Value: unknown): jasmine.SpyObj<AbstractControl> =>
-    createAbstractControlSpyWithSibling(field1Value, undefined);
+export const createControlSpyWithUndefinedSibling = (
+  field1Value: unknown,
+): jasmine.SpyObj<AbstractControl> =>
+  createAbstractControlSpyWithSibling(field1Value, undefined);
 
 /**
  * Creates a mock AbstractControl with no parent (orphan control)
@@ -147,5 +171,11 @@ export const createControlSpyWithUndefinedSibling = (field1Value: unknown): jasm
  * @param value The value of the control
  * @returns A Jasmine spy object mimicking AbstractControl without parent
  */
-export const createOrphanControlSpy = <T>(value: T): jasmine.SpyObj<AbstractControl> =>
-    jasmine.createSpyObj<AbstractControl>('AbstractControl', {}, { value, parent: null });
+export const createOrphanControlSpy = <T>(
+  value: T,
+): jasmine.SpyObj<AbstractControl> =>
+  jasmine.createSpyObj<AbstractControl>(
+    'AbstractControl',
+    {},
+    { value, parent: null },
+  );

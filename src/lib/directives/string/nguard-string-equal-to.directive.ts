@@ -1,22 +1,29 @@
 import { Directive, input } from '@angular/core';
-import { type AbstractControl, NG_VALIDATORS, type ValidationErrors, type Validator } from '@angular/forms';
+import {
+  type AbstractControl,
+  NG_VALIDATORS,
+  type ValidationErrors,
+  type Validator,
+} from '@angular/forms';
 import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
-    providers: [
-        {
-            multi: true,
-            provide: NG_VALIDATORS,
-            useExisting: NguardStringEqualToDirective,
-        },
-    ],
-    selector: '[nguardStringEqualTo]',
-    standalone: true,
+  providers: [
+    {
+      multi: true,
+      provide: NG_VALIDATORS,
+      useExisting: NguardStringEqualToDirective,
+    },
+  ],
+  selector: '[nguardStringEqualTo]',
+  standalone: true,
 })
 export class NguardStringEqualToDirective implements Validator {
-    public readonly value = input.required<string>({ alias: 'nguardStringEqualTo' });
+  public readonly value = input.required<string>({
+    alias: 'nguardStringEqualTo',
+  });
 
-    public validate(control: AbstractControl): ValidationErrors | null {
-        return StringValidators.equalTo(this.value())(control);
-    }
+  public validate(control: AbstractControl): ValidationErrors | null {
+    return StringValidators.equalTo(this.value())(control);
+  }
 }

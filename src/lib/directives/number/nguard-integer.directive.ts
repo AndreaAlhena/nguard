@@ -1,20 +1,25 @@
 import { Directive } from '@angular/core';
-import { type AbstractControl, NG_VALIDATORS, type ValidationErrors, type Validator } from '@angular/forms';
+import {
+  type AbstractControl,
+  NG_VALIDATORS,
+  type ValidationErrors,
+  type Validator,
+} from '@angular/forms';
 import { NumberValidators } from '../../validators/number.validators';
 
 @Directive({
-    providers: [
-        {
-            multi: true,
-            provide: NG_VALIDATORS,
-            useExisting: NguardIntegerDirective,
-        },
-    ],
-    selector: '[nguardInteger]',
-    standalone: true,
+  providers: [
+    {
+      multi: true,
+      provide: NG_VALIDATORS,
+      useExisting: NguardIntegerDirective,
+    },
+  ],
+  selector: '[nguardInteger]',
+  standalone: true,
 })
 export class NguardIntegerDirective implements Validator {
-    public validate(control: AbstractControl): ValidationErrors | null {
-        return NumberValidators.integer(control);
-    }
+  public validate(control: AbstractControl): ValidationErrors | null {
+    return NumberValidators.integer(control);
+  }
 }
