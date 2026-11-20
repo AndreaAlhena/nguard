@@ -1,8 +1,8 @@
 import { Directive, input } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import { type AbstractControl, NG_VALIDATORS, type ValidationErrors, type Validator } from '@angular/forms';
 
 // Types
-import { CharsetConfig } from '../../types/charset-config.type';
+import type { CharsetConfig } from '../../types/charset-config.type';
 
 // Validators
 import { StringValidators } from '../../validators/string.validators';

@@ -1,11 +1,11 @@
-import { ComponentFixture } from '@angular/core/testing';
-import { AbstractControl } from '@angular/forms';
+import type { ComponentFixture } from '@angular/core/testing';
+import type { AbstractControl } from '@angular/forms';
 import { NguardPresentIfDirective } from './nguard-present-if.directive';
 import {
     createAbstractControlSpyWithSibling,
     createControlSpyWithNullSibling,
     createDirectiveFixture,
-    TestHostComponent,
+    type TestHostComponent,
 } from '../../utils/test.utils';
 
 describe('NguardPresentIfDirective', () => {

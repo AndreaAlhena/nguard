@@ -3,9 +3,9 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { Component } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 import { NguardExistsDirective } from './nguard-exists.directive';
-import { AsyncValidatorConfig } from '../../types/async-validator-config.type';
+import type { AsyncValidatorConfig } from '../../types/async-validator-config.type';
 import { createAbstractControlSpy } from '../../utils/test.utils';
 
 @Component({

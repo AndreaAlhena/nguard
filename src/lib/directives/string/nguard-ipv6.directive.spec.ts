@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { NguardIpv6Directive } from './nguard-ipv6.directive';
 import { createAbstractControlSpy, createDirectiveFixture } from '../../utils/test.utils';
 

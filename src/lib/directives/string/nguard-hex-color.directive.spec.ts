@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { NguardHexColorDirective } from './nguard-hex-color.directive';
 import { createAbstractControlSpy, createDirectiveFixture } from '../../utils/test.utils';
 

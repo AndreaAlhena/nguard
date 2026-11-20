@@ -1,8 +1,8 @@
 import { HttpResponse, provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
-import { Observable } from 'rxjs';
+import type { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import type { Observable } from 'rxjs';
 import { createAbstractControlSpy } from '../utils/test.utils';
 import { AsyncValidators } from './async.validators';
 

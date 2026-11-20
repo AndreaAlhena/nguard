@@ -1,5 +1,5 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { evaluateCondition, primitive } from '../utils/validators.utils';
+import type { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { evaluateCondition, type primitive } from '../utils/validators.utils';
 
 const ACCEPTED_VALUES: ReadonlySet<unknown> = new Set([true, 'true', 1, '1', 'yes', 'on']);
 const BOOLEAN_LIKE_VALUES: ReadonlySet<unknown> = new Set([true, false, 1, 0, '1', '0']);

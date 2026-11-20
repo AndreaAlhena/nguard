@@ -1,8 +1,8 @@
 import { Directive, input } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import { type AbstractControl, NG_VALIDATORS, type ValidationErrors, type Validator } from '@angular/forms';
 
 // Types
-import { FieldComparisonConfig } from '../../types/field-comparison-config.type';
+import type { FieldComparisonConfig } from '../../types/field-comparison-config.type';
 
 // Validators
 import { CrossFieldValidators } from '../../validators/cross-field.validators';

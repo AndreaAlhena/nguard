@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { NguardRequiredArrayKeysDirective } from './nguard-required-array-keys.directive';
 import { createAbstractControlSpy, createDirectiveFixture } from '../../utils/test.utils';
 

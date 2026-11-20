@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import type { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { RangeValidatorErrors } from '../errors/range-validator.errors';
 
 const isNumeric = (value: unknown): boolean => {

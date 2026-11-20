@@ -1,5 +1,5 @@
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { equalityCheck, primitive } from '../utils/validators.utils';
+import { type AbstractControl, FormControl, type ValidationErrors, type ValidatorFn } from '@angular/forms';
+import { equalityCheck, type primitive } from '../utils/validators.utils';
 
 export namespace ArrayValidators {
     /**
@@ -54,11 +54,13 @@ export namespace ArrayValidators {
      */
     export const contains = (...values: primitive[]): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            if (!Array.isArray(c.value)) {
+            const items: unknown = c.value;
+
+            if (!Array.isArray(items)) {
                 return { contains: true };
             }
 
-            const containsAll = values.every((value: primitive) => c.value.includes(value));
+            const containsAll = values.every((value: primitive) => items.includes(value));
 
             return containsAll ? null : { contains: true };
         };
@@ -96,11 +98,13 @@ export namespace ArrayValidators {
      */
     export const doesntContain = (...values: primitive[]): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            if (!Array.isArray(c.value)) {
+            const items: unknown = c.value;
+
+            if (!Array.isArray(items)) {
                 return { doesntContain: true };
             }
 
-            const containsNone = values.every((value: primitive) => !c.value.includes(value));
+            const containsNone = values.every((value: primitive) => !items.includes(value));
 
             return containsNone ? null : { doesntContain: true };
         };
@@ -123,7 +127,7 @@ export namespace ArrayValidators {
      */
     export const inArray = (fieldKey: string, isStrict: boolean = true): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            const sibling = c.parent?.get(fieldKey)?.value;
+            const sibling: unknown = c.parent?.get(fieldKey)?.value;
 
             if (!Array.isArray(sibling)) {
                 return { inArray: true };
@@ -190,7 +194,7 @@ export namespace ArrayValidators {
      */
     export const requiredArrayKeys = (...keys: string[]): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            const value = c.value;
+            const value: unknown = c.value;
 
             if (typeof value !== 'object' || value === null) {
                 return { requiredArrayKeys: true };

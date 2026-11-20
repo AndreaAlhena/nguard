@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { NguardPhoneDirective } from './nguard-phone.directive';
 import { createAbstractControlSpy, createDirectiveFixture } from '../../utils/test.utils';
 

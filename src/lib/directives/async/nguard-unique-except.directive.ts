@@ -1,9 +1,9 @@
 import { Directive, Injector, inject, input, runInInjectionContext } from '@angular/core';
-import { AbstractControl, AsyncValidator, NG_ASYNC_VALIDATORS, ValidationErrors } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { AsyncValidatorConfig } from '../../types/async-validator-config.type';
+import { type AbstractControl, type AsyncValidator, NG_ASYNC_VALIDATORS, type ValidationErrors } from '@angular/forms';
+import type { Observable } from 'rxjs';
+import type { AsyncValidatorConfig } from '../../types/async-validator-config.type';
 import { AsyncValidators } from '../../validators/async.validators';
-import { primitive } from '../../utils/validators.utils';
+import type { primitive } from '../../utils/validators.utils';
 
 @Directive({
     providers: [

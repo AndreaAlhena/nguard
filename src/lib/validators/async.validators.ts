@@ -1,10 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient, type HttpErrorResponse, type HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
-import { Observable, of, timer } from 'rxjs';
+import type { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { type Observable, of, timer } from 'rxjs';
 import { catchError, first, map, switchMap } from 'rxjs/operators';
-import { AsyncResponse, AsyncValidatorConfig } from '../types/async-validator-config.type';
-import { primitive } from '../utils/validators.utils';
+import type { AsyncResponse, AsyncValidatorConfig } from '../types/async-validator-config.type';
+import type { primitive } from '../utils/validators.utils';
 
 type Resolver = (response: AsyncResponse) => boolean | null;
 

@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { NguardNumberNotEqualToDirective } from './nguard-number-not-equal-to.directive';
 import { createAbstractControlSpy, createDirectiveFixture } from '../../utils/test.utils';
 

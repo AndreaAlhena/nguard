@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { createAbstractControlSpy } from '../../utils/test.utils';
 import { NguardUppercaseDirective } from './nguard-uppercase.directive';
 

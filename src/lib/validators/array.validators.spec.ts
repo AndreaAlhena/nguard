@@ -1,4 +1,4 @@
-import { AbstractControl, FormControl } from '@angular/forms';
+import { type AbstractControl, FormControl } from '@angular/forms';
 import { createAbstractControlSpy, createAbstractControlSpyWithSibling } from '../utils/test.utils';
 import { ArrayValidators } from './array.validators';
 

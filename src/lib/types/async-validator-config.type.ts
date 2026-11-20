@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import type { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 /**
  * The full HTTP outcome handed to a {@link AsyncValidatorConfig.resolve} callback — either a

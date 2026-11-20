@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { NguardUrlDirective } from './nguard-url.directive';
 import { createAbstractControlSpy } from '../../utils/test.utils';
 

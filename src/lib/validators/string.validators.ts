@@ -1,6 +1,6 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import type { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { type CountryCode, isValidPhoneNumber } from 'libphonenumber-js';
-import { primitive } from '../utils/validators.utils';
+import type { primitive } from '../utils/validators.utils';
 
 const isString = (value: unknown): value is string => typeof value === 'string';
 

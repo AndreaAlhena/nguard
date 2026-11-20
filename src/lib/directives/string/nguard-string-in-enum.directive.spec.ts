@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { NguardStringInEnumDirective } from './nguard-string-in-enum.directive';
 import { createAbstractControlSpy, createDirectiveFixture } from '../../utils/test.utils';
 

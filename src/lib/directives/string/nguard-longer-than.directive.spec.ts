@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { NguardLongerThanDirective } from './nguard-longer-than.directive';
 import { createAbstractControlSpyWithSibling, createDirectiveFixture } from '../../utils/test.utils';
 

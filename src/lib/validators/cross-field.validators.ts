@@ -1,5 +1,5 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { equalityCheck, evaluateCondition, primitive } from '../utils/validators.utils';
+import type { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { equalityCheck, evaluateCondition, type primitive } from '../utils/validators.utils';
 
 /**
  * Returns true if the sibling identified by `fieldKey` resolves to a truthy value.
@@ -31,7 +31,8 @@ export namespace CrossFieldValidators {
      */
     export const confirmed = (fieldKey: string): ValidatorFn => {
         return (c: AbstractControl): ValidationErrors | null => {
-            const originalValue = c.parent?.get(fieldKey)?.value;
+            const originalValue: unknown = c.parent?.get(fieldKey)?.value;
+
             return equalityCheck(c.value, originalValue, true) ? null : { confirmed: true };
         };
     };
@@ -180,10 +181,11 @@ export namespace CrossFieldValidators {
      */
     export const requiredIf = (fieldKey: string, value?: primitive, isStrict: boolean = false) => {
         return (c: AbstractControl): ValidationErrors | null => {
-            const check =
+            const check = Boolean(
                 c.value && value
                     ? c.value && equalityCheck(c.parent?.get(fieldKey)?.value, value, isStrict)
-                    : c.value && c.parent?.get(fieldKey)?.value;
+                    : c.value && c.parent?.get(fieldKey)?.value
+            );
 
             return check ? null : { requiredIf: true };
         };

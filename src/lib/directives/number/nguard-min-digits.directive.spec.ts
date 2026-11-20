@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { NguardMinDigitsDirective } from './nguard-min-digits.directive';
 import { createAbstractControlSpy, createDirectiveFixture } from '../../utils/test.utils';
 

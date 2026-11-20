@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 
 export type primitive = boolean | number | string;
 
@@ -24,7 +24,7 @@ export const evaluateCondition = (
     value?: primitive,
     isStrict: boolean = false
 ): boolean => {
-    const siblingValue = control.parent?.get(fieldKey)?.value;
+    const siblingValue: unknown = control.parent?.get(fieldKey)?.value;
     const hasTriggerValue = value !== undefined;
 
     if (!hasTriggerValue) {

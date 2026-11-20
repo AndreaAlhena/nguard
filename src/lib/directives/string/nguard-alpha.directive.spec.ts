@@ -1,7 +1,7 @@
-import { ComponentFixture } from '@angular/core/testing';
-import { AbstractControl } from '@angular/forms';
+import type { ComponentFixture } from '@angular/core/testing';
+import type { AbstractControl } from '@angular/forms';
 import { NguardAlphaDirective } from './nguard-alpha.directive';
-import { createAbstractControlSpy, createDirectiveFixture, TestHostComponent } from '../../utils/test.utils';
+import { createAbstractControlSpy, createDirectiveFixture, type TestHostComponent } from '../../utils/test.utils';
 
 describe('NguardAlphaDirective', () => {
     let control: AbstractControl;
@@ -50,7 +50,6 @@ describe('NguardAlphaDirective', () => {
 
     describe('Validator Interface', () => {
         it('should implement Validator interface', () => {
-            expect(directive.validate).toBeDefined();
             expect(typeof directive.validate).toBe('function');
         });
 

@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import type { AbstractControl } from '@angular/forms';
 import { NguardUuidDirective } from './nguard-uuid.directive';
 import { createAbstractControlSpy, createDirectiveFixture } from '../../utils/test.utils';
 

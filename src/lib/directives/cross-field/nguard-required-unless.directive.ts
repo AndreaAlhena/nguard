@@ -1,7 +1,7 @@
 import { Directive, input } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import { type AbstractControl, NG_VALIDATORS, type ValidationErrors, type Validator } from '@angular/forms';
 import { CrossFieldValidators } from '../../validators/cross-field.validators';
-import { FieldConditionConfig } from '../../types/field-condition-config.type';
+import type { FieldConditionConfig } from '../../types/field-condition-config.type';
 
 @Directive({
     providers: [

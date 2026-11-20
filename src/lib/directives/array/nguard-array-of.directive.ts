@@ -1,5 +1,11 @@
 import { Directive, input } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator, ValidatorFn } from '@angular/forms';
+import {
+    type AbstractControl,
+    NG_VALIDATORS,
+    type ValidationErrors,
+    type Validator,
+    type ValidatorFn,
+} from '@angular/forms';
 import { ArrayValidators } from '../../validators/array.validators';
 
 @Directive({
