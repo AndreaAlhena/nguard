@@ -1,12 +1,12 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import type { AbstractControl } from '@angular/forms';
 import { NguardRequiredWithoutAllDirective } from './nguard-required-without-all.directive';
+import type { TestHostComponent } from '../../../testing/components/test-host.component';
 import {
   createAbstractControlSpyWithSibling,
   createAbstractControlSpyWithSiblings,
-  createDirectiveFixture,
-  type TestHostComponent,
-} from '../../utils/test.utils';
+} from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardRequiredWithoutAllDirective', () => {
   let control: AbstractControl;

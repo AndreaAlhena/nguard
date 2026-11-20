@@ -6,7 +6,7 @@ import {
   type Validator,
 } from '@angular/forms';
 import { ArrayValidators } from '../../validators/array.validators';
-import type { primitive } from '../../utils/validators.utils';
+import type { primitive } from '../../types/primitive.type';
 
 @Directive({
   providers: [

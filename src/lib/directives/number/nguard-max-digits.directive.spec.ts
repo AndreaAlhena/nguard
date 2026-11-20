@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardMaxDigitsDirective } from './nguard-max-digits.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardMaxDigitsDirective', () => {
   let control: AbstractControl;

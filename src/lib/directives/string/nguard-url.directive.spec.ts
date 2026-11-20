@@ -1,6 +1,6 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardUrlDirective } from './nguard-url.directive';
-import { createAbstractControlSpy } from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
 
 describe('NguardUrlDirective', () => {
   let control: AbstractControl;

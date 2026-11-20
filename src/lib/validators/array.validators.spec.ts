@@ -2,7 +2,7 @@ import { type AbstractControl, FormControl } from '@angular/forms';
 import {
   createAbstractControlSpy,
   createAbstractControlSpyWithSibling,
-} from '../utils/test.utils';
+} from '../../testing/helpers/control-spy.helper';
 import { ArrayValidators } from './array.validators';
 
 let control: jasmine.SpyObj<AbstractControl>;

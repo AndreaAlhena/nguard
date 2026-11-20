@@ -1,11 +1,9 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import type { AbstractControl } from '@angular/forms';
 import { NguardContainsDirective } from './nguard-contains.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-  type TestHostComponent,
-} from '../../utils/test.utils';
+import type { TestHostComponent } from '../../../testing/components/test-host.component';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardContainsDirective', () => {
   let control: AbstractControl;

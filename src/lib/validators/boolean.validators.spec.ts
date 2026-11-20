@@ -4,7 +4,7 @@ import {
   createAbstractControlSpyWithSibling,
   createNullControlSpy,
   createUndefinedControlSpy,
-} from '../utils/test.utils';
+} from '../../testing/helpers/control-spy.helper';
 import { BooleanValidators } from './boolean.validators';
 
 let control: jasmine.SpyObj<AbstractControl>;

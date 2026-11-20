@@ -7,9 +7,7 @@ export * from './lib/types/async-validator-config.type';
 export * from './lib/types/charset-config.type';
 export * from './lib/types/field-comparison-config.type';
 export * from './lib/types/field-condition-config.type';
-
-// Utility types
-export type { primitive } from './lib/utils/validators.utils';
+export * from './lib/types/primitive.type';
 
 // Directives
 // - async

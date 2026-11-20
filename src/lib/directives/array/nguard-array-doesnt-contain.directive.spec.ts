@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardArrayDoesntContainDirective } from './nguard-array-doesnt-contain.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardArrayDoesntContainDirective', () => {
   let control: AbstractControl;

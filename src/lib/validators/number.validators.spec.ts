@@ -4,7 +4,7 @@ import {
   createAbstractControlSpyWithSibling,
   createControlSpyWithNullSibling,
   createOrphanControlSpy,
-} from '../utils/test.utils';
+} from '../../testing/helpers/control-spy.helper';
 import { NumberValidators } from './number.validators';
 import { RangeValidatorErrors } from '../errors/range-validator.errors';
 

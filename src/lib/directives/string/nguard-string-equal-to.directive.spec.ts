@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardStringEqualToDirective } from './nguard-string-equal-to.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardStringEqualToDirective', () => {
   let control: AbstractControl;

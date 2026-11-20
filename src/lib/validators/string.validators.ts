@@ -4,7 +4,7 @@ import type {
   ValidatorFn,
 } from '@angular/forms';
 import { type CountryCode, isValidPhoneNumber } from 'libphonenumber-js';
-import type { primitive } from '../utils/validators.utils';
+import type { primitive } from '../types/primitive.type';
 
 const isString = (value: unknown): value is string => typeof value === 'string';
 

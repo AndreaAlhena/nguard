@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 
 // Types
-import type { primitive } from '../../utils/validators.utils';
+import type { primitive } from '../../types/primitive.type';
 
 // Validators
 import { StringValidators } from '../../validators/string.validators';

@@ -5,7 +5,7 @@ import {
   createAbstractControlSpyWithSibling,
   createControlSpyWithNullSibling,
   createOrphanControlSpy,
-} from '../utils/test.utils';
+} from '../../testing/helpers/control-spy.helper';
 
 let control: jasmine.SpyObj<AbstractControl>;
 

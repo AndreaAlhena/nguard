@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardArrayOfDirective } from './nguard-array-of.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 const isString = (c: AbstractControl) =>
   typeof c.value === 'string' ? null : { notString: true };

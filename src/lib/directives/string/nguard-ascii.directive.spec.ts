@@ -1,6 +1,6 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardAsciiDirective } from './nguard-ascii.directive';
-import { createAbstractControlSpy } from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
 
 describe('NguardAsciiDirective', () => {
   let control: AbstractControl;

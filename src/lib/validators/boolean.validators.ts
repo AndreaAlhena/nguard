@@ -3,7 +3,8 @@ import type {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import { evaluateCondition, type primitive } from '../utils/validators.utils';
+import { evaluateCondition } from '../helpers/comparison.helper';
+import type { primitive } from '../types/primitive.type';
 
 const ACCEPTED_VALUES: ReadonlySet<unknown> = new Set([
   true,

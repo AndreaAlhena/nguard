@@ -4,7 +4,8 @@ import {
   type ValidationErrors,
   type ValidatorFn,
 } from '@angular/forms';
-import { equalityCheck, type primitive } from '../utils/validators.utils';
+import { equalityCheck } from '../helpers/comparison.helper';
+import type { primitive } from '../types/primitive.type';
 
 export namespace ArrayValidators {
   /**

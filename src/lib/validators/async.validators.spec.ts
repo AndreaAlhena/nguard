@@ -10,7 +10,7 @@ import type {
   ValidationErrors,
 } from '@angular/forms';
 import type { Observable } from 'rxjs';
-import { createAbstractControlSpy } from '../utils/test.utils';
+import { createAbstractControlSpy } from '../../testing/helpers/control-spy.helper';
 import { AsyncValidators } from './async.validators';
 
 describe('Async Validators', () => {

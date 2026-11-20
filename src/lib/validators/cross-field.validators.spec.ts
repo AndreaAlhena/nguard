@@ -5,7 +5,7 @@ import {
   createOrphanControlSpy,
   createControlSpyWithNullSibling,
   createControlSpyWithUndefinedSibling,
-} from '../utils/test.utils';
+} from '../../testing/helpers/control-spy.helper';
 import { CrossFieldValidators } from './cross-field.validators';
 
 let control: jasmine.SpyObj<AbstractControl>;

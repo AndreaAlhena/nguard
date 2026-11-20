@@ -1,5 +1,5 @@
 import type { AbstractControl } from '@angular/forms';
-import { createAbstractControlSpy } from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
 import { NguardLowercaseDirective } from './nguard-lowercase.directive';
 
 describe('NguardLowercaseDirective', () => {

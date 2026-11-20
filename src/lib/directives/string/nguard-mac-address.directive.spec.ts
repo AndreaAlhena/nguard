@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardMacAddressDirective } from './nguard-mac-address.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardMacAddressDirective', () => {
   let control: AbstractControl;

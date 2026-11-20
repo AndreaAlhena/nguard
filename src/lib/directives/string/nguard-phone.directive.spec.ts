@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardPhoneDirective } from './nguard-phone.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardPhoneDirective', () => {
   let control: AbstractControl;

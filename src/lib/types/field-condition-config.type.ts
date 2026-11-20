@@ -1,4 +1,4 @@
-import type { primitive } from '../utils/validators.utils';
+import type { primitive } from './primitive.type';
 
 /**
  * Configuration for validators that apply a rule conditionally on the value of

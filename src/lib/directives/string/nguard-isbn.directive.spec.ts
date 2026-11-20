@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardIsbnDirective } from './nguard-isbn.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardIsbnDirective', () => {
   let control: AbstractControl;

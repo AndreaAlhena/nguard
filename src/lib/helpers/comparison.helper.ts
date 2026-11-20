@@ -1,6 +1,6 @@
 import type { AbstractControl } from '@angular/forms';
 
-export type primitive = boolean | number | string;
+import type { primitive } from '../types/primitive.type';
 
 export const equalityCheck = (
   value1: unknown,

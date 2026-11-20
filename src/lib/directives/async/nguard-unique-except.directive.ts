@@ -14,7 +14,7 @@ import {
 import type { Observable } from 'rxjs';
 import type { AsyncValidatorConfig } from '../../types/async-validator-config.type';
 import { AsyncValidators } from '../../validators/async.validators';
-import type { primitive } from '../../utils/validators.utils';
+import type { primitive } from '../../types/primitive.type';
 
 @Directive({
   providers: [

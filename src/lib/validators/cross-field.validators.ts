@@ -3,11 +3,8 @@ import type {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import {
-  equalityCheck,
-  evaluateCondition,
-  type primitive,
-} from '../utils/validators.utils';
+import { equalityCheck, evaluateCondition } from '../helpers/comparison.helper';
+import type { primitive } from '../types/primitive.type';
 
 /**
  * Returns true if the sibling identified by `fieldKey` resolves to a truthy value.

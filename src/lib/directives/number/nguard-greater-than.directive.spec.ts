@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardGreaterThanDirective } from './nguard-greater-than.directive';
-import {
-  createAbstractControlSpyWithSibling,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpyWithSibling } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardGreaterThanDirective', () => {
   let control: AbstractControl;

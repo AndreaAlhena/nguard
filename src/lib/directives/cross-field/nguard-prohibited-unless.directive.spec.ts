@@ -1,11 +1,9 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import type { AbstractControl } from '@angular/forms';
 import { NguardProhibitedUnlessDirective } from './nguard-prohibited-unless.directive';
-import {
-  createAbstractControlSpyWithSibling,
-  createDirectiveFixture,
-  type TestHostComponent,
-} from '../../utils/test.utils';
+import type { TestHostComponent } from '../../../testing/components/test-host.component';
+import { createAbstractControlSpyWithSibling } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardProhibitedUnlessDirective', () => {
   let control: AbstractControl;

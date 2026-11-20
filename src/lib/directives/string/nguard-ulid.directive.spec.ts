@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardUlidDirective } from './nguard-ulid.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardUlidDirective', () => {
   let control: AbstractControl;

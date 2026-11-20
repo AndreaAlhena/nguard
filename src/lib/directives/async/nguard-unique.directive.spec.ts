@@ -9,7 +9,7 @@ import { By } from '@angular/platform-browser';
 import type { Observable } from 'rxjs';
 import { NguardUniqueDirective } from './nguard-unique.directive';
 import type { AsyncValidatorConfig } from '../../types/async-validator-config.type';
-import { createAbstractControlSpy } from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
 
 @Component({
   imports: [NguardUniqueDirective],

@@ -33,7 +33,8 @@ The rule most often broken here.
 - **The type suffix decides the folder**, and it is the plural of the suffix:
   `.directive.ts` → `directives/<namespace>/`, `.validators.ts` → `validators/`,
   `.type.ts` → `types/`, `.errors.ts` → `errors/`, `.helper.ts` → `helpers/`,
-  `.interface.ts` → `interfaces/`, `.enum.ts` → `enums/`. There is no
+  `.interface.ts` → `interfaces/`, `.enum.ts` → `enums/`, `.component.ts` →
+  `components/`. There is no
   `support/` or `utils/` — a folder named for nothing in particular ends up
   holding everything.
 - **A folder holding one file is still the right folder.** The first enum gets
@@ -57,8 +58,8 @@ The rule most often broken here.
   fork. Copies drift apart one correct-looking file at a time.
 - A spec file defines no functions, even one only that spec uses. Control and
   fixture builders (`createAbstractControlSpy`, `createDirectiveFixture`) live
-  in the shared test helpers, which are compiled by `tsconfig.spec.json` only
-  and never ship.
+  in `src/testing/`, laid out by the same suffix rule. It is compiled by
+  `tsconfig.spec.json` only and never ships.
 - A class that exists only to carry the directive under test is the test's
   input, not a helper: it stays in its spec, beside the assertions that depend
   on it. A directive is proven by a spec of its own, never only through the

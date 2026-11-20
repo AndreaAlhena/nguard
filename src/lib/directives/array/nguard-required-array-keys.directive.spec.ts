@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardRequiredArrayKeysDirective } from './nguard-required-array-keys.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardRequiredArrayKeysDirective', () => {
   let control: AbstractControl;

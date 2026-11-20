@@ -1,9 +1,7 @@
 import type { AbstractControl } from '@angular/forms';
 import { NguardIpv4Directive } from './nguard-ipv4.directive';
-import {
-  createAbstractControlSpy,
-  createDirectiveFixture,
-} from '../../utils/test.utils';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardIpv4Directive', () => {
   let control: AbstractControl;

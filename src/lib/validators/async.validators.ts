@@ -15,7 +15,7 @@ import type {
   AsyncResponse,
   AsyncValidatorConfig,
 } from '../types/async-validator-config.type';
-import type { primitive } from '../utils/validators.utils';
+import type { primitive } from '../types/primitive.type';
 
 type Resolver = (response: AsyncResponse) => boolean | null;
 
