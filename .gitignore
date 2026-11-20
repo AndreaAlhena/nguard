@@ -1,2 +1,10 @@
+# Dependencies
 node_modules
+
+# Angular build output and CLI cache
+/dist
+/coverage
+/.angular
+
+# OS
 .DS_Store

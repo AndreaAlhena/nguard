@@ -1,42 +1,52 @@
-import { AbstractControl } from '@angular/forms';
+import type { ComponentFixture } from '@angular/core/testing';
+import type { AbstractControl } from '@angular/forms';
 import { NguardAlphaNumDirective } from './nguard-alpha-num.directive';
-import { createAbstractControlSpy } from '../../utils/test.utils';
+import type { TestHostComponent } from '../../../testing/components/test-host.component';
+import { createAbstractControlSpy } from '../../../testing/helpers/control-spy.helper';
+import { createDirectiveFixture } from '../../../testing/helpers/directive-fixture.helper';
 
 describe('NguardAlphaNumDirective', () => {
-    let control: AbstractControl;
-    let directive: NguardAlphaNumDirective;
+  let control: AbstractControl;
+  let directive: NguardAlphaNumDirective;
+  let fixture: ComponentFixture<TestHostComponent>;
+  let host: TestHostComponent;
 
-    beforeEach(() => {
-        directive = new NguardAlphaNumDirective();
-    });
+  beforeEach(() => {
+    ({ directive, fixture, host } = createDirectiveFixture(
+      NguardAlphaNumDirective,
+      '<div [nguardAlphaNum]="$any(value)"></div>',
+    ));
+  });
 
-    it('should create an instance', () => {
-        expect(directive).toBeTruthy();
-    });
+  it('should create an instance', () => {
+    expect(directive).toBeTruthy();
+  });
 
-    it('should validate a properly formatted value (ASCII true)', () => {
-        control = createAbstractControlSpy('abcABC123');
-        directive.config = { hasAsciiOnly: true };
+  it('should validate a properly formatted value (ASCII true)', () => {
+    control = createAbstractControlSpy('abcABC123');
+    host.value = { hasAsciiOnly: true };
+    fixture.detectChanges();
 
-        expect(directive.validate(control)).toBeNull();
-    });
+    expect(directive.validate(control)).toBeNull();
+  });
 
-    it('should validate a non properly formatted value (ASCII true)', () => {
-        control = createAbstractControlSpy('a 2-c');
-        directive.config = { hasAsciiOnly: true };
+  it('should validate a non properly formatted value (ASCII true)', () => {
+    control = createAbstractControlSpy('a 2-c');
+    host.value = { hasAsciiOnly: true };
+    fixture.detectChanges();
 
-        expect(directive.validate(control)).toEqual({ alphaNum: true });
-    });
+    expect(directive.validate(control)).toEqual({ alphaNum: true });
+  });
 
-    it('should validate a properly formatted value (ASCII false)', () => {
-        control = createAbstractControlSpy('abc字Б123');
+  it('should validate a properly formatted value (ASCII false)', () => {
+    control = createAbstractControlSpy('abc字Б123');
 
-        expect(directive.validate(control)).toBeNull();
-    });
+    expect(directive.validate(control)).toBeNull();
+  });
 
-    it('should validate a non properly formatted value (ASCII false)', () => {
-        control = createAbstractControlSpy('abc字Б 123 -');
+  it('should validate a non properly formatted value (ASCII false)', () => {
+    control = createAbstractControlSpy('abc字Б 123 -');
 
-        expect(directive.validate(control)).toEqual({ alphaNum: true });
-    });
+    expect(directive.validate(control)).toEqual({ alphaNum: true });
+  });
 });

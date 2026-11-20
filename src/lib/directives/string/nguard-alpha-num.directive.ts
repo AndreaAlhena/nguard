@@ -1,29 +1,30 @@
-import { Directive, Input } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
-
-// Interfaces
-import { IAlphaNumDirectiveConfig } from '../../interfaces/alpha-num-directive-config.interface';
-
-// Validators
+import { Directive, input } from '@angular/core';
+import {
+  type AbstractControl,
+  NG_VALIDATORS,
+  type ValidationErrors,
+  type Validator,
+} from '@angular/forms';
+import type { CharsetConfig } from '../../types/charset-config.type';
 import { StringValidators } from '../../validators/string.validators';
 
 @Directive({
-    providers: [
-        {
-            multi: true,
-            provide: NG_VALIDATORS,
-            useExisting: NguardAlphaNumDirective,
-        },
-    ],
-    selector: '[nguardAlphaNum]',
-    standalone: true,
+  providers: [
+    {
+      multi: true,
+      provide: NG_VALIDATORS,
+      useExisting: NguardAlphaNumDirective,
+    },
+  ],
+  selector: '[nguardAlphaNum]',
+  standalone: true,
 })
 export class NguardAlphaNumDirective implements Validator {
-    @Input('nguardAlphaNum') public config!: IAlphaNumDirectiveConfig;
+  public readonly config = input<CharsetConfig | undefined>(undefined, {
+    alias: 'nguardAlphaNum',
+  });
 
-    constructor() {}
-
-    public validate(control: AbstractControl<any, any>): ValidationErrors | null {
-        return StringValidators.alphaNum(this.config?.hasAsciiOnly)(control);
-    }
+  public validate(control: AbstractControl): ValidationErrors | null {
+    return StringValidators.alphaNum(this.config()?.hasAsciiOnly)(control);
+  }
 }

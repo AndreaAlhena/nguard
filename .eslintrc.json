@@ -1,25 +1,31 @@
 {
   "root": true,
-  "ignorePatterns": ["docs/**/*", "dist/**/*", "node_modules/**/*", "coverage/**/*"],
+  "ignorePatterns": [
+    "docs/**/*",
+    "dist/**/*",
+    "node_modules/**/*",
+    "coverage/**/*"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
-        "project": ["tsconfig.lib.json", "tsconfig.spec.json"],
+        "project": [
+          "tsconfig.lib.json",
+          "tsconfig.spec.json"
+        ],
         "createDefaultProgram": true
       },
       "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-type-checked",
         "plugin:@angular-eslint/recommended",
         "plugin:prettier/recommended"
       ],
       "rules": {
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/no-explicit-any": "warn",
-        "@typescript-eslint/no-namespace": "off",
-        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
         "@angular-eslint/directive-selector": [
           "error",
           {
@@ -28,19 +34,92 @@
             "style": "camelCase"
           }
         ],
-        "no-console": "warn",
-        "eqeqeq": ["error", "always", { "null": "ignore" }]
+        "@typescript-eslint/consistent-type-imports": [
+          "error",
+          {
+            "fixStyle": "inline-type-imports"
+          }
+        ],
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": {
+              "memberTypes": [
+                "field",
+                "constructor",
+                "method"
+              ],
+              "order": "alphabetically"
+            }
+          }
+        ],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": [
+              "classProperty",
+              "classMethod",
+              "parameterProperty"
+            ],
+            "modifiers": [
+              "private"
+            ],
+            "format": [
+              "camelCase"
+            ],
+            "leadingUnderscore": "require"
+          },
+          {
+            "custom": {
+              "match": false,
+              "regex": "^I[A-Z]"
+            },
+            "format": [
+              "PascalCase"
+            ],
+            "selector": "interface"
+          }
+        ],
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-floating-promises": "error",
+        "@typescript-eslint/no-import-type-side-effects": "error",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/no-unsafe-argument": "warn",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "^_",
+            "caughtErrorsIgnorePattern": "^_",
+            "varsIgnorePattern": "^_"
+          }
+        ],
+        "eqeqeq": [
+          "error",
+          "always",
+          {
+            "null": "ignore"
+          }
+        ],
+        "no-console": "warn"
       }
     },
     {
-      "files": ["*.spec.ts"],
-      "extends": ["plugin:jasmine/recommended"],
-      "plugins": ["jasmine"],
+      "files": [
+        "*.spec.ts"
+      ],
+      "extends": [
+        "plugin:jasmine/recommended"
+      ],
+      "plugins": [
+        "jasmine"
+      ],
       "env": {
         "jasmine": true
       },
       "rules": {
-        "@typescript-eslint/no-explicit-any": "off"
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unsafe-argument": "off"
       }
     }
   ]
